@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct sweatsyncApp: App {
+    @StateObject private var session = SessionManager()
+        
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreen()
+                .environmentObject(session)
         }
     }
 }
+
+

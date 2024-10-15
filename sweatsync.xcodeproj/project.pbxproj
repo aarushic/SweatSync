@@ -14,6 +14,23 @@
 		49403CF32CB8DD5C0053CC08 /* sweatsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CF22CB8DD5C0053CC08 /* sweatsyncTests.swift */; };
 		49403CFD2CB8DD5C0053CC08 /* sweatsyncUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CFC2CB8DD5C0053CC08 /* sweatsyncUITests.swift */; };
 		49403CFF2CB8DD5C0053CC08 /* sweatsyncUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CFE2CB8DD5C0053CC08 /* sweatsyncUITestsLaunchTests.swift */; };
+		49691D352CB8E0990012DEC5 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49691D342CB8E0990012DEC5 /* SessionManager.swift */; };
+		49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49691D362CB8E0DD0012DEC5 /* SplashScreen.swift */; };
+		49691D412CB8E19E0012DEC5 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49691D402CB8E19E0012DEC5 /* MainScreen.swift */; };
+		496BC0992CBF2CFE003C1660 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 496BC0982CBF2CFE003C1660 /* GoogleService-Info.plist */; };
+		496BC09A2CBF2DB7003C1660 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 496BC0982CBF2CFE003C1660 /* GoogleService-Info.plist */; };
+		496BC09B2CBF2DB8003C1660 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 496BC0982CBF2CFE003C1660 /* GoogleService-Info.plist */; };
+		49EE6D712CBDEBF900405025 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D702CBDEBF900405025 /* Theme.swift */; };
+		49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D722CBDED7200405025 /* OnboardingScreen1.swift */; };
+		49EE6D752CBDED8000405025 /* OnboardingScreen2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D742CBDED8000405025 /* OnboardingScreen2.swift */; };
+		49EE6D772CBDED9000405025 /* OnboardingScreen3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D762CBDED9000405025 /* OnboardingScreen3.swift */; };
+		49EE6D7B2CBDF9E100405025 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D7A2CBDF9E100405025 /* LoginScreen.swift */; };
+		49EE6D7D2CBE045800405025 /* SignUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D7C2CBE045800405025 /* SignUpScreen.swift */; };
+		49EE6D802CBE0E0900405025 /* FillProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D7F2CBE0E0900405025 /* FillProfileScreen.swift */; };
+		49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D812CBE111900405025 /* CompleteProfileScreen.swift */; };
+		49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D842CBE121600405025 /* HomeScreen.swift */; };
+		49EE6D882CBE133A00405025 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D872CBE133A00405025 /* TabBarView.swift */; };
+		49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D892CBE149900405025 /* WorkoutPost.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +61,21 @@
 		49403CF82CB8DD5C0053CC08 /* sweatsyncUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sweatsyncUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49403CFC2CB8DD5C0053CC08 /* sweatsyncUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sweatsyncUITests.swift; sourceTree = "<group>"; };
 		49403CFE2CB8DD5C0053CC08 /* sweatsyncUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sweatsyncUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		49691D342CB8E0990012DEC5 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		49691D362CB8E0DD0012DEC5 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		49691D402CB8E19E0012DEC5 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		496BC0982CBF2CFE003C1660 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		49EE6D702CBDEBF900405025 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		49EE6D722CBDED7200405025 /* OnboardingScreen1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen1.swift; sourceTree = "<group>"; };
+		49EE6D742CBDED8000405025 /* OnboardingScreen2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen2.swift; sourceTree = "<group>"; };
+		49EE6D762CBDED9000405025 /* OnboardingScreen3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen3.swift; sourceTree = "<group>"; };
+		49EE6D7A2CBDF9E100405025 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		49EE6D7C2CBE045800405025 /* SignUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpScreen.swift; sourceTree = "<group>"; };
+		49EE6D7F2CBE0E0900405025 /* FillProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillProfileScreen.swift; sourceTree = "<group>"; };
+		49EE6D812CBE111900405025 /* CompleteProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileScreen.swift; sourceTree = "<group>"; };
+		49EE6D842CBE121600405025 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		49EE6D872CBE133A00405025 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		49EE6D892CBE149900405025 /* WorkoutPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPost.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +126,17 @@
 		49403CE02CB8DD5A0053CC08 /* sweatsync */ = {
 			isa = PBXGroup;
 			children = (
+				496BC0982CBF2CFE003C1660 /* GoogleService-Info.plist */,
+				49EE6D832CBE11F700405025 /* MainPages */,
+				49EE6D7E2CBE0DC700405025 /* Setup */,
+				49EE6D792CBDF97700405025 /* Login */,
+				49EE6D782CBDF92F00405025 /* Onboarding */,
 				49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */,
 				49403CE32CB8DD5A0053CC08 /* ContentView.swift */,
+				49691D342CB8E0990012DEC5 /* SessionManager.swift */,
+				49691D362CB8E0DD0012DEC5 /* SplashScreen.swift */,
+				49EE6D702CBDEBF900405025 /* Theme.swift */,
+				49691D402CB8E19E0012DEC5 /* MainScreen.swift */,
 				49403CE52CB8DD5C0053CC08 /* Assets.xcassets */,
 				49403CE72CB8DD5C0053CC08 /* Preview Content */,
 			);
@@ -125,6 +166,52 @@
 				49403CFE2CB8DD5C0053CC08 /* sweatsyncUITestsLaunchTests.swift */,
 			);
 			path = sweatsyncUITests;
+			sourceTree = "<group>";
+		};
+		49EE6D782CBDF92F00405025 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				49EE6D722CBDED7200405025 /* OnboardingScreen1.swift */,
+				49EE6D742CBDED8000405025 /* OnboardingScreen2.swift */,
+				49EE6D762CBDED9000405025 /* OnboardingScreen3.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		49EE6D792CBDF97700405025 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				49EE6D7A2CBDF9E100405025 /* LoginScreen.swift */,
+				49EE6D7C2CBE045800405025 /* SignUpScreen.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		49EE6D7E2CBE0DC700405025 /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				49EE6D7F2CBE0E0900405025 /* FillProfileScreen.swift */,
+				49EE6D812CBE111900405025 /* CompleteProfileScreen.swift */,
+			);
+			path = Setup;
+			sourceTree = "<group>";
+		};
+		49EE6D832CBE11F700405025 /* MainPages */ = {
+			isa = PBXGroup;
+			children = (
+				49EE6D862CBE122100405025 /* Home */,
+				49EE6D872CBE133A00405025 /* TabBarView.swift */,
+			);
+			path = MainPages;
+			sourceTree = "<group>";
+		};
+		49EE6D862CBE122100405025 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				49EE6D842CBE121600405025 /* HomeScreen.swift */,
+				49EE6D892CBE149900405025 /* WorkoutPost.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +320,7 @@
 			files = (
 				49403CE92CB8DD5C0053CC08 /* Preview Assets.xcassets in Resources */,
 				49403CE62CB8DD5C0053CC08 /* Assets.xcassets in Resources */,
+				496BC0992CBF2CFE003C1660 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +328,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496BC09A2CBF2DB7003C1660 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +336,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496BC09B2CBF2DB8003C1660 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +347,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49EE6D752CBDED8000405025 /* OnboardingScreen2.swift in Sources */,
+				49EE6D712CBDEBF900405025 /* Theme.swift in Sources */,
+				49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */,
+				49691D412CB8E19E0012DEC5 /* MainScreen.swift in Sources */,
+				49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */,
+				49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */,
 				49403CE42CB8DD5A0053CC08 /* ContentView.swift in Sources */,
+				49EE6D772CBDED9000405025 /* OnboardingScreen3.swift in Sources */,
 				49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */,
+				49EE6D802CBE0E0900405025 /* FillProfileScreen.swift in Sources */,
+				49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */,
+				49EE6D7B2CBDF9E100405025 /* LoginScreen.swift in Sources */,
+				49691D352CB8E0990012DEC5 /* SessionManager.swift in Sources */,
+				49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */,
+				49EE6D882CBE133A00405025 /* TabBarView.swift in Sources */,
+				49EE6D7D2CBE045800405025 /* SignUpScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
