@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct SignUpScreen: View {
     @State private var firstName: String = ""
@@ -14,138 +16,166 @@ struct SignUpScreen: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
+    @State private var errorMessage: String? = nil
 
     var body: some View {
-        VStack(spacing: 30) {
-            // Top section with back button and title
-            HStack {
-                Button(action: {
-                   
-                }) {
-                    Image(systemName: "chevron.left")
+        NavigationStack {
+            VStack(spacing: 30) {
+                //top part
+                HStack {
+                    Button(action: {
+                        //back
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.white)
+                    }
+                    Text("Sign Up")
+                        .font(.headline)
+                        .foregroundColor(Theme.primaryColor)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
+                    Spacer()
+                }
+                .padding()
+                .background(Color.black)
+                
+                //welcome text
+                VStack(spacing: 20) {
+                    Text("Get Started")
+                        .font(.largeTitle)
+                        .bold()
                         .foregroundColor(.white)
                 }
-                Text("Sign Up")
-                    .font(.headline)
-                    .foregroundColor(Theme.primaryColor)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                Spacer()
-                Spacer()
-            }
-            .padding()
-            .background(Color.black)
-            
-            // Welcome Text
-            VStack(spacing: 20) {
-                Text("Get Started")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.white)
-            }
-            .padding(.bottom, 30)
-            
-            // Login form fields
-            VStack(spacing: 30) {
-                TextField(
-                        "First name",
-                        text: $firstName
-                    )
-                    .onSubmit {
-                        //do smth
-                    }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                TextField(
-                        "Last name",
-                        text: $lastName
-                    )
-                    .onSubmit {
-                        //do smth
-                    }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                TextField(
-                        "Username (email address)",
-                        text: $username
-                    )
-                    .onSubmit {
-                        //do smth
-                    }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                TextField(
-                        "Password ",
-                        text: $password
-                    )
-                    .onSubmit {
-                        //do smth
-                    }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                TextField(
-                        "Confirm password",
-                        text: $confirmPassword
-                    )
-                    .onSubmit {
-                        //do smth
-                    }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-            }
-            .padding()
-            .background(Theme.primaryColor)
-            
-            // Log In Button
-            Button(action: {
-                // Log in action
-            }) {
-                Text("Sign Up")
-                    .frame(width: 200, height: 50)
-                    .background(Color.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(25)
-            }
-            .padding(.top, 20)
-            
-            // Google Sign Up Button
-            Text("or sign up with")
-                .foregroundColor(.white)
-            
-            Button(action: {
-                // Google Sign-in action
-            }) {
-                Image(systemName: "g.circle.fill") // You can replace with a Google icon image
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.white)
-            }
-            
-            
-            //sign up
-            HStack {
-                Text("Already have an account?")
-                    .foregroundColor(.white)
+                .padding(.bottom, 30)
+                
+                //sign up form fields
+                VStack(spacing: 30) {
+                    TextField("First name", text: $firstName)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.roundedBorder)
+                    TextField("Last name", text: $lastName)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.roundedBorder)
+                    TextField("Username (email address)",text: $username)
+                        .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.roundedBorder)
+                    SecureField("Password", text: $password)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.roundedBorder)
+                    SecureField("Confirm password", text: $confirmPassword)
+                        .onSubmit {
+                            //confirm logic
+                        }
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.roundedBorder)
+                }
+                .padding()
+                .background(Theme.primaryColor)
+                
+                //error message
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding(.top, 10)
+                }
+                
+                //sign up button
                 Button(action: {
-                    //go to sign-up
+                    createUser()
                 }) {
-                    Text("Log in")
-                        .foregroundColor(Theme.primaryColor)
+                    Text("Sign Up")
+                        .frame(width: 200, height: 50)
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
+                }
+                
+                //google sign up
+                Text("or sign up with")
+                    .foregroundColor(.white)
+                
+                Button(action: {
+                    //google sign up, do later
+                }) {
+                    Image(systemName: "g.circle.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                }
+                
+                //already have an account
+                HStack {
+                    Text("Already have an account?")
+                        .foregroundColor(.white)
+                    NavigationLink {
+                        LoginScreen()
+                    } label: {
+                        Text("Log in").foregroundColor(Theme.primaryColor)
+                    }
                 }
             }
+            .background(Color.black.ignoresSafeArea())
         }
-        .background(Color.black.ignoresSafeArea())
+    }
+
+    private func createUser() {
+        //check if passwords match
+        guard password == confirmPassword else {
+            errorMessage = "Passwords do not match"
+            return
+        }
+        
+        //check if fields are not empty
+        guard !firstName.isEmpty, !lastName.isEmpty, !username.isEmpty, !password.isEmpty else {
+            errorMessage = "All fields are required"
+            return
+        }
+
+        //create the user with firebase auth
+        Auth.auth().createUser(withEmail: username, password: password, completion: { result, err in
+            if let err = err {
+                errorMessage = err.localizedDescription
+                return
+            }
+            
+            //success
+            errorMessage = nil
+            
+            //save user info in firestore
+            if let uid = result?.user.uid {
+                let db = Firestore.firestore()
+                db.collection("users").document(uid).setData([
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "email": username,
+                    "uid": uid
+                ]) { err in
+                    if let err = err {
+                        //firestore error
+                        errorMessage = "Failed to save user info: \(err.localizedDescription)"
+                    } else {
+                        print("User information saved successfully")
+                    }
+                }
+            }
+            
+//            print("Successfully created account with ID: \(result?.user.uid ?? "")")
+        })
     }
 }
 
+//struct SignUpScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SignUpScreen()
+//    }
+//}
 
-
-struct SignUpScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        SignUpScreen()
-    }
+#Preview {
+    SignUpScreen()
 }
