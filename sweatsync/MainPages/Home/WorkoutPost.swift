@@ -48,6 +48,7 @@ struct WorkoutPostCard: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.top, 10)
 
             // Post Title
             Text("Chest And Back Day")
@@ -86,9 +87,11 @@ struct WorkoutPostCard: View {
             .background(Color(red: 32/255, green: 32/255, blue: 32/255)) // Dark background for buttons
             .cornerRadius(15)
             .padding(.horizontal)
+            
         }
         .background(Color(red: 42/255, green: 42/255, blue: 42/255)) // Dark card background
         .cornerRadius(20)
         .padding(.horizontal)
+        .padding(.vertical, 25)
     }
 }

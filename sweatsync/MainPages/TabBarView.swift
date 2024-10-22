@@ -11,64 +11,48 @@ import SwiftUI
 struct TabBarView: View {
     var body: some View {
         // Tab Bar
-        HStack {
-            Button(action: {
-                // Home action
-            }) {
-                VStack {
-                    Image(systemName: "house.fill")
-                        .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255))
-                    Text("")
-                }
+        TabView{
+            Group{
+                HomeScreenView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                    }
+                
+                // Replace with Calendar view
+                HomeScreenView()
+                    .tabItem {
+                        Image(systemName: "calendar")
+                    }
+                
+                // Replace with post view
+                HomeScreenView()
+                    .tabItem {
+                        Image(systemName: "plus.circle.fill")
+                    }
+                
+                // Replace with Notification view
+                HomeScreenView()
+                    .tabItem {
+                        Image(systemName: "bell.fill")
+                    }
+                    .badge(2) // badge for notifications
+                
+                // Replace with profile view
+                HomeScreenView()
+                    .tabItem {
+                        Image(systemName: "person.fill")
+                    }
             }
-            Spacer()
-
-            Button(action: {
-                // Logs action
-            }) {
-                VStack {
-                    Image(systemName: "list.bullet")
-                        .foregroundColor(.gray)
-                    Text("")
-                }
-            }
-            Spacer()
-
-            Button(action: {
-                // Add action
-            }) {
-                VStack {
-                    Image(systemName: "plus.circle.fill")
-                        .foregroundColor(.gray)
-                    Text("")
-                }
-            }
-            Spacer()
-
-            Button(action: {
-                // Notifications action
-            }) {
-                VStack {
-                    Image(systemName: "bell.fill")
-                        .foregroundColor(.gray)
-                    Text("")
-                }
-            }
-            Spacer()
-
-            Button(action: {
-                // Profile action
-            }) {
-                VStack {
-                    Image(systemName: "person.fill")
-                        .foregroundColor(.gray)
-                    Text("")
-                }
-            }
+            .toolbarBackground(Color(red: 42/255, green: 42/255, blue: 42/255), for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
         }
-        .padding(.horizontal)
-        .padding(.bottom, 10)
-        .background(Color.black)
+        
     }
     
+}
+
+struct TabBarViewPreview: PreviewProvider {
+    static var previews: some View {
+        TabBarView()
+    }
 }

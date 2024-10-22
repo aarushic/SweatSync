@@ -46,12 +46,26 @@ struct HomeScreenView: View {
             .padding(.horizontal)
             .padding(.top, 20)
             
+            // Post feed
+            // Replace individual cards with a ForLoop for each post
+            List {
+                WorkoutPostCard()
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.black)
+                WorkoutPostCard()
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.black)
+                WorkoutPostCard()
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.black)
+            }
+             .listStyle(.plain)
             //for loop of all posts that takes in parameters later
-            WorkoutPostCard()
+//            WorkoutPostCard()
             
             Spacer()
 
-            TabBarView()
+//            TabBarView()
         }
         .background(Color.black.ignoresSafeArea())
     }
