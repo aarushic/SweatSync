@@ -23,12 +23,30 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>sweatsync.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>49403CDD2CB8DD5A0053CC08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>49403CED2CB8DD5C0053CC08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>49403CF72CB8DD5C0053CC08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

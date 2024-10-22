@@ -28,6 +28,8 @@
 		49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D842CBE121600405025 /* HomeScreen.swift */; };
 		49EE6D882CBE133A00405025 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D872CBE133A00405025 /* TabBarView.swift */; };
 		49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D892CBE149900405025 /* WorkoutPost.swift */; };
+		CF7A73E42CC76BB700497F3F /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E32CC76BB700497F3F /* Templates.swift */; };
+		CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E52CC771BC00497F3F /* NewTemplate.swift */; };
 		CFA45E5B2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
 		CFA45E5C2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
 		CFA45E5D2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
@@ -81,6 +83,8 @@
 		49EE6D842CBE121600405025 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		49EE6D872CBE133A00405025 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		49EE6D892CBE149900405025 /* WorkoutPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPost.swift; sourceTree = "<group>"; };
+		CF7A73E32CC76BB700497F3F /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
+		CF7A73E52CC771BC00497F3F /* NewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplate.swift; sourceTree = "<group>"; };
 		CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +215,7 @@
 		49EE6D832CBE11F700405025 /* MainPages */ = {
 			isa = PBXGroup;
 			children = (
+				CF7A73E22CC7637A00497F3F /* Post */,
 				49EE6D862CBE122100405025 /* Home */,
 				49EE6D872CBE133A00405025 /* TabBarView.swift */,
 			);
@@ -224,6 +229,15 @@
 				49EE6D892CBE149900405025 /* WorkoutPost.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		CF7A73E22CC7637A00497F3F /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				CF7A73E32CC76BB700497F3F /* Templates.swift */,
+				CF7A73E52CC771BC00497F3F /* NewTemplate.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -372,7 +386,9 @@
 			files = (
 				49EE6D752CBDED8000405025 /* OnboardingScreen2.swift in Sources */,
 				49EE6D712CBDEBF900405025 /* Theme.swift in Sources */,
+				CF7A73E42CC76BB700497F3F /* Templates.swift in Sources */,
 				49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */,
+				CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */,
 				49691D412CB8E19E0012DEC5 /* MainScreen.swift in Sources */,
 				49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */,
 				49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */,

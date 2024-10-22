@@ -25,7 +25,7 @@ struct TabBarView: View {
                     }
                 
                 // Replace with post view
-                HomeScreenView()
+                TemplatesView()
                     .tabItem {
                         Image(systemName: "plus.circle.fill")
                     }
@@ -38,7 +38,7 @@ struct TabBarView: View {
                     .badge(2) // badge for notifications
                 
                 // Replace with profile view
-                HomeScreenView()
+                FillProfileScreen()
                     .tabItem {
                         Image(systemName: "person.fill")
                     }

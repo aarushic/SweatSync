@@ -58,12 +58,12 @@ struct WorkoutPostCard: View {
                 .padding(.horizontal)
             
             // Post Image
-            Image("workout_image") // Replace with actual image asset or URL image
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
-                .cornerRadius(15)
-                .padding(.horizontal)
+//            Image("workout_image") // Replace with actual image asset or URL image
+//                .resizable()
+//                .scaledToFit()
+//                .frame(maxWidth: .infinity)
+//                .cornerRadius(15)
+//                .padding(.horizontal)
 
             // Like and Comment Buttons
             HStack(spacing: 30) {
@@ -94,4 +94,8 @@ struct WorkoutPostCard: View {
         .padding(.horizontal)
         .padding(.vertical, 25)
     }
+}
+
+#Preview {
+    WorkoutPostCard()
 }
