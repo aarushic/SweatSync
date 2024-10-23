@@ -17,6 +17,9 @@ struct SignUpScreen: View {
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     @State private var errorMessage: String? = nil
+    @State private var isShowingOnboarding: Bool = false
+    
+    @EnvironmentObject var session: SessionManager
 
     var body: some View {
         NavigationStack {
@@ -91,7 +94,7 @@ struct SignUpScreen: View {
                 }) {
                     Text("Sign Up")
                         .frame(width: 200, height: 50)
-                        .background(Color.black)
+                        .background(Theme.secondaryColor) 
                         .foregroundColor(.white)
                         .cornerRadius(25)
                 }
@@ -119,8 +122,12 @@ struct SignUpScreen: View {
                         Text("Log in").foregroundColor(Theme.primaryColor)
                     }
                 }
+
             }
             .background(Color.black.ignoresSafeArea())
+            .fullScreenCover(isPresented: $isShowingOnboarding) {
+                FillProfileScreen()
+            }
         }
     }
 
@@ -165,16 +172,12 @@ struct SignUpScreen: View {
                 }
             }
             
-//            print("Successfully created account with ID: \(result?.user.uid ?? "")")
+            //update the session state
+            isShowingOnboarding = true
         })
     }
 }
 
-//struct SignUpScreen_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SignUpScreen()
-//    }
-//}
 
 #Preview {
     SignUpScreen()

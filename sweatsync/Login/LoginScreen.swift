@@ -15,6 +15,8 @@ struct LoginScreen: View {
     @State private var errorMessage: String?
     @State private var isShowingSignUpScreen: Bool = false
     @State private var isShowingHomeScreen: Bool = false
+    
+    @EnvironmentObject var session: SessionManager
 
     var body: some View {
         VStack(spacing: 30) {
@@ -42,11 +44,6 @@ struct LoginScreen: View {
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(.white)
-                
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white)
             }
             .padding(.bottom, 30)
             
@@ -71,7 +68,8 @@ struct LoginScreen: View {
             }) {
                 Text("Log In")
                     .frame(width: 200, height: 50)
-                    .background(Color.black)
+                    .background(Theme.secondaryColor)
+                    .cornerRadius(25)
                     .foregroundColor(username.isEmpty || password.isEmpty ? Color.gray : Color.white)
                     .cornerRadius(25)
             }
@@ -132,6 +130,8 @@ struct LoginScreen: View {
             print("Successfully logged in with user ID: \(result?.user.uid ?? "")")
             // success
             self.errorMessage = nil
+            //update the session state
+            session.signIn()
             isShowingHomeScreen = true
         }
     }

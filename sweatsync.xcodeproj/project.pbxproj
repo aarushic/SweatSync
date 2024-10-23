@@ -30,6 +30,8 @@
 		49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D892CBE149900405025 /* WorkoutPost.swift */; };
 		CF7A73E42CC76BB700497F3F /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E32CC76BB700497F3F /* Templates.swift */; };
 		CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E52CC771BC00497F3F /* NewTemplate.swift */; };
+		CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E92CC968B800497F3F /* Exercise.swift */; };
+		CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73ED2CC9953600497F3F /* Settings.swift */; };
 		CFA45E5B2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
 		CFA45E5C2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
 		CFA45E5D2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
@@ -85,6 +87,8 @@
 		49EE6D892CBE149900405025 /* WorkoutPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPost.swift; sourceTree = "<group>"; };
 		CF7A73E32CC76BB700497F3F /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
 		CF7A73E52CC771BC00497F3F /* NewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplate.swift; sourceTree = "<group>"; };
+		CF7A73E92CC968B800497F3F /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		CF7A73ED2CC9953600497F3F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,6 +222,7 @@
 				CF7A73E22CC7637A00497F3F /* Post */,
 				49EE6D862CBE122100405025 /* Home */,
 				49EE6D872CBE133A00405025 /* TabBarView.swift */,
+				CF7A73ED2CC9953600497F3F /* Settings.swift */,
 			);
 			path = MainPages;
 			sourceTree = "<group>";
@@ -236,6 +241,7 @@
 			children = (
 				CF7A73E32CC76BB700497F3F /* Templates.swift */,
 				CF7A73E52CC771BC00497F3F /* NewTemplate.swift */,
+				CF7A73E92CC968B800497F3F /* Exercise.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -393,10 +399,12 @@
 				49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */,
 				49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */,
 				49403CE42CB8DD5A0053CC08 /* ContentView.swift in Sources */,
+				CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */,
 				49EE6D772CBDED9000405025 /* OnboardingScreen3.swift in Sources */,
 				49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */,
 				49EE6D802CBE0E0900405025 /* FillProfileScreen.swift in Sources */,
 				49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */,
+				CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */,
 				49EE6D7B2CBDF9E100405025 /* LoginScreen.swift in Sources */,
 				49691D352CB8E0990012DEC5 /* SessionManager.swift in Sources */,
 				49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */,
