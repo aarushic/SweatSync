@@ -67,13 +67,7 @@ struct WorkoutPostCard: View {
 
             // Like and Comment Buttons
             HStack(spacing: 30) {
-                Button(action: {
-                    // Like action
-                }) {
-                    Image(systemName: "heart")
-                        .foregroundColor(.white)
-                        .font(.title2)
-                }
+                LikeButton()
 
                 Button(action: {
                     // Comment action
