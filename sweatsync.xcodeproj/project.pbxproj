@@ -32,6 +32,7 @@
 		CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E52CC771BC00497F3F /* NewTemplate.swift */; };
 		CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E92CC968B800497F3F /* Exercise.swift */; };
 		CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73ED2CC9953600497F3F /* Settings.swift */; };
+		CF7A73F32CC9C59300497F3F /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73F22CC9C59300497F3F /* ProfileScreen.swift */; };
 		CFA45E5B2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
 		CFA45E5C2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
 		CFA45E5D2CBF301600D9CA01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */; };
@@ -89,6 +90,7 @@
 		CF7A73E52CC771BC00497F3F /* NewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplate.swift; sourceTree = "<group>"; };
 		CF7A73E92CC968B800497F3F /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		CF7A73ED2CC9953600497F3F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		CF7A73F22CC9C59300497F3F /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		CFA45E5A2CBF301600D9CA01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -219,6 +221,7 @@
 		49EE6D832CBE11F700405025 /* MainPages */ = {
 			isa = PBXGroup;
 			children = (
+				CF7A73F12CC9C57D00497F3F /* Profile */,
 				CF7A73E22CC7637A00497F3F /* Post */,
 				49EE6D862CBE122100405025 /* Home */,
 				49EE6D872CBE133A00405025 /* TabBarView.swift */,
@@ -244,6 +247,14 @@
 				CF7A73E92CC968B800497F3F /* Exercise.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		CF7A73F12CC9C57D00497F3F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CF7A73F22CC9C59300497F3F /* ProfileScreen.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -391,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49EE6D752CBDED8000405025 /* OnboardingScreen2.swift in Sources */,
+				CF7A73F32CC9C59300497F3F /* ProfileScreen.swift in Sources */,
 				49EE6D712CBDEBF900405025 /* Theme.swift in Sources */,
 				CF7A73E42CC76BB700497F3F /* Templates.swift in Sources */,
 				49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */,

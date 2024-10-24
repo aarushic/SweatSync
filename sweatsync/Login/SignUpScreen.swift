@@ -26,12 +26,6 @@ struct SignUpScreen: View {
             VStack(spacing: 30) {
                 //top part
                 HStack {
-                    Button(action: {
-                        //back
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.white)
-                    }
                     Text("Sign Up")
                         .font(.headline)
                         .foregroundColor(Theme.primaryColor)

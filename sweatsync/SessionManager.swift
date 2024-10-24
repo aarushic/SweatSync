@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 final class SessionManager: ObservableObject {
     
@@ -33,7 +34,12 @@ final class SessionManager: ObservableObject {
     }
     
     func signOut() {
-        currentState = .notSignedIn
-        UserDefaults.standard.set(false, forKey: isSignedInKey)
+        do {
+            try Auth.auth().signOut() 
+            currentState = .notSignedIn
+            UserDefaults.standard.set(false, forKey: isSignedInKey)
+        } catch let signOutError as NSError {
+            print("Error \(signOutError.localizedDescription)")
+        }
     }
 }

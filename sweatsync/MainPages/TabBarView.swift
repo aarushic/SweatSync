@@ -38,7 +38,7 @@ struct TabBarView: View {
                     .badge(2) // badge for notifications
                 
                 // Replace with profile view
-                FillProfileScreen()
+                ProfileScreen()
                     .tabItem {
                         Image(systemName: "person.fill")
                     }

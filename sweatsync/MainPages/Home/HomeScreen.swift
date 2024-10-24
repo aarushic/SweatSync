@@ -7,24 +7,31 @@
 
 import Foundation
 import SwiftUI
+import FirebaseFirestore
+import FirebaseAuth
 
 struct HomeScreenView: View {
+    @State private var userName: String = ""
+
     var body: some View {
         VStack(spacing: 20) {
-            // Header with user info and search icon
+            
             HStack {
-                // User Profile Picture and Info
+                //profile pic and info
                 HStack {
                     Image(systemName: "person.circle.fill")
                         .resizable()
                         .frame(width: 50, height: 50)
-                        .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255)) // Light green
+                        .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255))
 
                     VStack(alignment: .leading) {
-                        Text("Hi, Name")
+                        Text("Hi, \(userName)")
                             .font(.title3)
                             .bold()
                             .foregroundColor(.white)
+                            .onAppear {
+                                getUser()
+                            }
 
                         Text("1 workout logged this week")
                             .font(.subheadline)
@@ -69,7 +76,33 @@ struct HomeScreenView: View {
         }
         .background(Color.black.ignoresSafeArea())
     }
+    
+    func getUser() {
+            guard let user = Auth.auth().currentUser else {
+                print("User not logged in")
+                return
+            }
+                
+            let userId = user.uid
+            let db = Firestore.firestore()
+
+            //get the user's document
+            db.collection("users").document(userId).getDocument { document, error in
+                if let error = error {
+                    print("Error fetching user data: \(error.localizedDescription)")
+                } else if let document = document, document.exists {
+//                    print("data \(String(describing: document.data()))")
+                    //get name
+                    if let fetchedName = document.data()?["preferredName"] as? String {
+                        self.userName = fetchedName
+                    } else {
+                        print("Error")
+                    }
+                }
+            }
+        }
 }
+
 
 struct HomeScreenPreview: PreviewProvider {
     static var previews: some View {

@@ -12,6 +12,8 @@ struct SettingsView: View {
     @State private var receiveNotifications = true
     @State private var turnOffComments = false
     
+    @EnvironmentObject var session: SessionManager
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -54,7 +56,7 @@ struct SettingsView: View {
                 
                 //Log Out Button
                 Button(action: {
-                    //log out
+                    session.signOut()
                 }) {
                     Text("Log Out")
                         .font(.system(size: 16))

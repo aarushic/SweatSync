@@ -131,6 +131,7 @@ struct LoginScreen: View {
             // success
             self.errorMessage = nil
             //update the session state
+            session.signOut()
             session.signIn()
             isShowingHomeScreen = true
         }
