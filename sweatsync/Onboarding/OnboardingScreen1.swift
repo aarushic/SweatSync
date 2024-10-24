@@ -44,7 +44,6 @@ struct OnboardingScreen1: View {
                     .padding(.horizontal, 40)
                 Spacer()
             }
-            
         }
         .background(Color.black.ignoresSafeArea())
     }

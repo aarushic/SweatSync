@@ -162,7 +162,6 @@ struct CompleteProfileScreen: View {
         }
         
         session.signIn()
-
     }
 }
 

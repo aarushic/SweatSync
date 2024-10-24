@@ -15,6 +15,10 @@ struct FillProfileScreen: View {
     @State private var errorMessage: String? = nil  
     @State private var isProfileSaved: Bool = false 
     
+    @State private var liftingSelected: Bool = false
+    @State private var runningSelected: Bool = false
+    @State private var bikingSelected: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -60,6 +64,35 @@ struct FillProfileScreen: View {
                 .background(Color(red: 208/255, green: 247/255, blue: 147/255))
                 .cornerRadius(15)
                 .padding(.horizontal, 30)
+                
+                // training priorities
+                Button(action: {
+                    liftingSelected.toggle()
+                }) {
+                    Text("Lifting")
+                        .frame(width: 200, height: 30)
+                        .background(liftingSelected ? Color(red: 208/255, green: 247/255, blue: 147/255): .white)
+                        .foregroundColor(.black)
+                        .cornerRadius(25)
+                }
+                Button(action: {
+                    runningSelected.toggle()
+                }) {
+                    Text("Running")
+                        .frame(width: 200, height: 30)
+                        .background(runningSelected ? Color(red: 208/255, green: 247/255, blue: 147/255): .white)
+                        .foregroundColor(.black)
+                        .cornerRadius(25)
+                }
+                Button(action: {
+                    bikingSelected.toggle()
+                }) {
+                    Text("Biking")
+                        .frame(width: 200, height: 30)
+                        .background(bikingSelected ? Color(red: 208/255, green: 247/255, blue: 147/255): .white)
+                        .foregroundColor(.black)
+                        .cornerRadius(25)
+                }
                 
                 //save profile data to firestore
                 Button(action: {

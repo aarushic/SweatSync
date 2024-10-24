@@ -22,12 +22,6 @@ struct LoginScreen: View {
         VStack(spacing: 30) {
             //top part
             HStack {
-//                Button(action: {
-//                    //back action here
-//                }) {
-//                    Image(systemName: "chevron.left")
-//                        .foregroundColor(.white)
-//                }
                 Text("Log In")
                     .font(.headline)
                     .foregroundColor(Theme.primaryColor)

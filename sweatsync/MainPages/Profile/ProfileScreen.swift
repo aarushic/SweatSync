@@ -49,9 +49,7 @@ struct ProfileScreen: View {
                 .padding(.horizontal, 40)
                 .padding(.top, 20)
 
-                
                 Spacer()
-                
             }
             .edgesIgnoringSafeArea(.all)
             .background(Color.black)

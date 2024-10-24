@@ -35,7 +35,8 @@ struct TabBarView: View {
                     .tabItem {
                         Image(systemName: "bell.fill")
                     }
-                    .badge(2) // badge for notifications
+                    // badge for notifications
+                    .badge(2)
                 
                 // Replace with profile view
                 ProfileScreen()
@@ -46,7 +47,6 @@ struct TabBarView: View {
             .toolbarBackground(Color(red: 42/255, green: 42/255, blue: 42/255), for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
         }
-        
     }
     
 }

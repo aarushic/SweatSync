@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BBED2762CCA04E800DC851A /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBED2752CCA04E800DC851A /* LikeButton.swift */; };
 		49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */; };
-		49403CE42CB8DD5A0053CC08 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CE32CB8DD5A0053CC08 /* ContentView.swift */; };
 		49403CE62CB8DD5C0053CC08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49403CE52CB8DD5C0053CC08 /* Assets.xcassets */; };
 		49403CE92CB8DD5C0053CC08 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49403CE82CB8DD5C0053CC08 /* Preview Assets.xcassets */; };
 		49403CF32CB8DD5C0053CC08 /* sweatsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CF22CB8DD5C0053CC08 /* sweatsyncTests.swift */; };
@@ -62,9 +62,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3BBED2752CCA04E800DC851A /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		49403CDE2CB8DD5A0053CC08 /* sweatsync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sweatsync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sweatsyncApp.swift; sourceTree = "<group>"; };
-		49403CE32CB8DD5A0053CC08 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		49403CE52CB8DD5C0053CC08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49403CE82CB8DD5C0053CC08 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		49403CEE2CB8DD5C0053CC08 /* sweatsyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sweatsyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,7 +154,6 @@
 				49EE6D792CBDF97700405025 /* Login */,
 				49EE6D782CBDF92F00405025 /* Onboarding */,
 				49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */,
-				49403CE32CB8DD5A0053CC08 /* ContentView.swift */,
 				49691D342CB8E0990012DEC5 /* SessionManager.swift */,
 				49691D362CB8E0DD0012DEC5 /* SplashScreen.swift */,
 				49EE6D702CBDEBF900405025 /* Theme.swift */,
@@ -235,6 +234,7 @@
 			children = (
 				49EE6D842CBE121600405025 /* HomeScreen.swift */,
 				49EE6D892CBE149900405025 /* WorkoutPost.swift */,
+				3BBED2752CCA04E800DC851A /* LikeButton.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -410,11 +410,11 @@
 				49691D412CB8E19E0012DEC5 /* MainScreen.swift in Sources */,
 				49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */,
 				49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */,
-				49403CE42CB8DD5A0053CC08 /* ContentView.swift in Sources */,
 				CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */,
 				49EE6D772CBDED9000405025 /* OnboardingScreen3.swift in Sources */,
 				49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */,
 				49EE6D802CBE0E0900405025 /* FillProfileScreen.swift in Sources */,
+				3BBED2762CCA04E800DC851A /* LikeButton.swift in Sources */,
 				49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */,
 				CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */,
 				49EE6D7B2CBDF9E100405025 /* LoginScreen.swift in Sources */,
