@@ -19,10 +19,10 @@ struct TabBarView: View {
                     }
                 
                 // Replace with Calendar view
-                HomeScreenView()
-                    .tabItem {
-                        Image(systemName: "calendar")
-                    }
+//                HomeScreenView()
+//                    .tabItem {
+//                        Image(systemName: "calendar")
+//                    }
                 
                 // Replace with post view
                 TemplatesView()

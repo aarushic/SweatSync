@@ -17,41 +17,38 @@ struct CompleteProfileScreen: View {
     @State private var errorMessage: String? = nil
     @State private var isProfileCompleted: Bool = false
     
+    @State private var lifting: Bool = false
+    @State private var running: Bool = false
+    @State private var biking: Bool = false
+    @State private var swimming: Bool = false
+    @State private var yoga: Bool = false
+    @State private var hiking: Bool = false
+    
     @EnvironmentObject var session: SessionManager
 
     var body: some View {
         NavigationStack {
-            
-            VStack(spacing: 20) {
-                HStack {
-                    Button(action: {
-                        // Handle back action
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255))
-                    }
-                    Spacer()
-                    Text("Back")
-                        .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255))
-                }
-                .padding()
-                .background(Color.black)
+            VStack(spacing: 50) {
+                Text("Complete Your Profile")
+                    .font(.title)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(.top, 40)
                 
                 //input fields
                 VStack(spacing: 20) {
-            
                     //age picker
                     HStack {
                         Text("Age")
                             .font(.headline)
-                            .foregroundColor(Theme.secondaryColor)
+                            .foregroundColor(.white)
                         Spacer()
                         Picker("Height", selection: $age) {
                             ForEach(12...100, id: \.self) { age in
                                 Text("\(age)").tag(age)
                             }
                         }
-                        .frame(width: 100, height: 80)
+                        .frame(width: 200, height: 50)
                         .clipped()
                         .labelsHidden()
                         .background(Theme.secondaryColor)
@@ -62,14 +59,14 @@ struct CompleteProfileScreen: View {
                     HStack {
                         Text("Height (cm)")
                             .font(.headline)
-                            .foregroundColor(Theme.secondaryColor)
+                            .foregroundColor(.white)
                         Spacer()
                         Picker("Height", selection: $height) {
                             ForEach(48...84, id: \.self) { height in
                                 Text("\(height) in").tag(height)
                             }
                         }
-                        .frame(width: 100, height: 80)
+                        .frame(width: 200, height: 50)
                         .clipped()
                         .labelsHidden()
                         .background(Theme.secondaryColor)
@@ -80,27 +77,46 @@ struct CompleteProfileScreen: View {
                     HStack {
                         Text("Weight (lb)")
                             .font(.headline)
-                            .foregroundColor(Theme.secondaryColor)
+                            .foregroundColor(.white)
                         Spacer()
                         Picker("Weight", selection: $weight) {
                             ForEach(50...300, id: \.self) { weight in
                                 Text("\(weight) lb").tag(weight)
                             }
                         }
-                        .frame(width: 100, height: 80)
+                        .frame(width: 200, height: 50)
                         .clipped()
                         .labelsHidden()
                         .background(Theme.secondaryColor)
                         .cornerRadius(10)
                     }
-        
                 }
                 .padding()
-                .background(Theme.primaryColor)
-                .cornerRadius(15)
-                .padding(.horizontal, 30)
+                .padding(.horizontal, 20)
                 
-                //omplete profile
+                //training priorities
+                VStack(alignment: .leading) {
+                    Text("Training Preferences")
+                        .font(.custom("Poppins-Bold", size: 20))
+                        .foregroundColor(.white)
+                        .padding(.bottom, 10)
+                    
+                    //grid layout for preferences
+                    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+                    
+                    LazyVGrid(columns: columns, spacing: 15) {
+                        PreferenceToggle(title: "Lifting", isSelected: $lifting)
+                        PreferenceToggle(title: "Running", isSelected: $running)
+                        PreferenceToggle(title: "Biking", isSelected: $biking)
+                        PreferenceToggle(title: "Swimming", isSelected: $swimming)
+                        PreferenceToggle(title: "Yoga", isSelected: $yoga)
+                        PreferenceToggle(title: "Hiking", isSelected: $hiking)
+                    }
+                }
+                .frame(width: 340)
+                .background(Color.black.ignoresSafeArea())
+                
+                //complete profile
                 Button(action: {
                     completeProfile()
                 }) {
@@ -118,50 +134,76 @@ struct CompleteProfileScreen: View {
                         .foregroundColor(.red)
                         .padding(.top, 10)
                 }
-                
                 Spacer()
             }
             .background(Color.black.ignoresSafeArea())
             .fullScreenCover(isPresented: $isProfileCompleted) {
                 OnboardingScreen1()
             }
-
         }
     }
     
     private func completeProfile() {
-        //check user is authenticated
+        // Check if user is authenticated
         guard let user = Auth.auth().currentUser else {
             errorMessage = "Unable to retrieve user. Please log in again."
             return
         }
-        
-        //check fields are not empty
+
+        // Check fields are not empty
         guard age != 0, height != 0, weight != 0 else {
             errorMessage = "Please fill in all fields."
             return
         }
-        
+
         let db = Firestore.firestore()
+        
+        // Collect selected training priorities
+        var trainingPreferences: [String] = []
+        if lifting { trainingPreferences.append("Lifting") }
+        if running { trainingPreferences.append("Running") }
+        if biking { trainingPreferences.append("Biking") }
+        if swimming { trainingPreferences.append("Swimming") }
+        if yoga { trainingPreferences.append("Yoga") }
+        if hiking { trainingPreferences.append("Hiking") }
         
         let additionalProfileData: [String: Any] = [
             "age": age,
             "height": height,
             "weight": weight,
+            "trainingPreferences": trainingPreferences
         ]
-        
-        //finish existing profile data for the user
+
+        // Update profile data in Firebase
         db.collection("users").document(user.uid).updateData(additionalProfileData) { err in
             if let err = err {
-                errorMessage = "error \(err.localizedDescription)"
+                errorMessage = "Error: \(err.localizedDescription)"
             } else {
                 errorMessage = nil
                 isProfileCompleted = true
-                print("Profile successfully updated")
+                print("Profile successfully updated with training preferences")
             }
         }
-        
+
         session.signIn()
+    }
+}
+
+struct PreferenceToggle: View {
+    let title: String
+    @Binding var isSelected: Bool
+    
+    var body: some View {
+        Button(action: {
+            isSelected.toggle()
+        }) {
+            Text(title)
+                .font(.custom("Poppins-Regular", size: 16))
+                .foregroundColor(isSelected ? .black : .white)
+                .frame(maxWidth: .infinity, minHeight: 50)
+                .background(isSelected ? Theme.primaryColor : Theme.secondaryColor)
+                .cornerRadius(10)
+        }
     }
 }
 

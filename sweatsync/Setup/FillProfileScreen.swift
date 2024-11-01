@@ -12,99 +12,107 @@ import FirebaseFirestore
 struct FillProfileScreen: View {
     @State private var preferredName: String = ""
     @State private var bio: String = ""
-    @State private var errorMessage: String? = nil  
-    @State private var isProfileSaved: Bool = false 
+    @State private var errorMessage: String? = nil
+    @State private var isProfileSaved: Bool = false
     
-    @State private var liftingSelected: Bool = false
-    @State private var runningSelected: Bool = false
-    @State private var bikingSelected: Bool = false
+    @State private var profileImage: UIImage? = nil
+    @State private var isImagePickerPresented = false
     
+
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                
+            VStack() {
                 Text("Fill Your Profile")
                     .font(.title)
                     .bold()
                     .foregroundColor(.white)
-                    .padding(.top, 20)
-                
+                    .padding(.top, 40)
+  
                 //place holder
-                Circle()
-                    .fill(Color(red: 208/255, green: 247/255, blue: 147/255))
-                    .frame(width: 100, height: 100)
-                    .overlay(
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.gray)
-                    )
-                    .padding(.bottom, 20)
+                VStack {
+                    VStack {
+                       if let profileImage = profileImage {
+                           Image(uiImage: profileImage)
+                               .resizable()
+                               .scaledToFill()
+                               .frame(width: 130, height: 130)
+                               .clipShape(Circle())
+                               .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                       } else {
+                           Circle()
+                               .fill(Color.gray)
+                               .frame(width: 130, height: 130)
+                               .overlay(
+                                   Image(systemName: "person.circle.fill")
+                                       .resizable()
+                                       .scaledToFill()
+                                       .foregroundColor(.white)
+                                       .frame(width: 120, height: 120)
+                               )
+                       }
+                   }
+                   .onTapGesture {
+                       isImagePickerPresented = true
+                   }
+                   .padding()
+                }
+                .frame(maxWidth: .infinity)
+                .background(Theme.primaryColor)
+                .cornerRadius(0)
                 
                 //input fields
                 VStack(spacing: 20) {
-                    TextField(
-                        "Preferred name",
-                        text: $preferredName
-                    )
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                    
-                    TextField(
-                        "Bio",
-                        text: $bio
-                    )
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Preferred Name")
+                            .font(.custom("Poppins-Regular", size: 20))
+                            .foregroundColor(.white)
+                        
+                        TextField("", text: $preferredName)
+                            .font(.custom("Poppins-Regular", size: 14))
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Theme.secondaryColor)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.white, lineWidth: 1.8)
+                            )
+                            .textInputAutocapitalization(.never)
+                            .disableAutocorrection(true)
+                    }
+                    .frame(width: 340)
+
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Bio")
+                            .font(.custom("Poppins-Regular", size: 20))
+                            .foregroundColor(.white)
+                        
+                        TextEditor(text: $bio)
+                            .font(.custom("Poppins-Regular", size: 14))
+                            .lineSpacing(2)
+                            .scrollContentBackground(.hidden)
+                            .background(Theme.secondaryColor)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.white, lineWidth: 3)
+                            )
+                            .cornerRadius(15)
+                            .textInputAutocapitalization(.never)
+                            .disableAutocorrection(true)
+                    }
+                    .frame(width: 340)
                 }
-                .padding()
-                .background(Color(red: 208/255, green: 247/255, blue: 147/255))
-                .cornerRadius(15)
-                .padding(.horizontal, 30)
-                
-                // training priorities
-                Button(action: {
-                    liftingSelected.toggle()
-                }) {
-                    Text("Lifting")
-                        .frame(width: 200, height: 30)
-                        .background(liftingSelected ? Color(red: 208/255, green: 247/255, blue: 147/255): .white)
-                        .foregroundColor(.black)
-                        .cornerRadius(25)
-                }
-                Button(action: {
-                    runningSelected.toggle()
-                }) {
-                    Text("Running")
-                        .frame(width: 200, height: 30)
-                        .background(runningSelected ? Color(red: 208/255, green: 247/255, blue: 147/255): .white)
-                        .foregroundColor(.black)
-                        .cornerRadius(25)
-                }
-                Button(action: {
-                    bikingSelected.toggle()
-                }) {
-                    Text("Biking")
-                        .frame(width: 200, height: 30)
-                        .background(bikingSelected ? Color(red: 208/255, green: 247/255, blue: 147/255): .white)
-                        .foregroundColor(.black)
-                        .cornerRadius(25)
-                }
+                .padding(.vertical, 40)
                 
                 //save profile data to firestore
                 Button(action: {
                     saveProfile()
                 }) {
-                    Text("Save Profile")
+                    Text("Continue")
                         .frame(width: 250, height: 50)
-                        .background(Color(red: 208/255, green: 247/255, blue: 147/255))
+                        .background(Theme.primaryColor)
                         .foregroundColor(.black)
                         .cornerRadius(25)
                 }
-                .padding(.top, 20)
                 
                 //error
                 if let errorMessage = errorMessage {
@@ -127,15 +135,15 @@ struct FillProfileScreen: View {
             errorMessage = "Unable to retrieve user. Please log in again."
             return
         }
-        
+
         //check fields
         guard !preferredName.isEmpty, !bio.isEmpty else {
             errorMessage = "Please fill in all fields."
             return
         }
-        
+
         let db = Firestore.firestore()
-        
+
         //user profile data
         let userProfileData: [String: Any] = [
             "preferredName": preferredName,
@@ -143,7 +151,7 @@ struct FillProfileScreen: View {
             "email": user.email ?? "",
             "uid": user.uid
         ]
-        
+
         //save profile data in the "users" collection
         db.collection("users").document(user.uid).setData(userProfileData) { err in
             if let err = err {
@@ -156,6 +164,8 @@ struct FillProfileScreen: View {
     }
 }
 
-#Preview {
-    FillProfileScreen()
+struct ProfilePreviews: PreviewProvider {
+    static var previews: some View {
+        FillProfileScreen()
+    }
 }

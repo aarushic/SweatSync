@@ -11,8 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct SignUpScreen: View {
-    @State private var firstName: String = ""
-    @State private var lastName: String = ""
+    @State private var fullName: String = ""
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
@@ -23,57 +22,104 @@ struct SignUpScreen: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30) {
+            VStack() {
                 //top part
                 HStack {
-                    Text("Sign Up")
-                        .font(.headline)
+                    Text("Create Account")
+                        .font(.custom(Theme.headingFont, size: 22))
                         .foregroundColor(Theme.primaryColor)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    Spacer()
-                    Spacer()
+                        .frame(alignment: .center)
                 }
-                .padding()
+                .padding(.bottom, 40)
                 .background(Color.black)
                 
                 //welcome text
-                VStack(spacing: 20) {
+                VStack() {
                     Text("Get Started")
-                        .font(.largeTitle)
+                        .font(.custom(Theme.headingFont, size: 26))
                         .bold()
                         .foregroundColor(.white)
                 }
-                .padding(.bottom, 30)
                 
                 //sign up form fields
-                VStack(spacing: 30) {
-                    TextField("First name", text: $firstName)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Last name", text: $lastName)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Username (email address)",text: $username)
-                        .keyboardType(.emailAddress)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
-                    SecureField("Password", text: $password)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
-                    SecureField("Confirm password", text: $confirmPassword)
-                        .onSubmit {
-                            //confirm logic
+                VStack() {
+                    VStack(spacing: 5) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Full Name")
+                                .font(.custom("Poppins-Regular", size: 17))
+                                .foregroundColor(Theme.secondaryColor)
+                            
+                            TextField("", text: $fullName)
+                                .font(.custom("Poppins-Regular", size: 14))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Theme.secondaryColor)
+                                .cornerRadius(10)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
                         }
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 320)
+                        .padding(.bottom, 10)
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Email")
+                                .font(.custom("Poppins-Regular", size: 17))
+                                .foregroundColor(Theme.secondaryColor)
+                            
+                            SecureField("Password", text: $username)
+                                .font(.custom("Poppins-Regular", size: 14))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Theme.secondaryColor)
+                                .cornerRadius(10)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                        }
+                        .frame(width: 320)
+                        .padding(.bottom, 10)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Password")
+                                .font(.custom("Poppins-Regular", size: 17))
+                                .foregroundColor(Theme.secondaryColor)
+                            
+                            SecureField("Password", text: $password)
+                                .font(.custom("Poppins-Regular", size: 14))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Theme.secondaryColor)
+                                .cornerRadius(10)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                        }
+                        .frame(width: 320)
+                        .padding(.bottom, 10)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Confirm Password")
+                                .font(.custom("Poppins-Regular", size: 17))
+                                .foregroundColor(Theme.secondaryColor)
+                            
+                            SecureField("Password", text: $confirmPassword)
+                                .font(.custom("Poppins-Regular", size: 14))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Theme.secondaryColor)
+                                .cornerRadius(10)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                        }
+                        .frame(width: 320)
+                        .padding(.bottom, 10)
+                    }
+                    .padding(.vertical, 30)
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: .infinity)
+                    .background(Theme.primaryColor)
+                    .cornerRadius(0)
                 }
-                .padding()
-                .background(Theme.primaryColor)
+                .edgesIgnoringSafeArea(.horizontal)
+                .padding(.vertical, 20)
                 
                 //error message
                 if let errorMessage = errorMessage {
@@ -88,7 +134,7 @@ struct SignUpScreen: View {
                 }) {
                     Text("Sign Up")
                         .frame(width: 200, height: 50)
-                        .background(Theme.secondaryColor) 
+                        .background(Theme.secondaryColor)
                         .foregroundColor(.white)
                         .cornerRadius(25)
                 }
@@ -123,6 +169,7 @@ struct SignUpScreen: View {
                 FillProfileScreen()
             }
         }
+        
     }
 
     private func createUser() {
@@ -131,9 +178,9 @@ struct SignUpScreen: View {
             errorMessage = "Passwords do not match"
             return
         }
-        
+
         //check if fields are not empty
-        guard !firstName.isEmpty, !lastName.isEmpty, !username.isEmpty, !password.isEmpty else {
+        guard !fullName.isEmpty, !username.isEmpty, !password.isEmpty else {
             errorMessage = "All fields are required"
             return
         }
@@ -144,16 +191,15 @@ struct SignUpScreen: View {
                 errorMessage = err.localizedDescription
                 return
             }
-            
+
             //success
             errorMessage = nil
-            
+
             //save user info in firestore
             if let uid = result?.user.uid {
                 let db = Firestore.firestore()
                 db.collection("users").document(uid).setData([
-                    "firstName": firstName,
-                    "lastName": lastName,
+                    "fullName": fullName,
                     "email": username,
                     "uid": uid
                 ]) { err in
@@ -165,13 +211,16 @@ struct SignUpScreen: View {
                     }
                 }
             }
-            
+
             //update the session state
             isShowingOnboarding = true
         })
     }
 }
+ 
 
-#Preview {
-    SignUpScreen()
+struct Previews: PreviewProvider {
+    static var previews: some View {
+        SignUpScreen()
+    }
 }

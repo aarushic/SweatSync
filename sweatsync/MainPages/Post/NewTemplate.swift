@@ -269,7 +269,6 @@ struct PostButton: View {
 
 
 func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], completion: @escaping (Bool) -> Void) {
-
     guard let user = Auth.auth().currentUser else {
         print("User is not logged in.")
         completion(false)
@@ -278,15 +277,16 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], co
 
     let db = Firestore.firestore()
     let userId = user.uid
+    let currentDate = Date()
 
-    //template data with a timestamp
+    // Template data with a timestamp
     let templateData: [String: Any] = [
         "templateName": templateName,
-        "timestamp": Timestamp(date: Date()),
+        "timestamp": Timestamp(date: currentDate),
         "userId": userId
     ]
 
-    //add template document to user's collection
+    // Add template document to user's collection
     var templateRef: DocumentReference? = nil
     templateRef = db.collection("users").document(userId).collection("templates").addDocument(data: templateData) { error in
         if let error = error {
@@ -301,32 +301,67 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], co
             return
         }
 
-        //add exercises to template
-        for (key, exercise) in exercises {
+        // Add exercises to template
+        for (_, exercise) in exercises {
             let exerciseData: [String: Any] = [
                 "exerciseType": exercise.exerciseType,
                 "exerciseName": exercise.exerciseName,
                 "warmUpSets": exercise.warmUpSets.map { ["weight": $0.0, "reps": $0.1] },
                 "workingSets": exercise.workingSets.map { ["weight": $0.0, "reps": $0.1] },
                 "notes": exercise.notes,
-                "timestamp": Timestamp(date: Date())
+                "timestamp": Timestamp(date: currentDate)
             ]
             
             db.collection("users").document(userId)
                 .collection("templates").document(templateId)
-                .collection("exercises").addDocument(data: exerciseData) { err in
-                if let err = err {
-                    print("Error adding exercise: \(err.localizedDescription)")
-                } else {
-                    print("Exercise added successfully.")
-                }
-            }
+                .collection("exercises").addDocument(data: exerciseData)
         }
+
+        // Update workout history
+        db.collection("users").document(userId).collection("workoutHistory").addDocument(data: templateData)
+        
+        // Update streak information
+        updateStreak(userId: userId, currentDate: currentDate)
 
         completion(true)
     }
 }
 
+// Update streak information
+func updateStreak(userId: String, currentDate: Date) {
+    let db = Firestore.firestore()
+    let userRef = db.collection("users").document(userId)
+    
+    userRef.getDocument { (document, error) in
+        if let document = document, document.exists {
+            let lastPostDate = document.data()?["lastPostDate"] as? Timestamp ?? Timestamp(date: Date(timeIntervalSince1970: 0))
+            let currentStreak = document.data()?["currentStreak"] as? Int ?? 0
+            let highestStreak = document.data()?["highestStreak"] as? Int ?? 0
+
+            let calendar = Calendar.current
+            let daysSinceLastPost = calendar.dateComponents([.day], from: lastPostDate.dateValue(), to: currentDate).day ?? 0
+            
+            var newStreak = daysSinceLastPost == 1 ? currentStreak + 1 : (daysSinceLastPost == 0 ? currentStreak : 1)
+            let newHighestStreak = max(newStreak, highestStreak)
+
+            userRef.updateData([
+                "lastPostDate": Timestamp(date: currentDate),
+                "currentStreak": newStreak,
+                "highestStreak": newHighestStreak
+            ])
+
+            // Grant badge for specific streak milestones (e.g., 7 days)
+            if newStreak == 7 {
+                userRef.collection("badges").document("7DayStreak").setData([
+                    "name": "7-Day Streak",
+                    "dateAchieved": Timestamp(date: currentDate)
+                ])
+            }
+        } else {
+            print("User document does not exist")
+        }
+    }
+}
 
 
 #Preview {

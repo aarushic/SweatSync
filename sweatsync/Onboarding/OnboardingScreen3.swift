@@ -10,13 +10,15 @@ import SwiftUI
 
 struct OnboardingScreen3: View {
     var body: some View {
-        VStack {
-            NavigationStack {
+        NavigationStack {
+            
+            VStack {
                 Spacer()
+                
                 //green box
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Theme.primaryColor)
-                    .frame(height: 400)
+                    .frame(height: 530)
                     .overlay(
                         VStack(spacing: 20) {
                             //icon
@@ -26,12 +28,25 @@ struct OnboardingScreen3: View {
                                 .frame(width: 60, height: 60)
                                 .foregroundColor(Theme.secondaryColor)
                             
-                            //test
-                            Text("information about the app")
+                            //text
+                            Text("Stay Motivated with Rewards and Challenges")
                                 .foregroundColor(.black)
-                                .font(.headline)
+                                .font(.title)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 9)
                             
-                            //next
+                            VStack(spacing: 30){
+                                Text("Earn badges, build streaks, and climb leaderboards!")
+                                    .foregroundColor(Theme.secondaryColor)
+                                    .multilineTextAlignment(.center)
+                                
+                                Text("Engage with friends, challenge each other, and celebrate milestones together in an exciting, community-driven fitness experience.")
+                                    .foregroundColor(Theme.secondaryColor)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .padding(.horizontal, 35)
+                            
+                            //next button
                             NavigationLink(destination: TabBarView()) {
                                 Text("Next")
                                     .frame(width: 170, height: 50)
@@ -41,12 +56,16 @@ struct OnboardingScreen3: View {
                             }
                         }
                     )
-                    .padding(.horizontal, 40)
+                    .padding(40)
                 Spacer()
             }
-            .background(Color.black)
-            .edgesIgnoringSafeArea(.all)
+            .background(Color.black.ignoresSafeArea())
         }
     }
 }
 
+struct Previews5: PreviewProvider {
+    static var previews: some View {
+        OnboardingScreen3()
+    }
+}

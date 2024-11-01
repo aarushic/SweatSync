@@ -19,15 +19,13 @@ struct LoginScreen: View {
     @EnvironmentObject var session: SessionManager
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack() {
             //top part
             HStack {
                 Text("Log In")
-                    .font(.headline)
+                    .font(.custom(Theme.headingFont, size: 22))
                     .foregroundColor(Theme.primaryColor)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                Spacer()
-                Spacer()
+                    .frame(alignment: .center)
             }
             .padding()
             .background(Color.black)
@@ -35,26 +33,62 @@ struct LoginScreen: View {
             //welcome message
             VStack(spacing: 20) {
                 Text("Welcome")
-                    .font(.largeTitle)
+                    .font(.custom(Theme.headingFont, size: 26))
                     .bold()
                     .foregroundColor(.white)
             }
-            .padding(.bottom, 30)
             
-            //login form fields
-            VStack(spacing: 30) {
-                TextField("Username (email address)", text: $username)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
+            Text("Please login to continue.")
+                .font(.custom(Theme.bodyFont, size: 19))
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .padding(.vertical, 30)
 
-                SecureField("Password", text: $password)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
+            //login form fields
+            VStack(spacing: 0) {
+                VStack(spacing: 20) {
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Username or email")
+                            .font(.custom(Theme.headingFont2, size: 19))
+                            .foregroundColor(Theme.secondaryColor)
+                        
+                        TextField("", text: $username)
+                            .font(.custom(Theme.headingFont2, size: 19))
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Theme.secondaryColor)
+                            .cornerRadius(10)
+                            .textInputAutocapitalization(.never)
+                            .disableAutocorrection(true)
+                    }
+                    .frame(width: 320)
+                    .padding(.horizontal, 16)
+
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Password")
+                            .font(.custom(Theme.headingFont2, size: 19))
+                            .foregroundColor(Theme.secondaryColor)
+                        
+                        SecureField("Password", text: $password)
+                            .font(.custom(Theme.headingFont2, size: 19))
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Theme.secondaryColor)
+                            .cornerRadius(10)
+                            .textInputAutocapitalization(.never)
+                            .disableAutocorrection(true)
+                    }
+                    .frame(width: 320)
+                    .padding(.horizontal, 16)
+                }
+                .padding(.vertical, 30)
+                .frame(maxWidth: .infinity)
+                .background(Theme.primaryColor)
+                .cornerRadius(0)
             }
-            .padding()
-            .background(Theme.primaryColor)
+            .edgesIgnoringSafeArea(.horizontal)
+            .padding(.vertical, 20)
+            
             
             //log in button
             Button(action: {
@@ -62,13 +96,13 @@ struct LoginScreen: View {
             }) {
                 Text("Log In")
                     .frame(width: 200, height: 50)
+                    .font(.custom(Theme.headingFont2, size: 19))
                     .background(Theme.secondaryColor)
                     .cornerRadius(25)
                     .foregroundColor(username.isEmpty || password.isEmpty ? Color.gray : Color.white)
-                    .cornerRadius(25)
             }
             .disabled(username.isEmpty || password.isEmpty)
-            .padding(.top, 20)
+            .padding(.bottom, 20)
             
             //error message
             if let errorMessage = errorMessage {
@@ -79,7 +113,10 @@ struct LoginScreen: View {
 
             //google sign in option
             Text("or sign in with")
+                .font(.custom(Theme.bodyFont, size: 19))
                 .foregroundColor(.white)
+                .padding(.bottom, 10)
+            
             
             Button(action: {
                 // Handle Google sign-in action
@@ -95,12 +132,14 @@ struct LoginScreen: View {
             //sign up option
             HStack {
                 Text("Don't have an account?")
+                    .font(.custom(Theme.bodyFont, size: 19))
                     .foregroundColor(.white)
                 Button(action: {
                     isShowingSignUpScreen = true
                 }) {
                     Text("Sign Up")
                         .foregroundColor(Theme.primaryColor)
+                        .font(.custom(Theme.bodyFont, size: 19))
                 }
             }
         }

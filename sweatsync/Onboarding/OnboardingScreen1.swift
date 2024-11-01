@@ -10,13 +10,15 @@ import SwiftUI
 
 struct OnboardingScreen1: View {
     var body: some View {
-        VStack {
-            NavigationStack {
+        NavigationStack {
+            
+            VStack {
                 Spacer()
+                
                 //green box
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Theme.primaryColor)
-                    .frame(height: 400)
+                    .frame(height: 530)
                     .overlay(
                         VStack(spacing: 20) {
                             //icon
@@ -26,12 +28,25 @@ struct OnboardingScreen1: View {
                                 .frame(width: 60, height: 60)
                                 .foregroundColor(Theme.secondaryColor)
                             
-                            //test
-                            Text("information about the app")
+                            //text
+                            Text("Track and Share Your Journey")
                                 .foregroundColor(.black)
-                                .font(.headline)
+                                .font(.title)
+                                .multilineTextAlignment(.center)
                             
-                            //next
+                            VStack(spacing: 30){
+                                Text("SweatSync combines fitness tracking with social networking to keep you motivated and accountable.")
+                                    .foregroundColor(Theme.secondaryColor)
+                                    .multilineTextAlignment(.center)
+                                
+                                Text("Log workouts, track progress, and share achievements with friends and the supportive SweatSync community.")
+                                    .foregroundColor(Theme.secondaryColor)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .padding(.horizontal, 35)
+                            
+                            
+                            //next button
                             NavigationLink(destination: OnboardingScreen2()) {
                                 Text("Next")
                                     .frame(width: 170, height: 50)
@@ -41,15 +56,15 @@ struct OnboardingScreen1: View {
                             }
                         }
                     )
-                    .padding(.horizontal, 40)
+                    .padding(40)
                 Spacer()
             }
+            .background(Color.black.ignoresSafeArea())
         }
-        .background(Color.black.ignoresSafeArea())
     }
 }
 
-struct OnboardingScreen: PreviewProvider {
+struct OnboardingScreen1_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingScreen1()
     }

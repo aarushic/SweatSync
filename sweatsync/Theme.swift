@@ -14,7 +14,9 @@ struct Theme {
     static let secondaryColor = Color(red: 43/255, green: 45/255, blue: 53/255)
     
     //fonts
-    static let headingFont = Font.system(size: 24, weight: .bold, design: .default)
+    static let headingFont = "Poppins-Bold"
+    static let headingFont2 = "LeagueSpartan-Medium"
+    static let bodyFont = "LeagueSpartan-Light"
     
     //icons
 }
