@@ -98,6 +98,7 @@ struct FillProfileScreen: View {
                             .cornerRadius(15)
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
+                            .foregroundColor(.white)
                     }
                     .frame(width: 340)
                 }

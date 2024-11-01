@@ -66,7 +66,7 @@ struct SignUpScreen: View {
                                 .font(.custom("Poppins-Regular", size: 17))
                                 .foregroundColor(Theme.secondaryColor)
                             
-                            SecureField("Password", text: $username)
+                            TextField("Password", text: $username)
                                 .font(.custom("Poppins-Regular", size: 14))
                                 .foregroundColor(.white)
                                 .padding()
