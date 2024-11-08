@@ -4,22 +4,25 @@
 //
 //  Created by aarushi chitagi on 10/14/24.
 //
-
-import Foundation
 import SwiftUI
+import Firebase
 import FirebaseAuth
-import FirebaseFirestore
 
 struct ProfileScreen: View {
+    let user: User
+    let settings: Bool
+    
     @State private var streakDays: Int = 0
     @State private var followersCount: Int = 0
     @State private var followingCount: Int = 0
     @State private var badges: [String] = []
-    @State private var userName: String = "Name"
-    @State private var userBio: String = "User Bio. Hi My Name Is Blah Blah"
-
+    @State private var userName: String = ""
+    @State private var userBio: String = ""
+    @State private var profileImage: UIImage? = nil
+    @State private var trainingPreferences: [String] = []
+    
     var body: some View {
-        NavigationView {
+        NavigationView{
             VStack {
                 // User Info Section
                 VStack(spacing: 8) {
@@ -27,16 +30,49 @@ struct ProfileScreen: View {
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.white)
-                        .padding(.top, 20)
                     
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.gray)
+                    if let profileImage = profileImage {
+                        Image(uiImage: profileImage)
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                            .frame(width: 100, height: 100)
+                    }
                     
                     Text(userBio)
                         .font(.subheadline)
                         .foregroundColor(.gray)
+                }
+                
+                // Training Preferences Section
+                if !trainingPreferences.isEmpty {
+                    VStack(alignment: .leading) {
+                        Text("Training Preferences")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.top, 20)
+                            .padding(.bottom, 5)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10) {
+                                ForEach(trainingPreferences, id: \.self) { preference in
+                                    Text(preference.capitalized)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
+                                        .background(Theme.primaryColor)
+                                        .foregroundColor(Theme.secondaryColor)
+                                        .cornerRadius(20)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                    }
                 }
                 
                 // Streak Section
@@ -58,7 +94,7 @@ struct ProfileScreen: View {
                 }
                 .padding(.horizontal, 40)
                 .padding(.top, 20)
-
+                
                 // Badges Section
                 HStack(spacing: 40) {
                     ForEach(badges, id: \.self) { badge in
@@ -72,13 +108,15 @@ struct ProfileScreen: View {
             .padding()
             .background(Color.black.ignoresSafeArea())
             .onAppear(perform: fetchProfileData)
-            .navigationBarTitleDisplayMode(.inline) // Show toolbar without title
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gearshape.fill")
-                            .foregroundColor(.white)
-                            .imageScale(.large)
+                    if settings {
+                        NavigationLink(destination: SettingsView()) {
+                            Image(systemName: "gearshape.fill")
+                                .foregroundColor(.white)
+                                .imageScale(.large)
+                        }
                     }
                 }
             }
@@ -87,18 +125,24 @@ struct ProfileScreen: View {
     
     // Fetch profile data from Firebase
     private func fetchProfileData() {
-        guard let user = Auth.auth().currentUser else { return }
         let db = Firestore.firestore()
-        let userRef = db.collection("users").document(user.uid)
+        let userRef = db.collection("users").document(user.id)
         
-        // Fetch user's profile details (streak, bio, name, followers/following)
         userRef.getDocument { document, error in
             if let document = document, document.exists {
-                self.userName = document.data()?["name"] as? String ?? "Name"
-                self.userBio = document.data()?["bio"] as? String ?? "User Bio. Hi My Name Is Blah Blah"
+                self.userName = document.data()?["preferredName"] as? String ?? "Name"
+                self.userBio = document.data()?["bio"] as? String ?? "User Bio"
                 self.streakDays = document.data()?["currentStreak"] as? Int ?? 0
                 self.followersCount = document.data()?["followersCount"] as? Int ?? 0
                 self.followingCount = document.data()?["followingCount"] as? Int ?? 0
+                
+                if let base64ImageString = document.data()?["profileImageBase64"] as? String,
+                   let imageData = Data(base64Encoded: base64ImageString),
+                   let image = UIImage(data: imageData) {
+                    self.profileImage = image
+                }
+                
+                self.trainingPreferences = document.data()?["trainingPreferences"] as? [String] ?? []
             } else {
                 print("User document does not exist")
             }
@@ -153,6 +197,6 @@ struct AchievementView: View {
     }
 }
 
-#Preview {
-    ProfileScreen()
-}
+//#Preview {
+//    ProfileScreen()
+//}

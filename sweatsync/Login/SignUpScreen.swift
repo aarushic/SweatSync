@@ -43,7 +43,7 @@ struct SignUpScreen: View {
                 
                 //sign up form fields
                 VStack() {
-                    VStack(spacing: 5) {
+                    VStack(spacing: 2) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Full Name")
                                 .font(.custom("Poppins-Regular", size: 17))
@@ -112,20 +112,18 @@ struct SignUpScreen: View {
                         .frame(width: 320)
                         .padding(.bottom, 10)
                     }
-                    .padding(.vertical, 30)
                     .frame(maxWidth: .infinity)
                     .frame(maxHeight: .infinity)
                     .background(Theme.primaryColor)
                     .cornerRadius(0)
                 }
                 .edgesIgnoringSafeArea(.horizontal)
-                .padding(.vertical, 20)
+                .padding(.vertical, 60)
                 
                 //error message
                 if let errorMessage = errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
-                        .padding(.top, 10)
                 }
                 
                 //sign up button
@@ -139,18 +137,6 @@ struct SignUpScreen: View {
                         .cornerRadius(25)
                 }
                 
-                //google sign up
-                Text("or sign up with")
-                    .foregroundColor(.white)
-                
-                Button(action: {
-                    //google sign up, do later
-                }) {
-                    Image(systemName: "g.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.white)
-                }
                 
                 //already have an account
                 HStack {

@@ -17,6 +17,7 @@ struct Theme {
     static let headingFont = "Poppins-Bold"
     static let headingFont2 = "LeagueSpartan-Medium"
     static let bodyFont = "LeagueSpartan-Light"
+    static let bodyFont2 = "Poppins-Medium"
     
     //icons
 }

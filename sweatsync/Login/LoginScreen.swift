@@ -110,22 +110,6 @@ struct LoginScreen: View {
                     .foregroundColor(.red)
                     .padding(.top, 10)
             }
-
-            //google sign in option
-            Text("or sign in with")
-                .font(.custom(Theme.bodyFont, size: 19))
-                .foregroundColor(.white)
-                .padding(.bottom, 10)
-            
-            
-            Button(action: {
-                // Handle Google sign-in action
-            }) {
-                Image(systemName: "g.circle.fill")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.white)
-            }
             
             Spacer()
             
@@ -164,7 +148,7 @@ struct LoginScreen: View {
             // success
             self.errorMessage = nil
             //update the session state
-            session.signOut()
+//            session.signOut()
             session.signIn()
             isShowingHomeScreen = true
         }

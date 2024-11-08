@@ -11,9 +11,9 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct CompleteProfileScreen: View {
-    @State private var age: Int = 0
-    @State private var height: Int = 0
-    @State private var weight: Int = 0
+    @State private var age: Int = 12
+    @State private var height: Int = 48
+    @State private var weight: Int = 50
     @State private var errorMessage: String? = nil
     @State private var isProfileCompleted: Bool = false
     

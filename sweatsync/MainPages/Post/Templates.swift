@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 struct TemplatesView: View {
     // Sample data for templates
     let templates = ["Chest And Back", "Arms", "Legs", "Easy Run", "Speed Work"]
@@ -15,14 +16,16 @@ struct TemplatesView: View {
                 
                 // List of templates
                 List {
-                    ForEach(templates, id: \.self) { template in
-                        NavigationLink(destination: TemplateDetailView(templateName: template)) {
-                            Text(template)
-                                .font(.body)
-                                .foregroundColor(.black)
-                                .padding()
-                        }
-                    }
+//                    ForEach(templates, id: \.self) { template in
+//                        NavigationLink(destination: TemplateDetailView(templateName: template)) {
+//                            Text(template)
+//                                .font(.body)
+//                                .foregroundColor(.black)
+//                                .padding()
+//                        }
+//                    }
+                    
+                    //get old templates from firebase
                 }
                 .frame(height: 400)
                 .cornerRadius(10)
@@ -42,7 +45,7 @@ struct TemplatesView: View {
             .padding()
             .background(Color.black.ignoresSafeArea())
             .navigationTitle("Templates")
-            .navigationBarTitleDisplayMode(.inline) // Makes the title smaller in the navigation bar
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
