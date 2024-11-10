@@ -2,16 +2,12 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 import PhotosUI
-import FirebaseFirestore
 import FirebaseStorage
-
-import SwiftUI
-import FirebaseAuth
-import FirebaseFirestore
 
 struct NewTemplateView: View {
     @State private var templateName: String = ""
     @State private var curExerciseId: Int = 1
+    @State private var saveAsTemplate: Bool = false
     @State private var isShowingHomeScreen: Bool = false
     @State var exercises: [Int: Exercise] = [:]
     @State private var forceRefresh = UUID()
@@ -21,6 +17,12 @@ struct NewTemplateView: View {
             ScrollView {
                 VStack {
                     TemplateNameInput(templateName: $templateName)
+                    
+                    Toggle("Save as Template", isOn: $saveAsTemplate)
+                       .padding()
+                       .background(.white)
+                       .cornerRadius(10)
+                    
                     Spacer()
                     ForEach(Array(exercises.keys.sorted()), id: \.self) { key in
                         if let exercise = exercises[key] {
@@ -44,8 +46,8 @@ struct NewTemplateView: View {
                     
                     AddExerciseButton(curExerciseId: $curExerciseId, exercises: $exercises)
                     
-                    PostButton(templateName: $templateName, exercises: $exercises, isShowingHomeScreen: $isShowingHomeScreen)
-                    
+                    PostButton(templateName: $templateName, exercises: $exercises, isShowingHomeScreen: $isShowingHomeScreen, saveAsTemplate: $saveAsTemplate)
+
                     Spacer()
                 }
             }
@@ -60,7 +62,7 @@ struct NewTemplateView: View {
     }
 }
 
-func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], completion: @escaping (Bool) -> Void) {
+func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], saveAsTemplate: Bool, completion: @escaping (Bool) -> Void) {
     guard let user = Auth.auth().currentUser else {
         print("User is not logged in.")
         completion(false)
@@ -87,8 +89,6 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], co
             "workingSets": exercise.workingSets.map { ["weight": $0.0, "reps": $0.1] },
             "notes": exercise.notes,
             "timestamp": Timestamp(date: currentDate)
-            // Include image data as Base64 if needed
-//            "imageBase64": exercise.selectedImageData?.base64EncodedString() ?? ""
         ] as [String: Any]
     }
 
@@ -100,8 +100,22 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], co
             print("Error posting template: \(error.localizedDescription)")
             completion(false)
         } else {
-            print("Template posted successfully.")
-            completion(true)
+            print("Template posted successfully to posts.")
+            
+            // If saveAsTemplate is true, save to templates collection as well
+            if saveAsTemplate {
+                db.collection("users").document(userId).collection("templates").addDocument(data: templateData) { error in
+                    if let error = error {
+                        print("Error saving template to templates collection: \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        print("Template saved successfully to templates collection.")
+                        completion(true)
+                    }
+                }
+            } else {
+                completion(true)
+            }
         }
     }
 }
@@ -123,70 +137,3 @@ struct TemplateNameInput: View {
     }
 }
 
-struct PostButton: View {
-    @Binding var templateName: String
-    @Binding var exercises: [Int: Exercise]
-    @Binding var isShowingHomeScreen: Bool
-
-    var body: some View {
-        Button(action: {
-            postTemplateToFirebase(templateName: templateName, exercises: exercises) { success in
-                if success {
-                    print("Template and exercises posted successfully.")
-                    isShowingHomeScreen = true
-                } else {
-                    print("Failed to post template.")
-                }
-            }
-        }) {
-            Text("Post")
-                .font(.body)
-                .foregroundColor(Theme.secondaryColor)
-                .padding()
-                .background(Theme.primaryColor)
-                .cornerRadius(10)
-        }
-        .padding(.top, 30)
-    }
-}
-
-// Update streak information
-//func updateStreak(userId: String, currentDate: Date) {
-//    let db = Firestore.firestore()
-//    let userRef = db.collection("users").document(userId)
-//    
-//    userRef.getDocument { (document, error) in
-//        if let document = document, document.exists {
-//            let lastPostDate = document.data()?["lastPostDate"] as? Timestamp ?? Timestamp(date: Date(timeIntervalSince1970: 0))
-//            let currentStreak = document.data()?["currentStreak"] as? Int ?? 0
-//            let highestStreak = document.data()?["highestStreak"] as? Int ?? 0
-//
-//            let calendar = Calendar.current
-//            let daysSinceLastPost = calendar.dateComponents([.day], from: lastPostDate.dateValue(), to: currentDate).day ?? 0
-//            
-//            var newStreak = daysSinceLastPost == 1 ? currentStreak + 1 : (daysSinceLastPost == 0 ? currentStreak : 1)
-//            let newHighestStreak = max(newStreak, highestStreak)
-//
-//            userRef.updateData([
-//                "lastPostDate": Timestamp(date: currentDate),
-//                "currentStreak": newStreak,
-//                "highestStreak": newHighestStreak
-//            ])
-//
-//            // Grant badge for specific streak milestones (e.g., 7 days)
-//            if newStreak == 7 {
-//                userRef.collection("badges").document("7DayStreak").setData([
-//                    "name": "7-Day Streak",
-//                    "dateAchieved": Timestamp(date: currentDate)
-//                ])
-//            }
-//        } else {
-//            print("User document does not exist")
-//        }
-//    }
-//}
-
-
-#Preview {
-    NewTemplateView()
-}

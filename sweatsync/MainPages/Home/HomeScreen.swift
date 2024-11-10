@@ -10,6 +10,8 @@ import Firebase
 
 struct HomeScreenView: View {
     @State private var userName: String = ""
+    @State private var mainUserName: String = ""
+    @State private var timestamp: String = ""
     @State private var posts: [Post] = []
     @State private var isLoading = true
     @State private var profileImage: UIImage? = nil
@@ -29,19 +31,19 @@ struct HomeScreenView: View {
                         Image(systemName: "person.circle.fill")
                             .resizable()
                             .frame(width: 50, height: 50)
-                            .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255))
+                            .foregroundColor(Theme.primaryColor)
                     }
                     
                     
                     VStack(alignment: .leading) {
-                        Text("Hi, \(userName)")
+                        Text("Hi, \(mainUserName)")
                             .font(.title3)
                             .bold()
                             .foregroundColor(.white)
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    self.getUser()
-                                    fetchPosts()
+//                                    self.getUser()
+                                    self.fetchPosts()
                                 }
                             }
                         
@@ -54,7 +56,7 @@ struct HomeScreenView: View {
                     
                     NavigationLink(destination: SearchScreenView()) {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color(red: 208/255, green: 247/255, blue: 147/255))
+                            .foregroundColor(Theme.primaryColor)
                             .font(.title)
                     }
  
@@ -68,11 +70,10 @@ struct HomeScreenView: View {
                         .progressViewStyle(CircularProgressViewStyle())
                 } else {
                     List($posts) { $post in
-                        WorkoutPostCard(post: $post)
+                        WorkoutPostCard(post: $post, currUserName: mainUserName)
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color.black)
-                    }
-                    .listStyle(.plain)
+                    }.listStyle(.plain)
                 }
                 
                 Spacer()
@@ -84,7 +85,6 @@ struct HomeScreenView: View {
     func getUser() {
         guard let user = Auth.auth().currentUser else {
             print("User not logged in")
-            print("here")
             return
         }
 
@@ -96,7 +96,7 @@ struct HomeScreenView: View {
                 print("Error fetching user data: \(error.localizedDescription)")
             } else if let document = document, document.exists {
                 if let fetchedName = document.data()?["preferredName"] as? String {
-                    self.userName = fetchedName
+                    self.mainUserName = fetchedName
                 } else {
                     print("Error fetching preferred name")
                 }
@@ -109,7 +109,7 @@ struct HomeScreenView: View {
             }
         }
     }
-
+    
     func fetchPosts() {
         guard let user = Auth.auth().currentUser else {
             print("User not logged in")
@@ -117,32 +117,118 @@ struct HomeScreenView: View {
         }
 
         let db = Firestore.firestore()
-        db.collection("users").document(user.uid).collection("posts").getDocuments { snapshot, error in
+        let userId = user.uid
+        
+        db.collection("users").document(userId).getDocument { document, error in
             if let error = error {
-                print("Error fetching posts: \(error.localizedDescription)")
-                self.isLoading = false
-                return
-            }
+                print("Error fetching user data: \(error.localizedDescription)")
+            } else if let document = document, document.exists {
+                if let fetchedName = document.data()?["preferredName"] as? String {
+                    let userName = fetchedName
+                    self.mainUserName = fetchedName
+                   
 
-            if let documents = snapshot?.documents {
-                self.posts = documents.compactMap { document in
-                    var exercises: [Exercise] = []
-                    if let exerciseArray = document.data()["exercises"] as? [[String: Any]] {
-                        exercises = exerciseArray.compactMap { data in
-                            let exercise = Exercise()
-                            exercise.exerciseType = data["exerciseType"] as? String ?? ""
-                            exercise.exerciseName = data["exerciseName"] as? String ?? ""
-                            exercise.warmUpSets = (data["warmUpSets"] as? [[String: String]])?.map { ($0["weight"]!, $0["reps"]!) } ?? []
-                            exercise.workingSets = (data["workingSets"] as? [[String: String]])?.map { ($0["weight"]!, $0["reps"]!) } ?? []
-                            exercise.notes = data["notes"] as? String ?? ""
-                            return exercise
+                    if let base64ImageString = document.data()?["profileImageBase64"] as? String,
+                       let imageData = Data(base64Encoded: base64ImageString),
+                       let image = UIImage(data: imageData) {
+                        self.profileImage = image
+                    }
+
+                    // Print after fetching the userName
+                    print(userName)
+                    
+                    // Initialize an empty array to collect all posts
+                    var allPosts: [Post] = []
+
+                    // Fetch current user's posts
+                    db.collection("users").document(userId).collection("posts").getDocuments { snapshot, error in
+                        if let error = error {
+                            print("Error fetching user's posts: \(error.localizedDescription)")
+                            self.isLoading = false
+                            return
+                        }
+
+                        if let documents = snapshot?.documents {
+                            let userPosts = documents.compactMap { document in
+                                var exercises: [Exercise] = []
+                                if let exerciseArray = document.data()["exercises"] as? [[String: Any]] {
+                                    exercises = exerciseArray.compactMap { data in
+                                        let exercise = Exercise()
+                                        exercise.exerciseType = data["exerciseType"] as? String ?? ""
+                                        exercise.exerciseName = data["exerciseName"] as? String ?? ""
+                                        exercise.warmUpSets = (data["warmUpSets"] as? [[String: String]])?.map { ($0["weight"]!, $0["reps"]!) } ?? []
+                                        exercise.workingSets = (data["workingSets"] as? [[String: String]])?.map { ($0["weight"]!, $0["reps"]!) } ?? []
+                                        exercise.notes = data["notes"] as? String ?? ""
+                                        return exercise
+                                    }
+                                }
+
+                                let timestamp = (document.data()["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                                print(userName)
+                                
+                                return Post(id: document.documentID, userId: userId, templateName: document.data()["templateName"] as? String ?? "", exercises: exercises, userName: userName, timestamp: timestamp)
+                            }
+                            allPosts.append(contentsOf: userPosts)
+                        }
+
+                        // Fetch followed users' posts
+                        db.collection("users").document(userId).collection("following").getDocuments { followingSnapshot, error in
+                            if let error = error {
+                                print("Error fetching following list: \(error.localizedDescription)")
+                                self.isLoading = false
+                                return
+                            }
+
+                            let followingIds = followingSnapshot?.documents.compactMap { $0.documentID } ?? []
+                            
+                            let group = DispatchGroup() 
+
+                            for followedUserId in followingIds {
+                                group.enter()
+                                db.collection("users").document(followedUserId).getDocument { userDocument, error in
+                                    if let userDocument = userDocument, userDocument.exists, let followedUserName = userDocument.data()?["preferredName"] as? String {
+                                        
+                                        db.collection("users").document(followedUserId).collection("posts").getDocuments { postSnapshot, error in
+                                            if let postDocuments = postSnapshot?.documents {
+                                                let followedUserPosts = postDocuments.compactMap { document in
+                                                    var exercises: [Exercise] = []
+                                                    if let exerciseArray = document.data()["exercises"] as? [[String: Any]] {
+                                                        exercises = exerciseArray.compactMap { data in
+                                                            let exercise = Exercise()
+                                                            exercise.exerciseType = data["exerciseType"] as? String ?? ""
+                                                            exercise.exerciseName = data["exerciseName"] as? String ?? ""
+                                                            exercise.warmUpSets = (data["warmUpSets"] as? [[String: String]])?.map { ($0["weight"]!, $0["reps"]!) } ?? []
+                                                            exercise.workingSets = (data["workingSets"] as? [[String: String]])?.map { ($0["weight"]!, $0["reps"]!) } ?? []
+                                                            exercise.notes = data["notes"] as? String ?? ""
+                                                            return exercise
+                                                        }
+                                                    }
+                                                    
+                                                    let timestamp = (document.data()["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                                                    
+                                                    return Post(id: document.documentID, userId: followedUserId, templateName: document.data()["templateName"] as? String ?? "", exercises: exercises, userName: followedUserName, timestamp: timestamp)
+                                                }
+                                                allPosts.append(contentsOf: followedUserPosts)
+                                            }
+                                            group.leave()
+                                        }
+                                    } else {
+                                        group.leave()
+                                    }
+                                }
+                            }
+                            
+                            group.notify(queue: .main) {
+                                //sort posts by timestamp in descending order (newest first)
+                                self.posts = allPosts.sorted(by: { $0.timestamp > $1.timestamp })
+                                self.isLoading = false
+                            }
                         }
                     }
-                    return Post(id: document.documentID, templateName: document.data()["templateName"] as? String ?? "", exercises: exercises)
+                } else {
+                    print("Error fetching preferred name")
                 }
             }
-
-            self.isLoading = false
         }
     }
 }

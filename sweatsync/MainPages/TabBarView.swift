@@ -25,8 +25,8 @@ struct TabBarView: View {
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                 }
-            
-            HomeScreenView()
+        
+            Text("Notifications Page - Final Release")
                 .tabItem {
                     Image(systemName: "bell.fill")
                 }

@@ -54,6 +54,9 @@
 		CFA45E682CBF30D300D9CA01 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CFA45E672CBF30D300D9CA01 /* FirebaseFirestore */; };
 		CFA45E6A2CBF30D300D9CA01 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = CFA45E692CBF30D300D9CA01 /* FirebaseFirestoreCombine-Community */; };
 		CFD18BF42CDDD27E001B910C /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD18BF32CDDD27E001B910C /* SearchScreen.swift */; };
+		CFE8A5A52CDFE2BE00C166A2 /* WorkoutPostCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5A42CDFE2BE00C166A2 /* WorkoutPostCard.swift */; };
+		CFE8A5A72CDFEA6E00C166A2 /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5A62CDFEA6E00C166A2 /* PostButton.swift */; };
+		CFE8A5AB2CDFFBC800C166A2 /* ExistingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */; };
 		CFF378A32CDCA4520000C7B9 /* ExcerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */; };
 		CFF378A52CDCA5D10000C7B9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CFF378A42CDCA5D10000C7B9 /* FirebaseStorage */; };
 		CFF378AB2CDD763A0000C7B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF378AA2CDD763A0000C7B9 /* GoogleService-Info.plist */; };
@@ -124,6 +127,9 @@
 		CF9A5A9D2CD1E5310002EE5B /* LeagueSpartan-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Medium.ttf"; sourceTree = "<group>"; };
 		CF9A5A9E2CD1E5310002EE5B /* LeagueSpartan-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Light.ttf"; sourceTree = "<group>"; };
 		CFD18BF32CDDD27E001B910C /* SearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
+		CFE8A5A42CDFE2BE00C166A2 /* WorkoutPostCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPostCard.swift; sourceTree = "<group>"; };
+		CFE8A5A62CDFEA6E00C166A2 /* PostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
+		CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingTemplate.swift; sourceTree = "<group>"; };
 		CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcerciseDetailView.swift; sourceTree = "<group>"; };
 		CFF378AA2CDD763A0000C7B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "sweatsync/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -273,6 +279,7 @@
 				49EE6D892CBE149900405025 /* WorkoutPost.swift */,
 				3BBED2752CCA04E800DC851A /* LikeButton.swift */,
 				CFD18BF32CDDD27E001B910C /* SearchScreen.swift */,
+				CFE8A5A42CDFE2BE00C166A2 /* WorkoutPostCard.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -284,6 +291,8 @@
 				CF7A73E52CC771BC00497F3F /* NewTemplate.swift */,
 				CF7A73E92CC968B800497F3F /* Exercise.swift */,
 				CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */,
+				CFE8A5A62CDFEA6E00C166A2 /* PostButton.swift */,
+				CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -483,6 +492,7 @@
 				49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */,
 				CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */,
 				49691D412CB8E19E0012DEC5 /* MainScreen.swift in Sources */,
+				CFE8A5AB2CDFFBC800C166A2 /* ExistingTemplate.swift in Sources */,
 				49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */,
 				49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */,
 				CFF378A32CDCA4520000C7B9 /* ExcerciseDetailView.swift in Sources */,
@@ -491,6 +501,7 @@
 				49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */,
 				49EE6D802CBE0E0900405025 /* FillProfileScreen.swift in Sources */,
 				3BBED2762CCA04E800DC851A /* LikeButton.swift in Sources */,
+				CFE8A5A52CDFE2BE00C166A2 /* WorkoutPostCard.swift in Sources */,
 				49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */,
 				CFD18BF42CDDD27E001B910C /* SearchScreen.swift in Sources */,
 				CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */,
@@ -499,6 +510,7 @@
 				49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */,
 				49EE6D882CBE133A00405025 /* TabBarView.swift in Sources */,
 				49EE6D7D2CBE045800405025 /* SignUpScreen.swift in Sources */,
+				CFE8A5A72CDFEA6E00C166A2 /* PostButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

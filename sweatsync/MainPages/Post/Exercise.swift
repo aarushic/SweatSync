@@ -13,10 +13,10 @@ public class Exercise: ObservableObject, Identifiable {
     @Published var warmUpSets: [(String, String)]
     @Published var workingSets: [(String, String)]
     @Published var notes: String
-    @Published var imageUrl: String?  // URL to the uploaded image in Firebase
-    @Published var selectedImageData: Data?  // Temporarily store selected image data before upload
+    @Published var imageUrl: String?
+    @Published var selectedImageData: Data?
 
-    public let id: UUID  // Unique identifier to conform to Identifiable
+    public let id: UUID  
 
     init() {
         self.exerciseType = ""
