@@ -133,8 +133,6 @@ struct ProfileScreen: View {
                 self.userName = document.data()?["preferredName"] as? String ?? "Name"
                 self.userBio = document.data()?["bio"] as? String ?? "User Bio"
                 self.streakDays = document.data()?["currentStreak"] as? Int ?? 0
-                self.followersCount = document.data()?["followersCount"] as? Int ?? 0
-                self.followingCount = document.data()?["followingCount"] as? Int ?? 0
                 
                 if let base64ImageString = document.data()?["profileImageBase64"] as? String,
                    let imageData = Data(base64Encoded: base64ImageString),
@@ -145,6 +143,20 @@ struct ProfileScreen: View {
                 self.trainingPreferences = document.data()?["trainingPreferences"] as? [String] ?? []
             } else {
                 print("User document does not exist")
+            }
+        }
+        
+        // Fetch follower count
+        userRef.collection("followers").getDocuments { snapshot, error in
+            if let snapshot = snapshot {
+                self.followersCount = snapshot.count
+            }
+        }
+        
+        // Fetch following count
+        userRef.collection("following").getDocuments { snapshot, error in
+            if let snapshot = snapshot {
+                self.followingCount = snapshot.count
             }
         }
         

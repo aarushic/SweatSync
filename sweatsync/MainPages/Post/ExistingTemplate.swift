@@ -158,11 +158,14 @@ struct ExistingTemplate: View {
             postData["templateImageBase64"] = imageData.base64EncodedString()
         }
 
+        updateStreak(user)
+        
         db.collection("users").document(userId).collection("posts").addDocument(data: postData) { error in
             if let error = error {
                 print("Error posting template with image: \(error.localizedDescription)")
             } else {
                 print("Template posted successfully.")
+                updateLastPostDate(user)
             }
         }
     }

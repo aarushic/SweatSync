@@ -93,6 +93,8 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], sa
     }
 
     templateData["exercises"] = exerciseArray
+    
+    updateStreak(user)
 
     // Add to posts collection for the user's feed
     db.collection("users").document(userId).collection("posts").addDocument(data: templateData) { error in
@@ -101,7 +103,8 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], sa
             completion(false)
         } else {
             print("Template posted successfully to posts.")
-            
+            updateLastPostDate(user)
+
             // If saveAsTemplate is true, save to templates collection as well
             if saveAsTemplate {
                 db.collection("users").document(userId).collection("templates").addDocument(data: templateData) { error in
@@ -119,6 +122,50 @@ func postTemplateToFirebase(templateName: String, exercises: [Int: Exercise], sa
         }
     }
 }
+
+// Update user's lastPostDate field
+func updateLastPostDate(_ user : UserInfo) {
+    let db = Firestore.firestore()
+    let currentDate = Date()
+    db.collection("users").document(user.uid).setData(["lastPostDate": Timestamp(date: currentDate)], merge: true) {
+        error in
+        if let error = error {
+            print("Error adding date: \(error.localizedDescription)")
+        }
+        else {
+            print("Updated lastPostDate successfully")
+        }
+    }
+}
+
+// Update a user's currentStreak
+func updateStreak(_ user : UserInfo) {
+
+    let db = Firestore.firestore()
+    let currentDate = Date()
+    
+    let userRef = db.collection("users").document(user.uid)
+    
+    userRef.getDocument { document, error in
+        if let document = document, document.exists {
+            let lastPostDate = document.data()? ["lastPostDate"] as? Timestamp ?? Timestamp(date: Date(timeIntervalSince1970: 0))
+            let currentStreak = document.data()? ["currentStreak"] as? Int ?? 0
+            
+            let calendar = Calendar.current
+            let daysSinceLastPost = calendar.dateComponents([.day], from: lastPostDate.dateValue(), to: currentDate).day ?? 0
+            print("\ncurrentStreak \(currentStreak) \nDays since last post \(daysSinceLastPost)")
+            
+            var newStreak = 1
+            if(daysSinceLastPost != 0){
+                if(daysSinceLastPost == 1) {
+                    newStreak = currentStreak + 1
+                }
+                userRef.setData(["currentStreak": newStreak], merge: true)
+            }
+        }
+    }
+}
+
 
 struct TemplateNameInput: View {
     @Binding var templateName: String
