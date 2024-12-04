@@ -10,13 +10,15 @@ import Foundation
 public class Exercise: ObservableObject, Identifiable {
     @Published var exerciseType: String
     @Published var exerciseName: String
+    //strength exercise 
     @Published var warmUpSets: [(String, String)]
     @Published var workingSets: [(String, String)]
+    //sprint exercise
+    @Published var distance: String
+    @Published var time: String
     @Published var notes: String
-    @Published var imageUrl: String?
-    @Published var selectedImageData: Data?
-
-    public let id: UUID  
+    
+    public let id: UUID
 
     init() {
         self.exerciseType = ""
@@ -24,8 +26,10 @@ public class Exercise: ObservableObject, Identifiable {
         self.warmUpSets = [("", "")]
         self.workingSets = [("", "")]
         self.notes = ""
-        self.imageUrl = nil
-        self.selectedImageData = nil
         self.id = UUID()
+        self.distance = ""
+        self.time = ""
     }
 }
+
+

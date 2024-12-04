@@ -16,12 +16,12 @@ struct SignUpScreen: View {
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     @State private var errorMessage: String? = nil
+    @State private var isShowingLoginScreen: Bool = false
     @State private var isShowingOnboarding: Bool = false
     
     @EnvironmentObject var session: SessionManager
 
     var body: some View {
-        NavigationStack {
             VStack() {
                 //top part
                 HStack {
@@ -30,7 +30,7 @@ struct SignUpScreen: View {
                         .foregroundColor(Theme.primaryColor)
                         .frame(alignment: .center)
                 }
-                .padding(.bottom, 40)
+                .padding(.vertical, 30)
                 .background(Color.black)
                 
                 //welcome text
@@ -44,87 +44,92 @@ struct SignUpScreen: View {
                 //sign up form fields
                 VStack() {
                     VStack(spacing: 2) {
-                        VStack(alignment: .leading, spacing: 8) {
+                        VStack(alignment: .leading) {
                             Text("Full Name")
-                                .font(.custom("Poppins-Regular", size: 17))
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(Theme.secondaryColor)
                             
                             TextField("", text: $fullName)
-                                .font(.custom("Poppins-Regular", size: 14))
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(.white)
                                 .padding()
                                 .background(Theme.secondaryColor)
                                 .cornerRadius(10)
                                 .textInputAutocapitalization(.never)
                                 .disableAutocorrection(true)
+                                .onSubmit {
+                                    dismissKeyboard()
+                                }
                         }
                         .frame(width: 320)
-                        .padding(.bottom, 10)
+                        .padding(.vertical, 20)
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Email")
-                                .font(.custom("Poppins-Regular", size: 17))
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(Theme.secondaryColor)
                             
-                            TextField("Password", text: $username)
-                                .font(.custom("Poppins-Regular", size: 14))
+                            TextField("", text: $username)
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(.white)
                                 .padding()
                                 .background(Theme.secondaryColor)
                                 .cornerRadius(10)
                                 .textInputAutocapitalization(.never)
                                 .disableAutocorrection(true)
+                                .onSubmit {
+                                    dismissKeyboard()
+                                }
                         }
                         .frame(width: 320)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 20)
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Password")
-                                .font(.custom("Poppins-Regular", size: 17))
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(Theme.secondaryColor)
                             
-                            SecureField("Password", text: $password)
-                                .font(.custom("Poppins-Regular", size: 14))
+                            SecureField("", text: $password)
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(.white)
                                 .padding()
                                 .background(Theme.secondaryColor)
                                 .cornerRadius(10)
                                 .textInputAutocapitalization(.never)
                                 .disableAutocorrection(true)
+                                .onSubmit {
+                                    dismissKeyboard()
+                                }
                         }
                         .frame(width: 320)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 20)
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Confirm Password")
-                                .font(.custom("Poppins-Regular", size: 17))
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(Theme.secondaryColor)
                             
-                            SecureField("Password", text: $confirmPassword)
-                                .font(.custom("Poppins-Regular", size: 14))
+                            SecureField("", text: $confirmPassword)
+                                .font(.custom(Theme.headingFont2, size: 19))
                                 .foregroundColor(.white)
                                 .padding()
                                 .background(Theme.secondaryColor)
                                 .cornerRadius(10)
                                 .textInputAutocapitalization(.never)
                                 .disableAutocorrection(true)
+                                .onSubmit {
+                                    dismissKeyboard()
+                                }
                         }
                         .frame(width: 320)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 20)
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(maxHeight: .infinity)
                     .background(Theme.primaryColor)
-                    .cornerRadius(0)
                 }
                 .edgesIgnoringSafeArea(.horizontal)
-                .padding(.vertical, 60)
-                
-                //error message
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                }
+                .padding(.top, 20)
+                .padding(.bottom, 70)
                 
                 //sign up button
                 Button(action: {
@@ -132,30 +137,48 @@ struct SignUpScreen: View {
                 }) {
                     Text("Sign Up")
                         .frame(width: 200, height: 50)
+                        .font(.custom(Theme.headingFont2, size: 19))
                         .background(Theme.secondaryColor)
-                        .foregroundColor(.white)
                         .cornerRadius(25)
+                        .foregroundColor(fullName.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty ? Color.gray : Color.white)
+                }
+                .disabled(fullName.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty)
+                .padding(.top, -50)
+                
+                //error message
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding(.top, 10)
                 }
                 
+                Spacer()
                 
                 //already have an account
                 HStack {
                     Text("Already have an account?")
+                        .font(.custom(Theme.bodyFont, size: 16))
                         .foregroundColor(.white)
-                    NavigationLink {
-                        LoginScreen()
-                    } label: {
-                        Text("Log in").foregroundColor(Theme.primaryColor)
+                    Button(action: {
+                        isShowingLoginScreen = true
+                    }) {
+                        Text("Log In")
+                            .foregroundColor(Theme.primaryColor)
+                            .font(.custom(Theme.bodyFont, size: 16))
                     }
                 }
 
             }
             .background(Color.black.ignoresSafeArea())
+            .onTapGesture {
+                dismissKeyboard()
+            }
             .fullScreenCover(isPresented: $isShowingOnboarding) {
                 FillProfileScreen()
             }
-        }
-        
+            .fullScreenCover(isPresented: $isShowingLoginScreen) {
+                LoginScreen()
+            }
     }
 
     private func createUser() {
@@ -187,7 +210,9 @@ struct SignUpScreen: View {
                 db.collection("users").document(uid).setData([
                     "fullName": fullName,
                     "email": username,
-                    "uid": uid
+                    "uid": uid,
+                    "notificationsEnabled": true,
+                    "commentsDisabled": false
                 ]) { err in
                     if let err = err {
                         //firestore error
@@ -203,7 +228,6 @@ struct SignUpScreen: View {
         })
     }
 }
- 
 
 struct Previews: PreviewProvider {
     static var previews: some View {

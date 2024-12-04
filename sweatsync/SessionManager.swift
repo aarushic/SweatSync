@@ -7,9 +7,10 @@
 
 import Foundation
 import FirebaseAuth
+import UserNotifications
 
 final class SessionManager: ObservableObject {
-    
+    private let notificationDelegate = NotificationDelegate()
     private let isSignedInKey = "isSignedIn"
         
     enum CurrentState {
@@ -21,6 +22,9 @@ final class SessionManager: ObservableObject {
     
     init() {
         configureCurrentState()
+        // set notifications delegate
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = notificationDelegate
     }
     
     func configureCurrentState() {
@@ -31,6 +35,8 @@ final class SessionManager: ObservableObject {
     func signIn() {
         currentState = .isSignedIn
         UserDefaults.standard.set(true, forKey: isSignedInKey)
+        // Ask for notification permissions after signing in
+        requestNotificationPermissions()
     }
     
     func signOut() {
@@ -40,6 +46,19 @@ final class SessionManager: ObservableObject {
             UserDefaults.standard.set(false, forKey: isSignedInKey)
         } catch let signOutError as NSError {
             print("Error \(signOutError.localizedDescription)")
+        }
+    }
+    
+    private func requestNotificationPermissions() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permissions: \(error)")
+            } else if granted {
+                print("Notifications permission granted")
+            } else {
+                print("Notifications permission denied")
+            }
         }
     }
 }

@@ -11,10 +11,8 @@ import SwiftUI
 struct OnboardingScreen3: View {
     var body: some View {
         NavigationStack {
-            
             VStack {
                 Spacer()
-                
                 //green box
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Theme.primaryColor)
@@ -31,18 +29,22 @@ struct OnboardingScreen3: View {
                             //text
                             Text("Stay Motivated with Rewards and Challenges")
                                 .foregroundColor(.black)
-                                .font(.title)
+                                .font(.custom(Theme.headingFont, size: 26))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 9)
                             
                             VStack(spacing: 30){
                                 Text("Earn badges, build streaks, and climb leaderboards!")
                                     .foregroundColor(Theme.secondaryColor)
+                                    .font(.custom(Theme.bodyFont, size: 21))
                                     .multilineTextAlignment(.center)
+                                    .lineSpacing(3)
                                 
                                 Text("Engage with friends, challenge each other, and celebrate milestones together in an exciting, community-driven fitness experience.")
                                     .foregroundColor(Theme.secondaryColor)
+                                    .font(.custom(Theme.bodyFont, size: 21))
                                     .multilineTextAlignment(.center)
+                                    .lineSpacing(3)
                             }
                             .padding(.horizontal, 35)
                             
@@ -50,6 +52,7 @@ struct OnboardingScreen3: View {
                             NavigationLink(destination: TabBarView()) {
                                 Text("Next")
                                     .frame(width: 170, height: 50)
+                                    .font(.custom(Theme.headingFont, size: 16))
                                     .background(Theme.secondaryColor)
                                     .foregroundColor(.white)
                                     .cornerRadius(25)

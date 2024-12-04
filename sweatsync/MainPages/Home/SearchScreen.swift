@@ -11,38 +11,51 @@ import SwiftUI
 import Firebase
 
 struct SearchScreenView: View {
-    @State private var searchEmail: String = ""
-    @State private var foundUser: User? = nil
-    @State private var searchStatus: String = ""
-    @State private var isFollowing: Bool = false // To track if the current user is following the found user
-    
+   @State private var searchEmail: String = ""
+   @State private var foundUser: User? = nil
+   @State private var searchStatus: String = ""
+   @State private var isFollowing: Bool = false
+   
     var body: some View {
         NavigationView {
             ZStack {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    HStack {
-                        TextField("Enter email to search", text: $searchEmail)
-                            .font(.custom("YourFontName", size: 19))
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                            .textInputAutocapitalization(.never)
-                            .disableAutocorrection(true)
-                        
+                    HStack(spacing: 10) {
+                        ZStack(alignment: .leading) {
+                           if searchEmail.isEmpty {
+                               Text("Enter email to search")
+                                   .foregroundColor(.white.opacity(0.5))
+                                   .padding(.leading, 15)
+                                   .font(.custom(Theme.bodyFont, size: 18))
+                           }
+                           
+                           TextField("", text: $searchEmail)
+                               .font(.custom(Theme.bodyFont, size: 18))
+                               .foregroundColor(.white)
+                               .padding()
+                               .background(Color.gray.opacity(0.2))
+                               .cornerRadius(10)
+                               .frame(height: 50)
+                               .textInputAutocapitalization(.never)
+                               .disableAutocorrection(true)
+                               .onSubmit {
+                                   dismissKeyboard()
+                               }
+                       }
+                       
                         Button(action: {
                             searchForUserByEmail()
                         }) {
                             Text("Search")
+                                .font(.custom(Theme.bodyFont, size: 18))
                                 .foregroundColor(Theme.secondaryColor)
-                                .padding(.vertical, 10)
+                                .frame(height: 50)
                                 .padding(.horizontal, 20)
                                 .background(Theme.primaryColor)
                                 .cornerRadius(10)
                         }
-                        .padding(.trailing)
                     }
                     .padding(.top, 40)
                     
@@ -53,15 +66,19 @@ struct SearchScreenView: View {
                                 toggleFollowStatus(for: user)
                             }
                         }
-                        .buttonStyle(PlainButtonStyle()) // To prevent button styling in NavigationLink
+                        .buttonStyle(PlainButtonStyle())
                     } else {
                         Text(searchStatus)
+                            .font(.custom(Theme.bodyFont, size: 16))
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                 }
                 .padding()
+            }
+            .onTapGesture {
+                dismissKeyboard()
             }
         }
     }
@@ -130,12 +147,15 @@ struct SearchScreenView: View {
             }
         }
         
-        // Add to target user's followers collection with a document reference
+        //add to target user's followers collection with a document reference
         db.collection("users").document(user.id).collection("followers").document(currentUserId).setData([
             "userRef": currentUserRef
         ]) { error in
             if let error = error {
                 print("Error adding follower: \(error.localizedDescription)")
+            } else {
+                print("\(user.preferredName) has been notified of the follow.")
+                sendFollowNotification(to: user.id, from: currentUserId)
             }
         }
     }
@@ -144,7 +164,7 @@ struct SearchScreenView: View {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
 
-        // Remove from current user's following collection
+        //remove from current user's following collection
         db.collection("users").document(currentUserId).collection("following").document(user.id).delete { error in
             if let error = error {
                 print("Error unfollowing user: \(error.localizedDescription)")
@@ -154,63 +174,12 @@ struct SearchScreenView: View {
             }
         }
 
-        // Remove from target user's followers collection
+        //remove from target user's followers collection
         db.collection("users").document(user.id).collection("followers").document(currentUserId).delete { error in
             if let error = error {
                 print("Error removing follower: \(error.localizedDescription)")
             }
         }
-    }
-
-
-}
-
-struct User: Identifiable {
-    var id: String
-    var preferredName: String
-    var profilePictureUrl: String
-}
-
-struct UserProfileCardView: View {
-    let user: User
-    @Binding var isFollowing: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        HStack {
-            AsyncImage(url: URL(string: user.profilePictureUrl)) { image in
-                image.resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Color.gray
-            }
-            .frame(width: 50, height: 50)
-            .clipShape(Circle())
-            
-            VStack(alignment: .leading) {
-                Text(user.preferredName)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                
-                Text(isFollowing ? "Following" : "Not Following")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            
-            Spacer()
-            
-            Button(action: action) {
-                Text(isFollowing ? "Unfollow" : "Follow")
-                    .foregroundColor(isFollowing ? .white : Theme.secondaryColor)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(isFollowing ? Color.red : Theme.primaryColor)
-                    .cornerRadius(10)
-            }
-        }
-        .padding()
-        .background(Color.gray.opacity(0.2))
-        .cornerRadius(10)
     }
 }
 

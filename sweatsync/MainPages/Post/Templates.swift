@@ -16,37 +16,49 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // Title
                 Text("Choose Existing Template For Your Post")
-                    .font(.headline)
+                    .font(.custom(Theme.bodyFont, size: 20))
                     .foregroundColor(.white)
                     .padding(.top, 20)
+                    .multilineTextAlignment(.center)
                 
-                // List of templates
                 List(templates) { template in
                     NavigationLink(destination: ExistingTemplate(template: template)) {
-                        Text(template.templateName)
-                            .font(.headline)
-                            .foregroundColor(.white)
+                        HStack {
+                            Text(template.templateName)
+                                .font(.custom(Theme.bodyFont, size: 18))
+                                .foregroundColor(.white)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(Theme.primaryColor)
+                        }
+                        .padding()
+                        .background(Theme.secondaryColor)
+                        .cornerRadius(8)
+                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                     }
-                    .listRowBackground(Theme.secondaryColor)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.black)
                 .frame(height: 400)
-                .cornerRadius(10)
-                    
-    
+                .cornerRadius(12)
+                .padding(.horizontal)
+                .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
+                .listStyle(PlainListStyle())
                 
                 Spacer()
                 
-                // "Create New Template" button
                 NavigationLink(destination: NewTemplateView()) {
-                    Text("Create new Template")
-                        .font(.body)
-                        .foregroundColor(.white)
+                    Text("Create New Post")
+                        .font(.custom(Theme.bodyFont, size: 18))
+                        .foregroundColor(Theme.secondaryColor)
                         .padding()
-                        .background(Theme.secondaryColor)
+                        .background(Theme.primaryColor)
                         .cornerRadius(10)
                 }
                 .padding(.bottom, 30)
@@ -60,7 +72,7 @@ struct TemplatesView: View {
             }
         }
     }
-    
+
     // Fetch templates from Firebase
     func fetchTemplates() {
         guard let user = Auth.auth().currentUser else {
@@ -83,26 +95,30 @@ struct TemplatesView: View {
                 let exercisesData = data["exercises"] as? [[String: Any]] ?? []
 
                 var exercises: [Exercise] = exercisesData.compactMap { exerciseData in
-                    let exerciseType = exerciseData["exerciseType"] as? String ?? ""
-                    let exerciseName = exerciseData["exerciseName"] as? String ?? ""
-                    let notes = exerciseData["notes"] as? String ?? ""
-                    let warmUpSetsData = exerciseData["warmUpSets"] as? [[String: String]] ?? []
-                    let workingSetsData = exerciseData["workingSets"] as? [[String: String]] ?? []
-
-                    let warmUpSets = warmUpSetsData.compactMap { set in
-                        (set["weight"] ?? "", set["reps"] ?? "")
-                    }
-                    let workingSets = workingSetsData.compactMap { set in
-                        (set["weight"] ?? "", set["reps"] ?? "")
-                    }
-
                     let exercise = Exercise()
-                    exercise.exerciseType = exerciseType
-                    exercise.exerciseName = exerciseName
-                    exercise.warmUpSets = warmUpSets
-                    exercise.workingSets = workingSets
-                    exercise.notes = notes
-                    
+
+                    exercise.exerciseType = exerciseData["exerciseType"] as? String ?? ""
+                    exercise.exerciseName = exerciseData["exerciseName"] as? String ?? ""
+                    exercise.notes  = exerciseData["notes"] as? String ?? ""
+                  
+                    if exercise.exerciseType == "Sprints" {
+                        exercise.distance = exerciseData["distance"] as? String ?? ""
+                        exercise.time = exerciseData["time"] as? String ?? ""
+                    } else {
+                        let warmUpSetsData = exerciseData["warmUpSets"] as? [[String: String]] ?? []
+                        let workingSetsData = exerciseData["workingSets"] as? [[String: String]] ?? []
+
+                        let warmUpSets = warmUpSetsData.compactMap { set in
+                            (set["weight"] ?? "", set["reps"] ?? "")
+                        }
+                        let workingSets = workingSetsData.compactMap { set in
+                            (set["weight"] ?? "", set["reps"] ?? "")
+                        }
+                        
+                        exercise.warmUpSets = warmUpSets
+                        exercise.workingSets = workingSets
+                    }
+
                     return exercise
                 }
 
@@ -111,8 +127,6 @@ struct TemplatesView: View {
             }
         }
     }
-
-
 }
 
 class Template: ObservableObject, Identifiable {

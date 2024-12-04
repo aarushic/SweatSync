@@ -60,6 +60,9 @@ struct LoginScreen: View {
                             .cornerRadius(10)
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
+                            .onSubmit {
+                                dismissKeyboard()
+                            }
                     }
                     .frame(width: 320)
                     .padding(.horizontal, 16)
@@ -69,7 +72,7 @@ struct LoginScreen: View {
                             .font(.custom(Theme.headingFont2, size: 19))
                             .foregroundColor(Theme.secondaryColor)
                         
-                        SecureField("Password", text: $password)
+                        SecureField("", text: $password)
                             .font(.custom(Theme.headingFont2, size: 19))
                             .foregroundColor(.white)
                             .padding()
@@ -77,6 +80,9 @@ struct LoginScreen: View {
                             .cornerRadius(10)
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
+                            .onSubmit {
+                                dismissKeyboard()
+                            }
                     }
                     .frame(width: 320)
                     .padding(.horizontal, 16)
@@ -88,7 +94,7 @@ struct LoginScreen: View {
             }
             .edgesIgnoringSafeArea(.horizontal)
             .padding(.vertical, 20)
-            
+
             
             //log in button
             Button(action: {
@@ -116,19 +122,22 @@ struct LoginScreen: View {
             //sign up option
             HStack {
                 Text("Don't have an account?")
-                    .font(.custom(Theme.bodyFont, size: 19))
+                    .font(.custom(Theme.bodyFont, size: 16))
                     .foregroundColor(.white)
                 Button(action: {
                     isShowingSignUpScreen = true
                 }) {
                     Text("Sign Up")
                         .foregroundColor(Theme.primaryColor)
-                        .font(.custom(Theme.bodyFont, size: 19))
+                        .font(.custom(Theme.bodyFont, size: 16))
                 }
             }
         }
         .padding(.bottom, 20)
         .background(Color.black.ignoresSafeArea())
+        .onTapGesture {
+            dismissKeyboard()
+        }
         .fullScreenCover(isPresented: $isShowingSignUpScreen) {
             SignUpScreen()
         }
@@ -148,11 +157,14 @@ struct LoginScreen: View {
             // success
             self.errorMessage = nil
             //update the session state
-//            session.signOut()
             session.signIn()
             isShowingHomeScreen = true
         }
     }
+}
+
+func dismissKeyboard() {
+    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 }
 
 struct OnboardingScreen_Previews: PreviewProvider {

@@ -30,17 +30,15 @@ struct CompleteProfileScreen: View {
         NavigationStack {
             VStack(spacing: 50) {
                 Text("Complete Your Profile")
-                    .font(.title)
+                    .font(.custom(Theme.bodyFont, size: 24))
                     .bold()
                     .foregroundColor(.white)
                     .padding(.top, 40)
                 
-                //input fields
                 VStack(spacing: 20) {
-                    //age picker
                     HStack {
                         Text("Age")
-                            .font(.headline)
+                            .font(.custom(Theme.bodyFont, size: 18))
                             .foregroundColor(.white)
                         Spacer()
                         Picker("Height", selection: $age) {
@@ -55,10 +53,9 @@ struct CompleteProfileScreen: View {
                         .cornerRadius(10)
                     }
                 
-                    //height picker
                     HStack {
                         Text("Height (cm)")
-                            .font(.headline)
+                            .font(.custom(Theme.bodyFont, size: 18))
                             .foregroundColor(.white)
                         Spacer()
                         Picker("Height", selection: $height) {
@@ -73,10 +70,9 @@ struct CompleteProfileScreen: View {
                         .cornerRadius(10)
                     }
                     
-                    //weight picker
                     HStack {
                         Text("Weight (lb)")
-                            .font(.headline)
+                            .font(.custom(Theme.bodyFont, size: 18))
                             .foregroundColor(.white)
                         Spacer()
                         Picker("Weight", selection: $weight) {
@@ -94,14 +90,12 @@ struct CompleteProfileScreen: View {
                 .padding()
                 .padding(.horizontal, 20)
                 
-                //training priorities
                 VStack(alignment: .leading) {
                     Text("Training Preferences")
-                        .font(.custom("Poppins-Bold", size: 20))
+                        .font(.custom(Theme.bodyFont, size: 20))
                         .foregroundColor(.white)
                         .padding(.bottom, 10)
                     
-                    //grid layout for preferences
                     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
                     
                     LazyVGrid(columns: columns, spacing: 15) {
@@ -116,11 +110,11 @@ struct CompleteProfileScreen: View {
                 .frame(width: 340)
                 .background(Color.black.ignoresSafeArea())
                 
-                //complete profile
                 Button(action: {
                     completeProfile()
                 }) {
                     Text("Complete Profile")
+                        .font(.custom(Theme.bodyFont, size: 18))
                         .frame(width: 250, height: 50)
                         .background(Theme.primaryColor)
                         .foregroundColor(.black)
@@ -128,9 +122,9 @@ struct CompleteProfileScreen: View {
                 }
                 .padding(.top, 20)
                 
-                //error
                 if let errorMessage = errorMessage {
                     Text(errorMessage)
+                        .font(.custom(Theme.bodyFont, size: 14))
                         .foregroundColor(.red)
                         .padding(.top, 10)
                 }
@@ -144,13 +138,13 @@ struct CompleteProfileScreen: View {
     }
     
     private func completeProfile() {
-        // Check if user is authenticated
+        //Check if user is authenticated
         guard let user = Auth.auth().currentUser else {
             errorMessage = "Unable to retrieve user. Please log in again."
             return
         }
 
-        // Check fields are not empty
+        //check fields are not empty
         guard age != 0, height != 0, weight != 0 else {
             errorMessage = "Please fill in all fields."
             return
@@ -158,7 +152,7 @@ struct CompleteProfileScreen: View {
 
         let db = Firestore.firestore()
         
-        // Collect selected training priorities
+        //collect selected training priorities
         var trainingPreferences: [String] = []
         if lifting { trainingPreferences.append("Lifting") }
         if running { trainingPreferences.append("Running") }
@@ -167,6 +161,11 @@ struct CompleteProfileScreen: View {
         if yoga { trainingPreferences.append("Yoga") }
         if hiking { trainingPreferences.append("Hiking") }
         
+        guard !trainingPreferences.isEmpty else {
+            errorMessage = "Please select at least one training preference."
+            return
+        }
+        
         let additionalProfileData: [String: Any] = [
             "age": age,
             "height": height,
@@ -174,7 +173,7 @@ struct CompleteProfileScreen: View {
             "trainingPreferences": trainingPreferences
         ]
 
-        // Update profile data in Firebase
+        //Update profile data in Firebase
         db.collection("users").document(user.uid).updateData(additionalProfileData) { err in
             if let err = err {
                 errorMessage = "Error: \(err.localizedDescription)"
@@ -184,26 +183,7 @@ struct CompleteProfileScreen: View {
                 print("Profile successfully updated with training preferences")
             }
         }
-
         session.signIn()
-    }
-}
-
-struct PreferenceToggle: View {
-    let title: String
-    @Binding var isSelected: Bool
-    
-    var body: some View {
-        Button(action: {
-            isSelected.toggle()
-        }) {
-            Text(title)
-                .font(.custom("Poppins-Regular", size: 16))
-                .foregroundColor(isSelected ? .black : .white)
-                .frame(maxWidth: .infinity, minHeight: 50)
-                .background(isSelected ? Theme.primaryColor : Theme.secondaryColor)
-                .cornerRadius(10)
-        }
     }
 }
 

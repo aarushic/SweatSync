@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BBED2762CCA04E800DC851A /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBED2752CCA04E800DC851A /* LikeButton.swift */; };
 		49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */; };
 		49403CE62CB8DD5C0053CC08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49403CE52CB8DD5C0053CC08 /* Assets.xcassets */; };
 		49403CE92CB8DD5C0053CC08 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49403CE82CB8DD5C0053CC08 /* Preview Assets.xcassets */; };
@@ -27,7 +26,9 @@
 		49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D812CBE111900405025 /* CompleteProfileScreen.swift */; };
 		49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D842CBE121600405025 /* HomeScreen.swift */; };
 		49EE6D882CBE133A00405025 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D872CBE133A00405025 /* TabBarView.swift */; };
-		49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE6D892CBE149900405025 /* WorkoutPost.swift */; };
+		CF79CF2C2CE5181C008219B1 /* SprintDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF79CF2B2CE5181C008219B1 /* SprintDetailView.swift */; };
+		CF79CF2E2CE55595008219B1 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF79CF2D2CE55595008219B1 /* Post.swift */; };
+		CF79CF302CE5775A008219B1 /* FollowingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF79CF2F2CE5775A008219B1 /* FollowingScreen.swift */; };
 		CF7A73E42CC76BB700497F3F /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E32CC76BB700497F3F /* Templates.swift */; };
 		CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E52CC771BC00497F3F /* NewTemplate.swift */; };
 		CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E92CC968B800497F3F /* Exercise.swift */; };
@@ -55,8 +56,23 @@
 		CFA45E6A2CBF30D300D9CA01 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = CFA45E692CBF30D300D9CA01 /* FirebaseFirestoreCombine-Community */; };
 		CFD18BF42CDDD27E001B910C /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD18BF32CDDD27E001B910C /* SearchScreen.swift */; };
 		CFE8A5A52CDFE2BE00C166A2 /* WorkoutPostCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5A42CDFE2BE00C166A2 /* WorkoutPostCard.swift */; };
-		CFE8A5A72CDFEA6E00C166A2 /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5A62CDFEA6E00C166A2 /* PostButton.swift */; };
 		CFE8A5AB2CDFFBC800C166A2 /* ExistingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */; };
+		CFE8A5CD2CE2B1BD00C166A2 /* PreferenceToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5CC2CE2B1BD00C166A2 /* PreferenceToggle.swift */; };
+		CFE8A5CF2CE2B2AE00C166A2 /* TemplateNameInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5CE2CE2B2AE00C166A2 /* TemplateNameInput.swift */; };
+		CFE8A5D12CE2B39800C166A2 /* Dropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5D02CE2B39800C166A2 /* Dropdown.swift */; };
+		CFE8A5D32CE2B3BC00C166A2 /* AddExerciseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5D22CE2B3BC00C166A2 /* AddExerciseButton.swift */; };
+		CFE8A5D52CE2B40F00C166A2 /* ExerciseInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5D42CE2B40F00C166A2 /* ExerciseInputField.swift */; };
+		CFE8A5D72CE2B42E00C166A2 /* SetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5D62CE2B42E00C166A2 /* SetListView.swift */; };
+		CFE8A5D92CE2B44100C166A2 /* AddSetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5D82CE2B44100C166A2 /* AddSetButton.swift */; };
+		CFE8A5DB2CE2B91800C166A2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5DA2CE2B91800C166A2 /* User.swift */; };
+		CFE8A5DD2CE2B99900C166A2 /* UserProfileCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8A5DC2CE2B99900C166A2 /* UserProfileCard.swift */; };
+		CFF2E0642CFA859200F51D1D /* NotifRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E0632CFA859200F51D1D /* NotifRow.swift */; };
+		CFF2E0662CFAB4E300F51D1D /* SendNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E0652CFAB4E300F51D1D /* SendNotification.swift */; };
+		CFF2E0682CFC21CD00F51D1D /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E0672CFC21CD00F51D1D /* NotificationsPage.swift */; };
+		CFF2E06A2CFC2C8900F51D1D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E0692CFC2C8900F51D1D /* Notification.swift */; };
+		CFF2E06C2CFC30A600F51D1D /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E06B2CFC30A600F51D1D /* NotificationDelegate.swift */; };
+		CFF2E0742CFD59FF00F51D1D /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E0732CFD59FF00F51D1D /* PostService.swift */; };
+		CFF2E0762CFE759000F51D1D /* FetchToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2E0752CFE759000F51D1D /* FetchToggles.swift */; };
 		CFF378A32CDCA4520000C7B9 /* ExcerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */; };
 		CFF378A52CDCA5D10000C7B9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CFF378A42CDCA5D10000C7B9 /* FirebaseStorage */; };
 		CFF378AB2CDD763A0000C7B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF378AA2CDD763A0000C7B9 /* GoogleService-Info.plist */; };
@@ -82,7 +98,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3BBED2752CCA04E800DC851A /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		49403CDE2CB8DD5A0053CC08 /* sweatsync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sweatsync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sweatsyncApp.swift; sourceTree = "<group>"; };
 		49403CE52CB8DD5C0053CC08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,7 +120,9 @@
 		49EE6D812CBE111900405025 /* CompleteProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileScreen.swift; sourceTree = "<group>"; };
 		49EE6D842CBE121600405025 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		49EE6D872CBE133A00405025 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
-		49EE6D892CBE149900405025 /* WorkoutPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPost.swift; sourceTree = "<group>"; };
+		CF79CF2B2CE5181C008219B1 /* SprintDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintDetailView.swift; sourceTree = "<group>"; };
+		CF79CF2D2CE55595008219B1 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		CF79CF2F2CE5775A008219B1 /* FollowingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingScreen.swift; sourceTree = "<group>"; };
 		CF7A73E32CC76BB700497F3F /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
 		CF7A73E52CC771BC00497F3F /* NewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplate.swift; sourceTree = "<group>"; };
 		CF7A73E92CC968B800497F3F /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
@@ -128,8 +145,23 @@
 		CF9A5A9E2CD1E5310002EE5B /* LeagueSpartan-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Light.ttf"; sourceTree = "<group>"; };
 		CFD18BF32CDDD27E001B910C /* SearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 		CFE8A5A42CDFE2BE00C166A2 /* WorkoutPostCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPostCard.swift; sourceTree = "<group>"; };
-		CFE8A5A62CDFEA6E00C166A2 /* PostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
 		CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingTemplate.swift; sourceTree = "<group>"; };
+		CFE8A5CC2CE2B1BD00C166A2 /* PreferenceToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceToggle.swift; sourceTree = "<group>"; };
+		CFE8A5CE2CE2B2AE00C166A2 /* TemplateNameInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateNameInput.swift; sourceTree = "<group>"; };
+		CFE8A5D02CE2B39800C166A2 /* Dropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dropdown.swift; sourceTree = "<group>"; };
+		CFE8A5D22CE2B3BC00C166A2 /* AddExerciseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseButton.swift; sourceTree = "<group>"; };
+		CFE8A5D42CE2B40F00C166A2 /* ExerciseInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseInputField.swift; sourceTree = "<group>"; };
+		CFE8A5D62CE2B42E00C166A2 /* SetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetListView.swift; sourceTree = "<group>"; };
+		CFE8A5D82CE2B44100C166A2 /* AddSetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetButton.swift; sourceTree = "<group>"; };
+		CFE8A5DA2CE2B91800C166A2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CFE8A5DC2CE2B99900C166A2 /* UserProfileCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCard.swift; sourceTree = "<group>"; };
+		CFF2E0632CFA859200F51D1D /* NotifRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifRow.swift; sourceTree = "<group>"; };
+		CFF2E0652CFAB4E300F51D1D /* SendNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendNotification.swift; sourceTree = "<group>"; };
+		CFF2E0672CFC21CD00F51D1D /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+		CFF2E0692CFC2C8900F51D1D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		CFF2E06B2CFC30A600F51D1D /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
+		CFF2E0732CFD59FF00F51D1D /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		CFF2E0752CFE759000F51D1D /* FetchToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchToggles.swift; sourceTree = "<group>"; };
 		CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcerciseDetailView.swift; sourceTree = "<group>"; };
 		CFF378AA2CDD763A0000C7B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "sweatsync/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -256,6 +288,7 @@
 			children = (
 				49EE6D7F2CBE0E0900405025 /* FillProfileScreen.swift */,
 				49EE6D812CBE111900405025 /* CompleteProfileScreen.swift */,
+				CFE8A5CC2CE2B1BD00C166A2 /* PreferenceToggle.swift */,
 			);
 			path = Setup;
 			sourceTree = "<group>";
@@ -263,11 +296,11 @@
 		49EE6D832CBE11F700405025 /* MainPages */ = {
 			isa = PBXGroup;
 			children = (
+				CFF2E0602CFA848800F51D1D /* Notifications */,
 				CF7A73F12CC9C57D00497F3F /* Profile */,
 				CF7A73E22CC7637A00497F3F /* Post */,
 				49EE6D862CBE122100405025 /* Home */,
 				49EE6D872CBE133A00405025 /* TabBarView.swift */,
-				CF7A73ED2CC9953600497F3F /* Settings.swift */,
 			);
 			path = MainPages;
 			sourceTree = "<group>";
@@ -276,10 +309,11 @@
 			isa = PBXGroup;
 			children = (
 				49EE6D842CBE121600405025 /* HomeScreen.swift */,
-				49EE6D892CBE149900405025 /* WorkoutPost.swift */,
-				3BBED2752CCA04E800DC851A /* LikeButton.swift */,
 				CFD18BF32CDDD27E001B910C /* SearchScreen.swift */,
 				CFE8A5A42CDFE2BE00C166A2 /* WorkoutPostCard.swift */,
+				CFE8A5DA2CE2B91800C166A2 /* User.swift */,
+				CFE8A5DC2CE2B99900C166A2 /* UserProfileCard.swift */,
+				CF79CF2D2CE55595008219B1 /* Post.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -291,8 +325,15 @@
 				CF7A73E52CC771BC00497F3F /* NewTemplate.swift */,
 				CF7A73E92CC968B800497F3F /* Exercise.swift */,
 				CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */,
-				CFE8A5A62CDFEA6E00C166A2 /* PostButton.swift */,
 				CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */,
+				CFE8A5CE2CE2B2AE00C166A2 /* TemplateNameInput.swift */,
+				CFE8A5D02CE2B39800C166A2 /* Dropdown.swift */,
+				CFE8A5D22CE2B3BC00C166A2 /* AddExerciseButton.swift */,
+				CFE8A5D42CE2B40F00C166A2 /* ExerciseInputField.swift */,
+				CFE8A5D62CE2B42E00C166A2 /* SetListView.swift */,
+				CFE8A5D82CE2B44100C166A2 /* AddSetButton.swift */,
+				CF79CF2B2CE5181C008219B1 /* SprintDetailView.swift */,
+				CFF2E0732CFD59FF00F51D1D /* PostService.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -301,6 +342,9 @@
 			isa = PBXGroup;
 			children = (
 				CF7A73F22CC9C59300497F3F /* ProfileScreen.swift */,
+				CF7A73ED2CC9953600497F3F /* Settings.swift */,
+				CF79CF2F2CE5775A008219B1 /* FollowingScreen.swift */,
+				CFF2E0752CFE759000F51D1D /* FetchToggles.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -324,6 +368,18 @@
 				CF9A5A812CD1DBFC0002EE5B /* Poppins-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		CFF2E0602CFA848800F51D1D /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				CFF2E0632CFA859200F51D1D /* NotifRow.swift */,
+				CFF2E0652CFAB4E300F51D1D /* SendNotification.swift */,
+				CFF2E0672CFC21CD00F51D1D /* NotificationsPage.swift */,
+				CFF2E0692CFC2C8900F51D1D /* Notification.swift */,
+				CFF2E06B2CFC30A600F51D1D /* NotificationDelegate.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -492,25 +548,41 @@
 				49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */,
 				CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */,
 				49691D412CB8E19E0012DEC5 /* MainScreen.swift in Sources */,
+				CFE8A5CF2CE2B2AE00C166A2 /* TemplateNameInput.swift in Sources */,
+				CF79CF302CE5775A008219B1 /* FollowingScreen.swift in Sources */,
 				CFE8A5AB2CDFFBC800C166A2 /* ExistingTemplate.swift in Sources */,
 				49691D372CB8E0DD0012DEC5 /* SplashScreen.swift in Sources */,
 				49EE6D732CBDED7300405025 /* OnboardingScreen1.swift in Sources */,
 				CFF378A32CDCA4520000C7B9 /* ExcerciseDetailView.swift in Sources */,
 				CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */,
 				49EE6D772CBDED9000405025 /* OnboardingScreen3.swift in Sources */,
+				CFF2E06C2CFC30A600F51D1D /* NotificationDelegate.swift in Sources */,
+				CFF2E0682CFC21CD00F51D1D /* NotificationsPage.swift in Sources */,
+				CF79CF2C2CE5181C008219B1 /* SprintDetailView.swift in Sources */,
+				CFE8A5DD2CE2B99900C166A2 /* UserProfileCard.swift in Sources */,
+				CFE8A5CD2CE2B1BD00C166A2 /* PreferenceToggle.swift in Sources */,
+				CFE8A5D72CE2B42E00C166A2 /* SetListView.swift in Sources */,
+				CFF2E06A2CFC2C8900F51D1D /* Notification.swift in Sources */,
+				CFF2E0762CFE759000F51D1D /* FetchToggles.swift in Sources */,
+				CFF2E0662CFAB4E300F51D1D /* SendNotification.swift in Sources */,
+				CFF2E0742CFD59FF00F51D1D /* PostService.swift in Sources */,
 				49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */,
+				CF79CF2E2CE55595008219B1 /* Post.swift in Sources */,
 				49EE6D802CBE0E0900405025 /* FillProfileScreen.swift in Sources */,
-				3BBED2762CCA04E800DC851A /* LikeButton.swift in Sources */,
 				CFE8A5A52CDFE2BE00C166A2 /* WorkoutPostCard.swift in Sources */,
+				CFE8A5D12CE2B39800C166A2 /* Dropdown.swift in Sources */,
+				CFF2E0642CFA859200F51D1D /* NotifRow.swift in Sources */,
 				49EE6D852CBE121600405025 /* HomeScreen.swift in Sources */,
 				CFD18BF42CDDD27E001B910C /* SearchScreen.swift in Sources */,
 				CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */,
 				49EE6D7B2CBDF9E100405025 /* LoginScreen.swift in Sources */,
 				49691D352CB8E0990012DEC5 /* SessionManager.swift in Sources */,
-				49EE6D8A2CBE149900405025 /* WorkoutPost.swift in Sources */,
 				49EE6D882CBE133A00405025 /* TabBarView.swift in Sources */,
 				49EE6D7D2CBE045800405025 /* SignUpScreen.swift in Sources */,
-				CFE8A5A72CDFEA6E00C166A2 /* PostButton.swift in Sources */,
+				CFE8A5D52CE2B40F00C166A2 /* ExerciseInputField.swift in Sources */,
+				CFE8A5D92CE2B44100C166A2 /* AddSetButton.swift in Sources */,
+				CFE8A5D32CE2B3BC00C166A2 /* AddExerciseButton.swift in Sources */,
+				CFE8A5DB2CE2B91800C166A2 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

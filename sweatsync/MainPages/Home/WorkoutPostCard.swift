@@ -12,97 +12,215 @@ import Firebase
 struct WorkoutPostCard: View {
     @Binding var post: Post
     var currUserName: String
+    var currUserId: String
     
     @State private var isExpanded = false
     @State private var isCommentExpanded = false
-    @State private var likeCount: Int
     @State private var newCommentText = ""
-    @State private var commentCount: Int = 0 
-
+    @State private var navigateToProfile = false
     
-    init(post: Binding<Post>, currUserName: String) {
+    @State private var notificationsEnabled: Bool = true
+    @State private var commentsDisabled: Bool = false
+    
+    @State private var showTag = false
+    
+    init(post: Binding<Post>, currUserName: String, currUserId: String) {
         self._post = post
         self.currUserName = currUserName
-        self._likeCount = State(initialValue: post.wrappedValue.likes)
+        self.currUserId = currUserId
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            PostHeaderView()
+            PostHeaderView(post: post)
+                .onTapGesture {
+                    navigateToProfile = true
+                    print("navigateToProfile set to \(navigateToProfile)")
+                }
             PostContent()
             LikeAndCommentSection()
-            if isCommentExpanded { CommentsSection() }
             if isExpanded { ExerciseDetailsSection() }
+            if isCommentExpanded { CommentsSection() }
             ExpandCollapseButton()
         }
-        .background(Color(red: 42/255, green: 42/255, blue: 42/255))
+        .background(Theme.secondaryColor)
         .cornerRadius(20)
         .padding(.horizontal)
         .padding(.vertical, 25)
+        
         .onAppear {
-            fetchLikes()
-            fetchComments()
-            commentCount = post.comments.count
+            Task {
+                commentsDisabled = await fetchCommentsDisabled(userId: currUserId)
+                notificationsEnabled = await fetchNotificationsEnabled(userId: currUserId)
+            }
+        }
+        .background(
+            NavigationLink(
+                destination: ProfileScreen(user: User(id: post.userId, preferredName: post.userName, profilePictureUrl: ""), settings: false),
+                isActive: $navigateToProfile
+            ) {
+                EmptyView()
+            }
+            .hidden()
+        )
+        .onTapGesture {
+            dismissKeyboard()
         }
     }
-    
     
     //components
-    private func PostHeaderView() -> some View {
-        let user = User(id: post.userId, preferredName: post.userName, profilePictureUrl: "")
-        
-        return NavigationLink(destination: ProfileScreen(user: user, settings: false)) {
+    struct PostHeaderView: View {
+        var post: Post
+        @State private var profileImage: UIImage? = nil
+
+        var body: some View {
             HStack {
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .foregroundColor(Theme.primaryColor)
-                
-                VStack(alignment: .leading) {
-                    Text(post.userName).font(.headline).foregroundColor(.white)
+                HStack {
+                    if let profileImage = profileImage {
+                        Image(uiImage: profileImage)
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Theme.primaryColor)
+                    }
+                    
                     HStack {
-                        Text("Location, City").font(.subheadline).foregroundColor(.gray)
+                        Text(post.userName)
+                            .font(.custom(Theme.headingFont, size: 19))
+                            .foregroundColor(.white)
+                        
                         Spacer()
-                        Text(formatTimestamp(post.timestamp)).font(.subheadline).foregroundColor(.gray)
+                        
+                        Text(formatTimestamp(post.timestamp))
+                            .font(.custom(Theme.bodyFont, size: 17))
+                            .foregroundColor(.gray)
                     }
                 }
+                .padding([.horizontal, .vertical], 15)
                 Spacer()
             }
-            .padding([.horizontal, .top], 10)
+            .contentShape(Rectangle())
+            .background(Theme.secondaryColorOp)
+            .onAppear {
+                fetchProfileImage()
+            }
         }
-        .buttonStyle(PlainButtonStyle())
-    }
 
+        private func fetchProfileImage() {
+            let db = Firestore.firestore()
+            let userId = post.userId
+            
+//            print("tagged \(post.taggedUser)")
+            
+            db.collection("users").document(userId).getDocument { snapshot, error in
+                if let error = error {
+                    print("Error fetching profile image: \(error)")
+                    return
+                }
+                
+                guard let data = snapshot?.data(),
+                      let base64String = data["profileImageBase64"] as? String,
+                      let imageData = Data(base64Encoded: base64String),
+                      let image = UIImage(data: imageData) else {
+                    print("Failed to decode image data")
+                    return
+                }
+                
+                self.profileImage = image
+            }
+        }
+    }
     
     private func PostContent() -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(post.templateName)
-                .font(.headline)
+                .font(.custom(Theme.headingFont, size: 18))
                 .foregroundColor(.white)
                 .padding()
             
-            Image("test-image")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
-                .cornerRadius(15)
-                .padding(.horizontal)
+            if !post.templateImageUrl.isEmpty,
+               let imageData = Data(base64Encoded: post.templateImageUrl),
+               let uiImage = UIImage(data: imageData) {
+                ZStack(alignment: .bottomTrailing) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            withAnimation {
+                                showTag.toggle()
+                            }
+                        }
+                    
+                    if let taggedUser = post.taggedUser, !taggedUser.isEmpty {
+                        // Profile icon
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .padding(10)
+                            .padding(.trailing, 20)
+                            .foregroundColor(Theme.primaryColor)
+                    
+                        
+                        // Tagged user text (conditionally visible)
+                        if showTag {
+                            Button(action: {
+                                navigateToProfile = true
+                            }) {
+                                Text("\(taggedUser)")
+                                    .font(.custom(Theme.bodyFont, size: 12))
+                                    .padding(8)
+                                    .background(Color.black.opacity(0.7))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                                    .padding(30)
+                                    .padding(.bottom, 10)
+                            }
+                        }
+                    }
+                }
+            } else {
+                Image("test-image")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                    .onTapGesture {
+                        withAnimation {
+                            showTag.toggle()
+                        }
+                    }
+            }
         }
     }
-    
+
+
     private func LikeAndCommentSection() -> some View {
         HStack {
             LikeButton()
-            Text("\(likeCount) likes").foregroundColor(.white)
+            Text("\(post.likes.count) likes")
+                .font(.custom(Theme.bodyFont, size: 15))
+                .foregroundColor(.white)
             
             Spacer()
             
-            CommentButton()
-            Text("\(commentCount) comments").foregroundColor(.white)
+            if !commentsDisabled {
+                CommentButton()
+                Text("\(post.comments.count) comments")
+                    .font(.custom(Theme.bodyFont, size: 15))
+                    .foregroundColor(.white)
+            }
         }
         .padding(.horizontal)
     }
-    
+
     private func CommentsSection() -> some View {
         VStack(alignment: .leading) {
             ForEach(post.comments) { comment in
@@ -111,22 +229,23 @@ struct WorkoutPostCard: View {
             NewCommentInput()
         }
         .padding()
-        .background(Color.gray.opacity(0.1))
+        .background(Theme.secondaryColorOp)
         .cornerRadius(10)
     }
-    
+
     private func ExerciseDetailsSection() -> some View {
         ForEach(post.exercises) { exercise in
             ExerciseDetailsRow(exercise: exercise)
         }
         .padding()
+        
     }
-    
+
     private func ExpandCollapseButton() -> some View {
         Button(action: { isExpanded.toggle() }) {
             Text(isExpanded ? "Hide Details" : "View Workout Details")
-                .frame(width: 150, height: 30)
-                .font(.custom(Theme.headingFont2, size: 14))
+                .font(.custom(Theme.bodyFont, size: 13))
+                .frame(width: 170, height: 30)
                 .background(Theme.primaryColor)
                 .cornerRadius(10)
                 .foregroundColor(Theme.secondaryColor)
@@ -134,16 +253,17 @@ struct WorkoutPostCard: View {
         .padding()
         .buttonStyle(BorderlessButtonStyle())
     }
-    
+
     //subcomponents
     private func LikeButton() -> some View {
-        Button(action: likePost) {
-            Image(systemName: "hand.thumbsup.fill")
+        let imageType = (self.post.likes.contains(currUserId)) ? "hand.thumbsup.fill" : "hand.thumbsup"
+        return Button(action: likePost) {
+            Image(systemName: imageType)
                 .foregroundColor(Theme.primaryColor)
         }
         .buttonStyle(BorderlessButtonStyle())
     }
-    
+
     private func CommentButton() -> some View {
         Button(action: { isCommentExpanded.toggle() }) {
             Image(systemName: "text.bubble.fill")
@@ -151,7 +271,7 @@ struct WorkoutPostCard: View {
         }
         .buttonStyle(BorderlessButtonStyle())
     }
-    
+
     private func CommentRow(comment: Post.Comment) -> some View {
         HStack(alignment: .top) {
             Image(systemName: "person.circle.fill")
@@ -160,9 +280,15 @@ struct WorkoutPostCard: View {
                 .foregroundColor(Theme.primaryColor)
             
             VStack(alignment: .leading) {
-                Text(comment.userName).font(.custom("Poppins-Regular", size: 14)).foregroundColor(.white)
-                Text(comment.content).font(.custom("Poppins-Regular", size: 12)).foregroundColor(.gray)
-                Text(formatTimestamp(comment.timestamp)).font(.custom("Poppins-Regular", size: 11)).foregroundColor(.gray)
+                Text(comment.userName)
+                    .font(.custom(Theme.bodyFont, size: 16))
+                    .foregroundColor(.white)
+                Text(comment.content)
+                    .font(.custom(Theme.bodyFont, size: 14))
+                    .foregroundColor(.gray)
+                Text(formatTimestamp(comment.timestamp))
+                    .font(.custom(Theme.bodyFont, size: 13))
+                    .foregroundColor(.gray)
             }
             .padding(.bottom)
             
@@ -170,11 +296,11 @@ struct WorkoutPostCard: View {
         }
         .padding(.vertical, 4)
     }
-    
+
     private func NewCommentInput() -> some View {
         HStack {
             TextField("Add a comment...", text: $newCommentText)
-                .font(.custom("YourFontName", size: 12))
+                .font(.custom(Theme.bodyFont, size: 13))
                 .foregroundColor(.white)
                 .padding()
                 .background(Color.gray.opacity(0.2))
@@ -184,96 +310,141 @@ struct WorkoutPostCard: View {
                 .padding(.vertical, 6)
             
             Button(action: addComment) {
-                Image(systemName: "paperplane.fill").foregroundColor(Theme.primaryColor)
+                Image(systemName: "paperplane.fill")
+                    .foregroundColor(Theme.primaryColor)
             }
         }
         .padding(.horizontal, 2)
     }
-    
+
     private func ExerciseDetailsRow(exercise: Exercise) -> some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
-                Text(exercise.exerciseName)
-                    .font(.custom(Theme.headingFont, size: 15))
-                    .foregroundColor(.white)
-                Text("Type: \(exercise.exerciseType)")
-                    .font(.custom(Theme.bodyFont2, size: 13))
-                    .foregroundColor(.gray)
-            }
-            .padding(.bottom, 4)
-            
-            ForEach([("Warm-Up Sets:", exercise.warmUpSets), ("Working Sets:", exercise.workingSets)], id: \.0) { title, sets in
-                Text(title)
-                    .font(.custom(Theme.bodyFont2, size: 13))
-                    .foregroundColor(.white)
-                ForEach(sets, id: \.0) { set in
-                    Text("Weight: \(set.0), Reps: \(set.1)")
-                        .font(.caption2)
+        HStack {
+            VStack(alignment: .leading, spacing: 6) {
+                // Exercise Name and Type
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(exercise.exerciseName)
+                        .font(.custom(Theme.headingFont, size: 15))
+                        .foregroundColor(.white)
+                    Text("Type: \(exercise.exerciseType)")
+                        .font(.custom(Theme.bodyFont, size: 14))
                         .foregroundColor(.gray)
                 }
-                .padding(.bottom, 4)
-            }
-            
-            if !exercise.notes.isEmpty {
-                Text("Notes: \(exercise.notes)")
-                    .font(.custom(Theme.bodyFont2, size: 13))
-                    .foregroundColor(.white)
-            }
-        }
-    }
-    
-    //helper methods
-    private func fetchLikes() {
-        Firestore.firestore().collection("users").document(post.userId)
-            .collection("posts").document(post.id)
-            .getDocument { document, error in
-                if let document = document, document.exists, let data = document.data(), let likes = data["likes"] as? Int {
-                    likeCount = likes
-                } else {
-//                    print("Error fetching likes: \(error?.localizedDescription ?? "Unknown error")")
+                .padding(.bottom, 6)
+                
+                if (exercise.exerciseType == "Sprints") {
+                    // Warm-Up and Working Sets
+                    Text("Sprint Details")
+                        .font(.custom(Theme.bodyFont, size: 14))
+                        .foregroundColor(.white)
+                        .bold()
+                    
+                    HStack(alignment: .top, spacing: 16) {
+                        Text(exercise.distance != nil ? "Distance: \(exercise.distance) meters" : "Distance: N/A")
+                            .font(.custom(Theme.bodyFont, size: 13))
+                            .foregroundColor(.gray)
+                        
+                        Text(exercise.time != nil ? "Time: \(exercise.time) seconds" : "Time: N/A")
+                            .font(.custom(Theme.bodyFont, size: 13))
+                            .foregroundColor(.gray)
+                    }
+                }
+                else {
+                    // Warm-Up and Working Sets
+                    VStack(alignment: .leading, spacing: 16) {
+                        ForEach([("Warm-Up Sets", exercise.warmUpSets), ("Working Sets", exercise.workingSets)], id: \.0) { title, sets in
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(title)
+                                    .font(.custom(Theme.bodyFont, size: 14))
+                                    .foregroundColor(.white)
+                                    .bold()
+                                
+                                if sets.isEmpty {
+                                    Text("No sets available")
+                                        .font(.custom(Theme.bodyFont, size: 13))
+                                        .foregroundColor(.gray)
+                                } else {
+                                    ForEach(Array(sets.enumerated()), id: \.0) { index, set in
+                                        Text("Weight: \(set.0) lbs, Reps: \(set.1)")
+                                            .font(.custom(Theme.bodyFont, size: 13))
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            }
+                            .cornerRadius(8)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+                
+                // Notes Section
+                if !exercise.notes.isEmpty {
+                    Text("Notes:")
+                        .font(.custom(Theme.bodyFont, size: 14))
+                        .foregroundColor(.white)
+                        .bold()
+                    Text(exercise.notes)
+                        .font(.custom(Theme.bodyFont, size: 13))
+                        .foregroundColor(.gray)
                 }
             }
+            .cornerRadius(10)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .background(Theme.secondaryColorOp)
+        .padding(.horizontal, 2)
+        .cornerRadius(10)
     }
     
     private func likePost() {
-        likeCount += 1
-        Firestore.firestore().collection("users").document(post.userId)
-            .collection("posts").document(post.id)
-            .updateData(["likes": likeCount]) { error in
-                if let error = error {
-                    print("Error updating likes: \(error.localizedDescription)")
-                }
-            }
-    }
-    
-    private func fetchComments() {
         let db = Firestore.firestore()
-        db.collection("users").document(post.userId).collection("posts")
-            .document(post.id).collection("comments")
-            .getDocuments { snapshot, error in
-                guard error == nil, let documents = snapshot?.documents else {
-                    print("Error fetching comments: \(error?.localizedDescription ?? "Unknown error")")
-                    return
+        let postRef = db.collection("users").document(post.userId)
+            .collection("posts").document(post.id)
+
+        if post.likes.contains(currUserId) {
+            let oldLikes = post.likes
+            post.likes.remove(currUserId)
+            postRef.updateData([
+                "likes": FieldValue.arrayRemove([currUserId])
+            ]) { error in
+                if let error = error {
+                    print("Error removing like: \(error.localizedDescription)")
+                    post.likes = oldLikes
                 }
-                post.comments = documents.compactMap { doc in
-                    guard let userId = doc["userId"] as? String,
-                          let userName = doc["userName"] as? String,
-                          let content = doc["content"] as? String,
-                          let timestamp = (doc["timestamp"] as? Timestamp)?.dateValue()
-                    else { return nil }
-                    return Post.Comment(id: doc.documentID, userId: userId, userName: userName, content: content, timestamp: timestamp)
-                }
-                commentCount = post.comments.count
             }
+        } else {
+            let oldLikes = post.likes
+            post.likes.insert(currUserId)
+            postRef.updateData([
+                "likes": FieldValue.arrayUnion([currUserId])
+            ]) { error in
+                if let error = error {
+                    print("Error adding like: \(error.localizedDescription)")
+                    post.likes = oldLikes
+                } else {
+                    if notificationsEnabled {
+                        sendLikeNotification(to: post.userId, by: currUserId, postId: post.id, postTitle: post.templateName)
+                    }
+                }
+            }
+        }
+        Firestore.firestore()
+                .collection("users").document(post.userId)
+                .collection("posts").document(post.id)
+                .getDocument { snapshot, _ in
+                    post.likes = Set((snapshot?.data()?["likes"] as? [String]) ?? [])
+                }
     }
     
     private func addComment() {
         guard !newCommentText.isEmpty else { return }
-        
+        dismissKeyboard()
+
         let commentData: [String: Any] = [
             "id": UUID().uuidString,
             "userId": post.userId,
             "userName": currUserName,
+            "commenterId": currUserId,
             "content": newCommentText,
             "timestamp": Date()
         ]
@@ -288,12 +459,23 @@ struct WorkoutPostCard: View {
                         id: commentData["id"] as! String,
                         userId: commentData["userId"] as! String,
                         userName: commentData["userName"] as! String,
+                        commenterId: commentData["commenterId"] as! String,
                         content: commentData["content"] as! String,
                         timestamp: Date()
                     ))
+
+                    if notificationsEnabled && currUserId != post.userId {
+                        sendCommentNotification(
+                            to: post.userId,
+                            by: currUserId,
+                            content: commentData["content"] as! String,
+                            postId: post.id,
+                            postTitle: post.templateName
+                        )
+                    }
+
                 }
             }
-        
         newCommentText = ""
     }
 }

@@ -21,114 +21,144 @@ struct FillProfileScreen: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                // Header
-                Text("Fill Your Profile")
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(.white)
-                    .padding(.top, 40)
-
-                // Profile Image Section
                 VStack {
-                    if let profileImage = profileImage {
-                        Image(uiImage: profileImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 120, height: 120)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                            .onTapGesture {
-                                isImagePickerPresented = true
+                    //Header
+                    Text("Fill Your Profile")
+                        .font(.custom(Theme.bodyFont, size: 24))
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.top, 40)
+                    
+                    //Profile Image Section
+                    VStack(spacing: 10) {
+                        ZStack(alignment: .bottomTrailing) {
+                            if let profileImage = profileImage {
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 100, height: 130)
+                                    .overlay(
+                                        Image(uiImage: profileImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 100, height: 100)
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(.white, lineWidth: 2))
+                                    )
+                                    .onTapGesture {
+                                        isImagePickerPresented = true
+                                    }
+                            } else {
+                                Circle()
+                                    .fill(Color.gray)
+                                    .frame(width: 100, height: 130)
+                                    .overlay(
+                                        Image(systemName: "person.circle.fill")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .foregroundColor(Theme.secondaryColor)
+                                            .frame(width: 100, height: 100)
+                                    )
+                                    .onTapGesture {
+                                        isImagePickerPresented = true
+                                    }
                             }
-                    } else {
-                        Circle()
-                            .fill(Color.gray)
-                            .frame(width: 120, height: 120)
-                            .overlay(
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .foregroundColor(.white)
-                                    .frame(width: 110, height: 110)
-                            )
-                            .onTapGesture {
-                                isImagePickerPresented = true
-                            }
+                            
+                            //Edit icon overlay
+                            Circle()
+                                .fill(Theme.secondaryColorOp)
+                                .frame(width: 35, height: 35)
+                                .overlay(
+                                    Image(systemName: "plus")
+                                        .resizable()
+                                        .foregroundColor(Theme.primaryColor)
+                                        .frame(width: 18, height: 18)
+                                )
+                                .offset(x: 0, y: -10)
+                                .shadow(radius: 2)
+                                .onTapGesture {
+                                    isImagePickerPresented = true
+                                }
+                        }
                     }
-                }
-                .frame(maxWidth: .infinity)
-                .background(Theme.primaryColor)
-                .padding()
-
-                // Input Fields for Preferred Name and Bio
-                VStack(spacing: 20) {
-                    // Preferred Name Field
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text("Preferred Name")
-                            .font(.custom("Poppins-Regular", size: 20))
-                            .foregroundColor(.white)
-
-                        TextField("", text: $preferredName)
-                            .font(.custom("Poppins-Regular", size: 14))
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Theme.secondaryColor)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color.white, lineWidth: 1.8)
-                            )
-                            .textInputAutocapitalization(.never)
-                            .disableAutocorrection(true)
+                    .frame(maxWidth: .infinity)
+                    .background(Theme.primaryColor)
+                    .padding()
+                    
+                    // Input Fields for Preferred Name and Bio
+                    VStack(spacing: 20) {
+                        // Preferred Name Field
+                        VStack(alignment: .leading, spacing: 15) {
+                            Text("Preferred Name")
+                                .font(.custom(Theme.bodyFont, size: 20))
+                                .foregroundColor(.white)
+                            
+                            TextField("", text: $preferredName)
+                                .font(.custom(Theme.bodyFont, size: 14))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Theme.secondaryColor)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Theme.secondaryColor, lineWidth: 1.8)
+                                )
+                                .cornerRadius(15)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                                .onSubmit {
+                                    dismissKeyboard()
+                                }
+                        }
+                        .frame(width: 340)
+                        
+                        //Bio Field
+                        VStack(alignment: .leading, spacing: 15) {
+                            Text("Bio")
+                                .font(.custom(Theme.bodyFont, size: 20))
+                                .foregroundColor(.white)
+                            
+                            TextEditor(text: $bio)
+                                .font(.custom(Theme.bodyFont, size: 14))
+                                .lineSpacing(2)
+                                .scrollContentBackground(.hidden)
+                                .background(Theme.secondaryColor)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Theme.secondaryColor, lineWidth: 3)
+                                )
+                                .cornerRadius(15)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                                .foregroundColor(.white)
+                                .onSubmit {
+                                    dismissKeyboard()
+                                }
+                        }
+                        .frame(width: 340)
                     }
-                    .frame(width: 340)
-
-                    // Bio Field
-                    VStack(alignment: .leading, spacing: 15) {
-                           Text("Bio")
-                               .font(.custom("Poppins-Regular", size: 20))
-                               .foregroundColor(.white)
-                           
-                           TextEditor(text: $bio)
-                               .font(.custom("Poppins-Regular", size: 14))
-                               .lineSpacing(2)
-                               .scrollContentBackground(.hidden)
-                               .background(Theme.secondaryColor)
-                               .overlay(
-                                   RoundedRectangle(cornerRadius: 15)
-                                       .stroke(Color.white, lineWidth: 3)
-                               )
-                               .cornerRadius(15)
-                               .textInputAutocapitalization(.never)
-                               .disableAutocorrection(true)
-                               .foregroundColor(.white)
-                       }
-                       .frame(width: 340)
-                   }
-                   .padding(.vertical, 40)
-                
-                   
-
-                // Save Profile Button
-                Button(action: {
-                    saveProfile()
-                }) {
-                    Text("Continue")
-                        .frame(width: 250, height: 50)
-                        .background(Theme.primaryColor)
-                        .foregroundColor(.black)
-                        .cornerRadius(25)
+                    .padding(.vertical, 40)
+                    
+                    // Save Profile Button
+                    Button(action: {
+                        saveProfile()
+                    }) {
+                        Text("Continue")
+                            .font(.custom(Theme.bodyFont, size: 18))
+                            .frame(width: 250, height: 50)
+                            .background(Theme.primaryColor)
+                            .foregroundColor(.black)
+                            .cornerRadius(25)
+                    }
+                    
+                    // Display error message if exists
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .font(.custom(Theme.bodyFont, size: 14))
+                            .foregroundColor(.red)
+                            .padding(.top, 10)
+                    }
+                    
+                    Spacer()
                 }
-
-                // Display error message if exists
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .padding(.top, 10)
-                }
-
-                Spacer()
-            }
             .background(Color.black.ignoresSafeArea())
             .photosPicker(isPresented: $isImagePickerPresented, selection: $selectedImageItem, matching: .images)
             .onChange(of: selectedImageItem) { newItem in
@@ -143,9 +173,12 @@ struct FillProfileScreen: View {
             .fullScreenCover(isPresented: $isProfileSaved) {
                 CompleteProfileScreen()
             }
+            .onTapGesture {
+                dismissKeyboard()
+            }
         }
     }
-    
+
     private func saveProfile() {
         guard let user = Auth.auth().currentUser else {
             errorMessage = "Unable to retrieve user. Please log in again."
@@ -155,6 +188,11 @@ struct FillProfileScreen: View {
         // Check for required fields
         guard !preferredName.isEmpty, !bio.isEmpty else {
             errorMessage = "Please fill in all fields."
+            return
+        }
+        
+        guard profileImage != nil else {
+            errorMessage = "Please select a profile image."
             return
         }
 
@@ -194,7 +232,6 @@ struct FillProfileScreen: View {
         }
     }
 }
-
 
 struct ProfilePreviews: PreviewProvider {
     static var previews: some View {

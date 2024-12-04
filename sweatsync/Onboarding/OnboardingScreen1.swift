@@ -11,10 +11,8 @@ import SwiftUI
 struct OnboardingScreen1: View {
     var body: some View {
         NavigationStack {
-            
             VStack {
                 Spacer()
-                
                 //green box
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Theme.primaryColor)
@@ -31,25 +29,29 @@ struct OnboardingScreen1: View {
                             //text
                             Text("Track and Share Your Journey")
                                 .foregroundColor(.black)
-                                .font(.title)
+                                .font(.custom(Theme.headingFont, size: 26))
                                 .multilineTextAlignment(.center)
                             
                             VStack(spacing: 30){
                                 Text("SweatSync combines fitness tracking with social networking to keep you motivated and accountable.")
                                     .foregroundColor(Theme.secondaryColor)
+                                    .font(.custom(Theme.bodyFont, size: 21))
                                     .multilineTextAlignment(.center)
+                                    .lineSpacing(3)
                                 
                                 Text("Log workouts, track progress, and share achievements with friends and the supportive SweatSync community.")
                                     .foregroundColor(Theme.secondaryColor)
+                                    .font(.custom(Theme.bodyFont, size: 21))
                                     .multilineTextAlignment(.center)
+                                    .lineSpacing(3)
                             }
                             .padding(.horizontal, 35)
-                            
                             
                             //next button
                             NavigationLink(destination: OnboardingScreen2()) {
                                 Text("Next")
                                     .frame(width: 170, height: 50)
+                                    .font(.custom(Theme.headingFont, size: 16))
                                     .background(Theme.secondaryColor)
                                     .foregroundColor(.white)
                                     .cornerRadius(25)

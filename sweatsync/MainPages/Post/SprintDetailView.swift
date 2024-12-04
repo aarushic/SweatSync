@@ -1,3 +1,10 @@
+//
+//  SprintDetailView.swift
+//  sweatsync
+//
+//  Created by Ashwin on 11/13/24.
+//
+
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
@@ -5,10 +12,9 @@ import PhotosUI
 import FirebaseFirestore
 import FirebaseStorage
 
-struct ExerciseDetailView: View {
+struct SprintDetailView: View {
     @ObservedObject var exercise: Exercise
     var onDelete: () -> Void
-    @State private var forceRefreshSets = UUID()
 
     var body: some View {
         VStack(spacing: 10) {
@@ -19,37 +25,42 @@ struct ExerciseDetailView: View {
                 Spacer()
             }
             .padding(.bottom, 10)
-            
-            ExerciseInputField(label: "Exercise Name", text: $exercise.exerciseName)
+
+            ExerciseInputField(label: "Sprint Name", text: $exercise.exerciseName)
                 .font(.custom(Theme.bodyFont, size: 16))
             
-            SetListView(sets: $exercise.warmUpSets, label: "Warm-up Set", unit: "lb", repsUnit: "reps", onRemove: { index in
-                exercise.warmUpSets.remove(at: index)
-                forceRefreshSets = UUID()
-            })
-            .font(.custom(Theme.bodyFont, size: 14))
-            
-            SetListView(sets: $exercise.workingSets, label: "Working Set", unit: "lb", repsUnit: "reps", onRemove: { index in
-                exercise.workingSets.remove(at: index)
-                forceRefreshSets = UUID()
-            })
-            .font(.custom(Theme.bodyFont, size: 14))
-            .id(forceRefreshSets)
-            
+            //Distance and Time inputs for sprint training
             HStack {
-                AddSetButton(title: "Add Warm-up Set", onAdd: {
-                    exercise.warmUpSets.append(("", ""))
-                    forceRefreshSets = UUID()
-                })
-                .font(.custom(Theme.bodyFont, size: 14))
+                VStack(alignment: .leading) {
+                    Text("Distance (m)")
+                        .font(.custom(Theme.bodyFont, size: 14))
+                    
+                    TextField("Enter distance", text: Binding(
+                        get: { exercise.distance ?? "" },
+                        set: { exercise.distance = $0 }
+                    ))
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onSubmit {
+                        dismissKeyboard()
+                    }
+                }
                 
-                AddSetButton(title: "Add Working Set", onAdd: {
-                    exercise.workingSets.append(("", ""))
-                    forceRefreshSets = UUID()
-                })
-                .font(.custom(Theme.bodyFont, size: 14))
+                VStack(alignment: .leading) {
+                    Text("Time (s)")
+                        .font(.custom(Theme.bodyFont, size: 14))
+                    TextField("Enter time", text: Binding(
+                        get: { exercise.time ?? "" },
+                        set: { exercise.time = $0 }
+                    ))
+                    .keyboardType(.decimalPad)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onSubmit {
+                        dismissKeyboard()
+                    }
+                }
             }
-            
+
             VStack(alignment: .leading, spacing: 15) {
                 Text("Notes")
                     .font(.custom(Theme.bodyFont, size: 16))
