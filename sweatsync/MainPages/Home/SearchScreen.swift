@@ -81,6 +81,17 @@ struct SearchScreenView: View {
                 dismissKeyboard()
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: RecommendationScreen()) {
+                        Text("Discover")
+                            .font(.custom(Theme.bodyFont, size: 16))
+                            .foregroundColor(.accentColor)
+                            .padding()
+                            .cornerRadius(4)
+                    }
+            }
+        }
     }
     
     func searchForUserByEmail() {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B706B332D02735F00149C05 /* RecommendationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B706B322D02735F00149C05 /* RecommendationScreen.swift */; };
 		49403CE22CB8DD5A0053CC08 /* sweatsyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */; };
 		49403CE62CB8DD5C0053CC08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49403CE52CB8DD5C0053CC08 /* Assets.xcassets */; };
 		49403CE92CB8DD5C0053CC08 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49403CE82CB8DD5C0053CC08 /* Preview Assets.xcassets */; };
@@ -98,6 +99,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B706B322D02735F00149C05 /* RecommendationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationScreen.swift; sourceTree = "<group>"; };
 		49403CDE2CB8DD5A0053CC08 /* sweatsync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sweatsync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49403CE12CB8DD5A0053CC08 /* sweatsyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sweatsyncApp.swift; sourceTree = "<group>"; };
 		49403CE52CB8DD5C0053CC08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -163,7 +165,7 @@
 		CFF2E0732CFD59FF00F51D1D /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		CFF2E0752CFE759000F51D1D /* FetchToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchToggles.swift; sourceTree = "<group>"; };
 		CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcerciseDetailView.swift; sourceTree = "<group>"; };
-		CFF378AA2CDD763A0000C7B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "sweatsync/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CFF378AA2CDD763A0000C7B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +316,7 @@
 				CFE8A5DA2CE2B91800C166A2 /* User.swift */,
 				CFE8A5DC2CE2B99900C166A2 /* UserProfileCard.swift */,
 				CF79CF2D2CE55595008219B1 /* Post.swift */,
+				3B706B322D02735F00149C05 /* RecommendationScreen.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				49EE6D752CBDED8000405025 /* OnboardingScreen2.swift in Sources */,
 				CF7A73F32CC9C59300497F3F /* ProfileScreen.swift in Sources */,
 				49EE6D712CBDEBF900405025 /* Theme.swift in Sources */,
+				3B706B332D02735F00149C05 /* RecommendationScreen.swift in Sources */,
 				CF7A73E42CC76BB700497F3F /* Templates.swift in Sources */,
 				49EE6D822CBE111900405025 /* CompleteProfileScreen.swift in Sources */,
 				CF7A73E62CC771BC00497F3F /* NewTemplate.swift in Sources */,
