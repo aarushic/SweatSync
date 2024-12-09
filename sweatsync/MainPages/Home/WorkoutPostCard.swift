@@ -50,8 +50,8 @@ struct WorkoutPostCard: View {
         
         .onAppear {
             Task {
-                commentsDisabled = await fetchCommentsDisabled(userId: currUserId)
-                notificationsEnabled = await fetchNotificationsEnabled(userId: currUserId)
+                commentsDisabled = await fetchCommentsDisabled(userId: post.userId)
+                notificationsEnabled = await fetchNotificationsEnabled(userId: post.userId)
             }
         }
         .background(
@@ -63,9 +63,9 @@ struct WorkoutPostCard: View {
             }
             .hidden()
         )
-        .onTapGesture {
-            dismissKeyboard()
-        }
+//        .onTapGesture {
+////            dismissKeyboard()
+//        }
     }
     
     //components
@@ -422,7 +422,7 @@ struct WorkoutPostCard: View {
                     print("Error adding like: \(error.localizedDescription)")
                     post.likes = oldLikes
                 } else {
-                    if notificationsEnabled {
+                    if notificationsEnabled && post.userId != currUserId {
                         sendLikeNotification(to: post.userId, by: currUserId, postId: post.id, postTitle: post.templateName)
                     }
                 }
@@ -438,7 +438,7 @@ struct WorkoutPostCard: View {
     
     private func addComment() {
         guard !newCommentText.isEmpty else { return }
-        dismissKeyboard()
+//        dismissKeyboard()
 
         let commentData: [String: Any] = [
             "id": UUID().uuidString,

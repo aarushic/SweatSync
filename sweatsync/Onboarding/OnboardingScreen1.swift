@@ -16,7 +16,7 @@ struct OnboardingScreen1: View {
                 //green box
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Theme.primaryColor)
-                    .frame(height: 530)
+                    .frame(height: 570)
                     .overlay(
                         VStack(spacing: 20) {
                             //icon
@@ -29,19 +29,19 @@ struct OnboardingScreen1: View {
                             //text
                             Text("Track and Share Your Journey")
                                 .foregroundColor(.black)
-                                .font(.custom(Theme.headingFont, size: 26))
+                                .font(.custom(Theme.headingFont, size: 23))
                                 .multilineTextAlignment(.center)
                             
                             VStack(spacing: 30){
                                 Text("SweatSync combines fitness tracking with social networking to keep you motivated and accountable.")
                                     .foregroundColor(Theme.secondaryColor)
-                                    .font(.custom(Theme.bodyFont, size: 21))
+                                    .font(.custom(Theme.bodyFont, size: 17))
                                     .multilineTextAlignment(.center)
                                     .lineSpacing(3)
                                 
                                 Text("Log workouts, track progress, and share achievements with friends and the supportive SweatSync community.")
                                     .foregroundColor(Theme.secondaryColor)
-                                    .font(.custom(Theme.bodyFont, size: 21))
+                                    .font(.custom(Theme.bodyFont, size: 17))
                                     .multilineTextAlignment(.center)
                                     .lineSpacing(3)
                             }

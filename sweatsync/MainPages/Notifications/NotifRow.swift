@@ -50,7 +50,7 @@ struct NotifRow: View {
         case "comment":
             return "\(notification.fromUserName) commented: \"\(notification.content ?? "")\" on your post \"\(notification.postTitle)\""
         case "follow":
-            return "\(notification.fromUserName) sent you a follow request"
+            return "\(notification.fromUserName) started following you"
         default:
             return "\(notification.fromUserName) interacted with you"
         }

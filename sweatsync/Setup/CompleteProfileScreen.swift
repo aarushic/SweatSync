@@ -183,7 +183,6 @@ struct CompleteProfileScreen: View {
                 print("Profile successfully updated with training preferences")
             }
         }
-        session.signIn()
     }
 }
 

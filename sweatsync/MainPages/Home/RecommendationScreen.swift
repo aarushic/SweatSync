@@ -94,6 +94,7 @@ struct RecommendationScreen: View {
                                                         user: User(id: recommendedID, preferredName: userName, profilePictureUrl: imageString),
                                                         followStatus: false
                                                     )
+                                                    print(followerUser.id)
                                                     listOfUsers.append(followerUser)
                                                 }
                                             }

@@ -16,7 +16,7 @@ struct OnboardingScreen2: View {
                 //green box
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Theme.primaryColor)
-                    .frame(height: 530)
+                    .frame(height: 570)
                     .overlay(
                         VStack(spacing: 20) {
                             //icon
@@ -29,19 +29,19 @@ struct OnboardingScreen2: View {
                             //text
                             Text("Customized Workouts and Goals")
                                 .foregroundColor(.black)
-                                .font(.custom(Theme.headingFont, size: 26))
+                                .font(.custom(Theme.headingFont, size: 23))
                                 .multilineTextAlignment(.center)
                             
                             VStack(spacing: 30){
                                 Text("Create custom exercise plans and set your personal fitness goals.")
                                     .foregroundColor(Theme.secondaryColor)
-                                    .font(.custom(Theme.bodyFont, size: 21))
+                                    .font(.custom(Theme.bodyFont, size: 17))
                                     .multilineTextAlignment(.center)
                                     .lineSpacing(3)
                                 
                                 Text("Whether it’s strength training, running, or cycling, SweatSync adapts to your unique journey, making it easy to stay organized and focused.")
                                     .foregroundColor(Theme.secondaryColor)
-                                    .font(.custom(Theme.bodyFont, size: 21))
+                                    .font(.custom(Theme.bodyFont, size: 17))
                                     .multilineTextAlignment(.center)
                                     .lineSpacing(3)
                             }

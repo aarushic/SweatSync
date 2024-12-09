@@ -58,6 +58,9 @@ struct UserProfileCardView: View {
         .onAppear {
             fetchProfileImage()
         }
+        .onChange(of: user.id) { newValue in
+            fetchProfileImage()
+        }
     }
 
     private func fetchProfileImage() {

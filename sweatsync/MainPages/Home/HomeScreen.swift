@@ -10,6 +10,7 @@ import Firebase
 
 struct HomeScreenView: View {
     @State private var mainUserName: String = ""
+    @State private var mainUserId: String = ""
     @State private var posts: [Post] = []
     @State private var profileImage: UIImage? = nil
     
@@ -79,7 +80,7 @@ struct HomeScreenView: View {
                 
                 // Post Feed Section
                 List($posts) { $post in
-                    WorkoutPostCard(post: $post, currUserName: mainUserName, currUserId: post.userId)
+                    WorkoutPostCard(post: $post, currUserName: mainUserName, currUserId: mainUserId)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.black)
                 }
@@ -106,7 +107,7 @@ struct HomeScreenView: View {
         userRef.getDocument { document, error in
             if let document = document, document.exists {
                 self.mainUserName = document.data()?["preferredName"] as? String ?? "Name"
-
+                self.mainUserId = currentUser.uid
                 if let base64ImageString = document.data()?["profileImageBase64"] as? String,
                    let imageData = Data(base64Encoded: base64ImageString),
                    let image = UIImage(data: imageData) {

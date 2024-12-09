@@ -15,6 +15,7 @@ struct SearchScreenView: View {
    @State private var foundUser: User? = nil
    @State private var searchStatus: String = ""
    @State private var isFollowing: Bool = false
+    @State private var profilePicUrl: String = ""
    
     var body: some View {
         NavigationView {
@@ -65,6 +66,7 @@ struct SearchScreenView: View {
                             UserProfileCardView(user: user, isFollowing: $isFollowing) {
                                 toggleFollowStatus(for: user)
                             }
+                            .id(user.id)
                         }
                         .buttonStyle(PlainButtonStyle())
                     } else {
