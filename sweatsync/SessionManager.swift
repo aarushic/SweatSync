@@ -22,7 +22,7 @@ final class SessionManager: ObservableObject {
     
     init() {
         configureCurrentState()
-        // set notifications delegate
+        //set notifications delegate
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = notificationDelegate
     }

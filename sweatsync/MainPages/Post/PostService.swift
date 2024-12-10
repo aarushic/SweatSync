@@ -10,7 +10,7 @@ import Firebase
 import UIKit
 
 class PostService {
-    // Fetch posts for a specific user and optionally their following users
+    //fetch posts for a specific user and their following users
     static func fetchPosts(userId: String, includeFollowing: Bool, completion: @escaping ([Post], Error?) -> Void) {
         let db = Firestore.firestore()
         var allPosts: [Post] = []
@@ -36,7 +36,7 @@ class PostService {
             }
         }
 
-        // Fetch current user's posts
+        //current user's posts
         group.enter()
         db.collection("users").document(userId).getDocument { document, error in
             guard let document = document, document.exists,
@@ -49,7 +49,7 @@ class PostService {
         }
 
         if includeFollowing {
-            // Fetch posts from followed users
+            //followed users posts
             db.collection("users").document(userId).collection("following").getDocuments { snapshot, error in
                 guard let following = snapshot?.documents.map({ $0.documentID }) else {
                     group.notify(queue: .main) {
@@ -78,7 +78,7 @@ class PostService {
         }
     }
 
-    // Map Firestore post data to a `Post` object
+    //map data to post object
     static func mapPost(from data: [String: Any], documentId: String, userId: String, userName: String, completion: @escaping (Post?) -> Void) {
         var exercises: [Exercise] = []
 
@@ -88,21 +88,35 @@ class PostService {
                 let exercise = Exercise()
                 exercise.exerciseType = exerciseData["exerciseType"] as? String ?? ""
                 exercise.exerciseName = exerciseData["exerciseName"] as? String ?? ""
+                
+                switch exercise.exerciseType {
+                    case "Sprints":
+                        exercise.distance = exerciseData["distance"] as? String ?? ""
+                        exercise.time = exerciseData["time"] as? String ?? ""
 
-                if exercise.exerciseType == "Sprints" {
-                    exercise.distance = exerciseData["distance"] as? String ?? ""
-                    exercise.time = exerciseData["time"] as? String ?? ""
-                } else {
-                    exercise.warmUpSets = (exerciseData["warmUpSets"] as? [[String: String]])?.compactMap {
-                        guard let weight = $0["weight"], let reps = $0["reps"] else { return nil }
-                        return (weight, reps)
-                    } ?? []
+                    case "Biking":
+                        exercise.bikeDistance = exerciseData["bikeDistance"] as? String ?? ""
+                        exercise.bikeDuration = exerciseData["bikeDuration"] as? String ?? ""
+                        exercise.averageSpeed = exerciseData["averageSpeed"] as? String ?? ""
+                        exercise.elevationGain = exerciseData["elevationGain"] as? String ?? ""
+                        
+                    case "Swimming":
+                        exercise.strokeType = exerciseData["strokeType"] as? String ?? ""
+                        exercise.laps = exerciseData["laps"] as? String ?? ""
+                        exercise.swimDistance = exerciseData["swimDistance"] as? String ?? ""
+                        exercise.swimDuration = exerciseData["swimDuration"] as? String ?? ""
 
-                    exercise.workingSets = (exerciseData["workingSets"] as? [[String: String]])?.compactMap {
-                        guard let weight = $0["weight"], let reps = $0["reps"] else { return nil }
-                        return (weight, reps)
-                    } ?? []
-                }
+                    default:
+                        exercise.warmUpSets = (exerciseData["warmUpSets"] as? [[String: String]])?.compactMap {
+                            guard let weight = $0["weight"], let reps = $0["reps"] else { return nil }
+                            return (weight, reps)
+                        } ?? []
+
+                        exercise.workingSets = (exerciseData["workingSets"] as? [[String: String]])?.compactMap {
+                            guard let weight = $0["weight"], let reps = $0["reps"] else { return nil }
+                            return (weight, reps)
+                        } ?? []
+                    }
 
                 exercise.notes = exerciseData["notes"] as? String ?? ""
                 return exercise
@@ -126,14 +140,14 @@ class PostService {
 
         let group = DispatchGroup()
 
-        // Fetch likes
+        //likes
         group.enter()
         fetchLikes(for: post) { likes in
             post.likes = likes
             group.leave()
         }
 
-        // Fetch comments
+        //comments
         group.enter()
         fetchComments(for: post) { comments in
             post.comments = comments
@@ -145,7 +159,7 @@ class PostService {
         }
     }
 
-    // Fetch likes for a post
+    //get likes
     private static func fetchLikes(for post: Post, completion: @escaping (Set<String>) -> Void) {
         let db = Firestore.firestore()
         let postRef = db.collection("users").document(post.userId)
@@ -162,7 +176,7 @@ class PostService {
         }
     }
 
-    // Fetch comments for a post
+    //get comments
     private static func fetchComments(for post: Post, completion: @escaping ([Post.Comment]) -> Void) {
         let db = Firestore.firestore()
         db.collection("users").document(post.userId).collection("posts")

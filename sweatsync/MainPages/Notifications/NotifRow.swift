@@ -9,7 +9,7 @@ struct NotifRow: View {
         
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
-            // Profile Picture
+            //profile picture
             if let profileImage = profileImage {
                 Image(uiImage: profileImage)
                     .resizable()
@@ -21,14 +21,13 @@ struct NotifRow: View {
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
             }
-            // Notification Details
+            //notification details
             VStack(alignment: .leading, spacing: 8) {
-                // Main Text
                 Text(mainText)
                     .font(.custom(Theme.bodyFont, size: 17))
                     .foregroundColor(.white)
 
-                // Timestamp
+                //timestamp
                 Text(notification.timestamp, style: .time)
                     .font(.custom(Theme.bodyFont, size: 13))
                     .foregroundColor(Theme.primaryColor)

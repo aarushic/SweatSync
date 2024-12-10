@@ -63,9 +63,6 @@ struct WorkoutPostCard: View {
             }
             .hidden()
         )
-//        .onTapGesture {
-////            dismissKeyboard()
-//        }
     }
     
     //components
@@ -113,9 +110,7 @@ struct WorkoutPostCard: View {
         private func fetchProfileImage() {
             let db = Firestore.firestore()
             let userId = post.userId
-            
-//            print("tagged \(post.taggedUser)")
-            
+                        
             db.collection("users").document(userId).getDocument { snapshot, error in
                 if let error = error {
                     print("Error fetching profile image: \(error)")
@@ -159,7 +154,7 @@ struct WorkoutPostCard: View {
                         }
                     
                     if let taggedUser = post.taggedUser, !taggedUser.isEmpty {
-                        // Profile icon
+                        //profile icon
                         Image(systemName: "person.circle.fill")
                             .resizable()
                             .frame(width: 24, height: 24)
@@ -168,7 +163,7 @@ struct WorkoutPostCard: View {
                             .foregroundColor(Theme.primaryColor)
                     
                         
-                        // Tagged user text (conditionally visible)
+                        //tagged user text
                         if showTag {
                             Button(action: {
                                 navigateToProfile = true
@@ -320,7 +315,7 @@ struct WorkoutPostCard: View {
     private func ExerciseDetailsRow(exercise: Exercise) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 6) {
-                // Exercise Name and Type
+                //exercise name and type
                 VStack(alignment: .leading, spacing: 2) {
                     Text(exercise.exerciseName)
                         .font(.custom(Theme.headingFont, size: 15))
@@ -331,52 +326,100 @@ struct WorkoutPostCard: View {
                 }
                 .padding(.bottom, 6)
                 
-                if (exercise.exerciseType == "Sprints") {
-                    // Warm-Up and Working Sets
-                    Text("Sprint Details")
-                        .font(.custom(Theme.bodyFont, size: 14))
-                        .foregroundColor(.white)
-                        .bold()
-                    
-                    HStack(alignment: .top, spacing: 16) {
-                        Text(exercise.distance != nil ? "Distance: \(exercise.distance) meters" : "Distance: N/A")
-                            .font(.custom(Theme.bodyFont, size: 13))
-                            .foregroundColor(.gray)
+                
+                switch exercise.exerciseType {
+                    case "Sprints":
+                        Text("Sprint Details")
+                            .font(.custom(Theme.bodyFont, size: 14))
+                            .foregroundColor(.white)
+                            .bold()
                         
-                        Text(exercise.time != nil ? "Time: \(exercise.time) seconds" : "Time: N/A")
-                            .font(.custom(Theme.bodyFont, size: 13))
-                            .foregroundColor(.gray)
-                    }
-                }
-                else {
-                    // Warm-Up and Working Sets
-                    VStack(alignment: .leading, spacing: 16) {
-                        ForEach([("Warm-Up Sets", exercise.warmUpSets), ("Working Sets", exercise.workingSets)], id: \.0) { title, sets in
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text(title)
-                                    .font(.custom(Theme.bodyFont, size: 14))
-                                    .foregroundColor(.white)
-                                    .bold()
-                                
-                                if sets.isEmpty {
-                                    Text("No sets available")
-                                        .font(.custom(Theme.bodyFont, size: 13))
-                                        .foregroundColor(.gray)
-                                } else {
-                                    ForEach(Array(sets.enumerated()), id: \.0) { index, set in
-                                        Text("Weight: \(set.0) lbs, Reps: \(set.1)")
+                        HStack(alignment: .top, spacing: 16) {
+                            Text(exercise.distance != nil ? "Distance: \(exercise.distance) meters" : "Distance: N/A")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text(exercise.time != nil ? "Time: \(exercise.time) seconds" : "Time: N/A")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                        }
+                
+                    case "Swimming":
+                        Text("Swimming Details")
+                            .font(.custom(Theme.bodyFont, size: 14))
+                            .foregroundColor(.white)
+                            .bold()
+                        
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Stroke Type: \(exercise.strokeType)")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text("Laps: \(exercise.laps)")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text("Distance: \(exercise.swimDistance) meters")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text("Duration: \(exercise.swimDuration) minutes")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                        }
+
+                    case "Biking":
+                        Text("Biking Details")
+                            .font(.custom(Theme.bodyFont, size: 14))
+                            .foregroundColor(.white)
+                            .bold()
+                        
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Distance: \(exercise.bikeDistance) km")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text("Duration: \(exercise.bikeDuration) minutes")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text("Average Speed: \(exercise.averageSpeed) km/h")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                            
+                            Text("Elevation Gain: \(exercise.elevationGain) meters")
+                                .font(.custom(Theme.bodyFont, size: 13))
+                                .foregroundColor(.gray)
+                        }
+
+                    default:
+                        VStack(alignment: .leading, spacing: 16) {
+                            ForEach([("Warm-Up Sets", exercise.warmUpSets), ("Working Sets", exercise.workingSets)], id: \.0) { title, sets in
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text(title)
+                                        .font(.custom(Theme.bodyFont, size: 14))
+                                        .foregroundColor(.white)
+                                        .bold()
+                                    
+                                    if sets.isEmpty {
+                                        Text("No sets available")
                                             .font(.custom(Theme.bodyFont, size: 13))
                                             .foregroundColor(.gray)
+                                    } else {
+                                        ForEach(Array(sets.enumerated()), id: \.0) { index, set in
+                                            Text("Weight: \(set.0) lbs, Reps: \(set.1)")
+                                                .font(.custom(Theme.bodyFont, size: 13))
+                                                .foregroundColor(.gray)
+                                        }
                                     }
                                 }
+                                .cornerRadius(8)
                             }
-                            .cornerRadius(8)
                         }
-                    }
-                    .padding(.vertical, 4)
+                        .padding(.vertical, 4)
                 }
-                
-                // Notes Section
+            
+                //notes
                 if !exercise.notes.isEmpty {
                     Text("Notes:")
                         .font(.custom(Theme.bodyFont, size: 14))
@@ -438,7 +481,6 @@ struct WorkoutPostCard: View {
     
     private func addComment() {
         guard !newCommentText.isEmpty else { return }
-//        dismissKeyboard()
 
         let commentData: [String: Any] = [
             "id": UUID().uuidString,
@@ -476,6 +518,7 @@ struct WorkoutPostCard: View {
 
                 }
             }
+        
         newCommentText = ""
     }
 }

@@ -35,6 +35,8 @@
 		CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73E92CC968B800497F3F /* Exercise.swift */; };
 		CF7A73EE2CC9953600497F3F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73ED2CC9953600497F3F /* Settings.swift */; };
 		CF7A73F32CC9C59300497F3F /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A73F22CC9C59300497F3F /* ProfileScreen.swift */; };
+		CF96A5FF2D07B55E0063A456 /* SwimmingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF96A5FE2D07B55E0063A456 /* SwimmingDetailView.swift */; };
+		CF96A6012D07B58D0063A456 /* BikingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF96A6002D07B58D0063A456 /* BikingDetailView.swift */; };
 		CF9A5A892CD1DBFD0002EE5B /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF9A5A772CD1DBFC0002EE5B /* Poppins-ExtraBoldItalic.ttf */; };
 		CF9A5A8A2CD1DBFD0002EE5B /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF9A5A782CD1DBFC0002EE5B /* Poppins-ExtraLightItalic.ttf */; };
 		CF9A5A8F2CD1DBFD0002EE5B /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF9A5A7D2CD1DBFC0002EE5B /* Poppins-Italic.ttf */; };
@@ -130,6 +132,8 @@
 		CF7A73E92CC968B800497F3F /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		CF7A73ED2CC9953600497F3F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		CF7A73F22CC9C59300497F3F /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
+		CF96A5FE2D07B55E0063A456 /* SwimmingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwimmingDetailView.swift; sourceTree = "<group>"; };
+		CF96A6002D07B58D0063A456 /* BikingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikingDetailView.swift; sourceTree = "<group>"; };
 		CF9A5A772CD1DBFC0002EE5B /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		CF9A5A782CD1DBFC0002EE5B /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		CF9A5A7D2CD1DBFC0002EE5B /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
@@ -324,10 +328,10 @@
 		CF7A73E22CC7637A00497F3F /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				CF96A5FD2D07B54C0063A456 /* DetailViews */,
 				CF7A73E32CC76BB700497F3F /* Templates.swift */,
 				CF7A73E52CC771BC00497F3F /* NewTemplate.swift */,
 				CF7A73E92CC968B800497F3F /* Exercise.swift */,
-				CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */,
 				CFE8A5AA2CDFFBC800C166A2 /* ExistingTemplate.swift */,
 				CFE8A5CE2CE2B2AE00C166A2 /* TemplateNameInput.swift */,
 				CFE8A5D02CE2B39800C166A2 /* Dropdown.swift */,
@@ -335,7 +339,6 @@
 				CFE8A5D42CE2B40F00C166A2 /* ExerciseInputField.swift */,
 				CFE8A5D62CE2B42E00C166A2 /* SetListView.swift */,
 				CFE8A5D82CE2B44100C166A2 /* AddSetButton.swift */,
-				CF79CF2B2CE5181C008219B1 /* SprintDetailView.swift */,
 				CFF2E0732CFD59FF00F51D1D /* PostService.swift */,
 			);
 			path = Post;
@@ -350,6 +353,17 @@
 				CFF2E0752CFE759000F51D1D /* FetchToggles.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		CF96A5FD2D07B54C0063A456 /* DetailViews */ = {
+			isa = PBXGroup;
+			children = (
+				CFF378A22CDCA4520000C7B9 /* ExcerciseDetailView.swift */,
+				CF79CF2B2CE5181C008219B1 /* SprintDetailView.swift */,
+				CF96A5FE2D07B55E0063A456 /* SwimmingDetailView.swift */,
+				CF96A6002D07B58D0063A456 /* BikingDetailView.swift */,
+			);
+			path = DetailViews;
 			sourceTree = "<group>";
 		};
 		CF9A5A762CD1DBB20002EE5B /* Fonts */ = {
@@ -560,6 +574,8 @@
 				CFF378A32CDCA4520000C7B9 /* ExcerciseDetailView.swift in Sources */,
 				CF7A73EA2CC968B800497F3F /* Exercise.swift in Sources */,
 				49EE6D772CBDED9000405025 /* OnboardingScreen3.swift in Sources */,
+				CF96A6012D07B58D0063A456 /* BikingDetailView.swift in Sources */,
+				CF96A5FF2D07B55E0063A456 /* SwimmingDetailView.swift in Sources */,
 				CFF2E06C2CFC30A600F51D1D /* NotificationDelegate.swift in Sources */,
 				CFF2E0682CFC21CD00F51D1D /* NotificationsPage.swift in Sources */,
 				CF79CF2C2CE5181C008219B1 /* SprintDetailView.swift in Sources */,

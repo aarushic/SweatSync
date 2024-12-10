@@ -43,12 +43,13 @@ struct RecommendationScreen: View {
                     Spacer()
                 }
             }.onAppear {
+                //algorithm to recommend users based on similar preferences
                 getRecommendations()
             }
         }
     }
     
-    // Recommend Users to follow based on the current user's preferences
+    //recommend users to follow based on the current user's preferences
     func getRecommendations() {
         guard let currentUser = Auth.auth().currentUser else {
             print("User not logged in")
@@ -57,19 +58,19 @@ struct RecommendationScreen: View {
         let db = Firestore.firestore()
         let curUserRef = db.collection("users").document(currentUser.uid)
         listOfUsers = []
-        // Get current user preferences
+        //get current user preferences
         curUserRef.getDocument { document, error in
             if let document, document.exists {
                 let userPreferences = document.data()?["trainingPreferences"] as? [String] ?? []
                 if !userPreferences.isEmpty {
-                    // Get collection of users that have similar training preferences in common
+                    //get collection of users that have similar training preferences in common
                     let userRef = db.collection("users").whereField("trainingPreferences", arrayContainsAny: userPreferences)
                     userRef.getDocuments { snapshot, error in
                         if let snapshot = snapshot {
                             for document in snapshot.documents {
                                 let recommendedID = document.documentID
                                 if(recommendedID != currentUser.uid){
-                                    // Create a user object for recommended user
+                                    //create a user object for recommended user
                                     db.collection("users").document(document.documentID).getDocument { document, error in
                                         if let error = error {
                                             print("Error fetching user info: \(error.localizedDescription)")

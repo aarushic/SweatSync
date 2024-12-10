@@ -148,7 +148,7 @@ struct SearchScreenView: View {
         let currentUserRef = db.collection("users").document(currentUserId)
         let targetUserRef = db.collection("users").document(user.id)
 
-        // Add to current user's following collection with a document reference
+        //add to current user's following collection with a document reference
         db.collection("users").document(currentUserId).collection("following").document(user.id).setData([
             "userRef": targetUserRef
         ]) { error in

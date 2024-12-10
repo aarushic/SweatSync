@@ -7,6 +7,7 @@
 import FirebaseAuth
 import SwiftUI
 import Firebase
+
 struct FollowingScreen: View {
     let currentUser: User
     let category: String
@@ -51,7 +52,7 @@ struct FollowingScreen: View {
         }
     }
     
-    // Get user's followers/followings and add into a list
+    //get user's followers/followings and add into a list
     func getFollowing() {
         listOfFollowers = []
         let db = Firestore.firestore()

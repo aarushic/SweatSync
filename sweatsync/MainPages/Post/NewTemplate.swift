@@ -83,17 +83,31 @@ struct NewTemplateView: View {
                                 ))
                                 .font(.custom(Theme.bodyFont, size: 16))
                             } else {
-                                if exercise.exerciseType == "Sprints" {
-                                    SprintDetailView(exercise: exercise, onDelete: {
-                                        exercises.removeValue(forKey: key)
-                                        forceRefresh = UUID()
-                                    })
-                                } else {
-                                    ExerciseDetailView(exercise: exercise, onDelete: {
-                                        exercises.removeValue(forKey: key)
-                                        forceRefresh = UUID()
-                                    })
-                                }
+                                switch exercise.exerciseType {
+                                    case "Sprints":
+                                        SprintDetailView(exercise: exercise, onDelete: {
+                                            exercises.removeValue(forKey: key)
+                                            forceRefresh = UUID()
+                                        })
+                                        
+                                    case "Swimming":
+                                        SwimmingDetailView(exercise: exercise, onDelete: {
+                                            exercises.removeValue(forKey: key)
+                                            forceRefresh = UUID()
+                                        })
+                                        
+                                    case "Biking":
+                                        BikingDetailView(exercise: exercise, onDelete: {
+                                            exercises.removeValue(forKey: key)
+                                            forceRefresh = UUID()
+                                        })
+                                        
+                                    default:
+                                        ExerciseDetailView(exercise: exercise, onDelete: {
+                                            exercises.removeValue(forKey: key)
+                                            forceRefresh = UUID()
+                                        })
+                                    }
                             }
                         }
                     }
@@ -102,7 +116,7 @@ struct NewTemplateView: View {
                     AddExerciseButton(curExerciseId: $curExerciseId, exercises: $exercises)
                         .font(.custom(Theme.bodyFont, size: 16))
                     
-                    // Error message display
+                    //error message
                     if let errorMessage = errorMessage {
                         Text(errorMessage)
                             .foregroundColor(.red)
@@ -159,7 +173,6 @@ struct NewTemplateView: View {
                             templateImageUrl = decodedImage?.jpegData(compressionQuality: 0.5)?.base64EncodedString() ?? ""
                         }
                     }
-                
             }
         }
         .onTapGesture {
@@ -199,14 +212,22 @@ struct NewTemplateView: View {
                 "timestamp": Timestamp(date: currentDate)
             ]
             
-            // Add specific fields based on exercise type
             if exercise.exerciseType == "Sprints" {
                 exerciseDict["distance"] = exercise.distance
                 exerciseDict["time"] = exercise.time
             } else if exercise.exerciseType == "Strength Training" {
-                // Add warmUpSets and workingSets only for non-sprint exercises
                 exerciseDict["warmUpSets"] = exercise.warmUpSets.map { ["weight": $0.0, "reps": $0.1] }
                 exerciseDict["workingSets"] = exercise.workingSets.map { ["weight": $0.0, "reps": $0.1] }
+            } else if exercise.exerciseType == "Swimming" {
+                exerciseDict["strokeType"] = exercise.strokeType
+                exerciseDict["laps"] = exercise.laps
+                exerciseDict["swimDistance"] = exercise.swimDistance
+                exerciseDict["swimDuration"] = exercise.swimDuration
+            } else if exercise.exerciseType == "Biking" {
+                exerciseDict["bikeDistance"] = exercise.bikeDistance
+                exerciseDict["bikeDuration"] = exercise.bikeDuration
+                exerciseDict["averageSpeed"] = exercise.averageSpeed
+                exerciseDict["elevationGain"] = exercise.elevationGain
             }
         
             exerciseArray.append(exerciseDict)
@@ -230,7 +251,7 @@ struct NewTemplateView: View {
                                 print("Error saving template to templates collection: \(error.localizedDescription)")
                                 completion(false)
                             } else {
-                                // Increment workout count
+                                //increase count and update achievements
                                 db.collection("users").document(userId).setData([
                                     "workoutCount": FieldValue.increment(Int64(1))
                                 ], merge: true) { error in
@@ -245,7 +266,6 @@ struct NewTemplateView: View {
                             }
                         }
                     } else {
-                        // Increment workout count for normal posts
                         db.collection("users").document(userId).setData([
                             "workoutCount": FieldValue.increment(Int64(1))
                         ], merge: true) { error in
@@ -264,7 +284,7 @@ struct NewTemplateView: View {
 
 }
 
-// Update user's lastPostDate field
+//update user's lastPostDate field
 func updateLastPostDate(_ user : UserInfo) {
     let db = Firestore.firestore()
     let currentDate = Date()
@@ -323,10 +343,10 @@ func checkAndUpdateAchievements(for user: UserInfo) {
             
             let newBadges: [String] = [
                 (workoutCount >= 1 && !earnedBadges.contains("First Workout")) ? "First Workout" : nil,
-                (workoutCount >= 5 && !earnedBadges.contains("5 Workouts Completed")) ? "5 Workouts" : nil,
-                (workoutCount >= 10 && !earnedBadges.contains("10 Workouts Completed")) ? "10 Workouts" : nil,
-                (workoutCount >= 30 && !earnedBadges.contains("30 Workouts Completed")) ? "30 Workouts" : nil,
-                (workoutCount >= 100 && !earnedBadges.contains("100 Workouts Completed")) ? "100 Workouts" : nil
+                (workoutCount >= 5 && !earnedBadges.contains("5 Workouts")) ? "5 Workouts" : nil,
+                (workoutCount >= 10 && !earnedBadges.contains("10 Workouts")) ? "10 Workouts" : nil,
+                (workoutCount >= 30 && !earnedBadges.contains("30 Workouts")) ? "30 Workouts" : nil,
+                (workoutCount >= 100 && !earnedBadges.contains("100 Workouts")) ? "100 Workouts" : nil
             ].compactMap { $0 }
             
             if !newBadges.isEmpty {

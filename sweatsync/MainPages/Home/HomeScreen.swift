@@ -18,19 +18,15 @@ struct HomeScreenView: View {
         let calendar = Calendar.current
         let today = Date()
 
-        // Find the most recent Sunday
+        //find the most recent Sunday
         let components = calendar.dateComponents([.weekday], from: today)
         let daysSinceSunday = (components.weekday! - 1 + 7) % 7
         let lastSunday = calendar.date(byAdding: .day, value: -daysSinceSunday, to: today)!
-
-        // Set `lastSunday` to midnight
+        //set lastSunday to midnight
         let startOfLastSunday = calendar.startOfDay(for: lastSunday)
-
 
         return posts.filter { post in
             guard let currentUser = Auth.auth().currentUser?.uid else { return false }
-            // Debugging output for each post
-            print("Post Timestamp: \(post.timestamp), UserId: \(post.userId)")
             return post.userId == currentUser &&
                 post.timestamp >= startOfLastSunday &&
                 post.timestamp <= today
@@ -42,7 +38,7 @@ struct HomeScreenView: View {
         NavigationView {
             
             VStack(spacing: 20) {
-                // Home Screen Header
+                //home screen header
                 HStack {
                     if let profileImage = profileImage {
                         Image(uiImage: profileImage)
@@ -78,7 +74,7 @@ struct HomeScreenView: View {
                 }
                 .padding(.horizontal)
                 
-                // Post Feed Section
+                //post feed section
                 List($posts) { $post in
                     WorkoutPostCard(post: $post, currUserName: mainUserName, currUserId: mainUserId)
                         .listRowInsets(EdgeInsets())

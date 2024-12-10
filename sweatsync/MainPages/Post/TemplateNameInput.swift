@@ -27,4 +27,3 @@ struct TemplateNameInput: View {
         .padding(.top, 10)
     }
 }
-

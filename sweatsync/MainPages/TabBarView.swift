@@ -16,7 +16,7 @@ struct TabBarView: View {
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        // Tab Bar
+        //tab bar
         TabView(selection: $selectedTab) {
             HomeScreenView()
                 .tabItem {
@@ -30,6 +30,7 @@ struct TabBarView: View {
                 }
                 .tag(1)
             
+            //update notification badge
             if let user = user {
                 var unreadCount = notifications.filter { !$0.read }.count
                 

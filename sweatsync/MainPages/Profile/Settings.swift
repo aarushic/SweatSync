@@ -30,7 +30,7 @@ struct SettingsView: View {
                     .foregroundColor(.white)
                 
                 VStack(alignment: .leading, spacing: 30) {
-                    // Notification Preferences
+                    //notification preferences
                     HStack {
                         Text("Receive Notifications For New Likes and Comments On Posts")
                             .font(.custom(Theme.bodyFont, size: 16))
@@ -44,7 +44,7 @@ struct SettingsView: View {
                             }
                     }
                     
-                    // Post Preferences
+                    //post preferences
                     HStack {
                         Text("Disable Comments")
                             .font(.custom(Theme.bodyFont, size: 16))
@@ -64,7 +64,7 @@ struct SettingsView: View {
                 
                 Spacer()
                 
-                //Log Out Button
+                //log out
                 Button(action: {
                     session.signOut()
                 }) {
@@ -89,8 +89,7 @@ struct SettingsView: View {
     }
 }
     
-//Firestore Functions
-
+//firestore functions to save preferences
 func toggleNotifications(userId: String, enabled: Bool) {
     let db = Firestore.firestore()
     db.collection("users").document(userId).updateData([

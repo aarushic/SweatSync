@@ -27,7 +27,7 @@ struct ProfileScreen: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    // User Info Section
+                    //user info section
                     VStack(spacing: 8) {
                         if let profileImage = profileImage {
                             Image(uiImage: profileImage)
@@ -52,7 +52,7 @@ struct ProfileScreen: View {
                             .foregroundColor(.gray)
                     }
 
-                    // Streak Section
+                    //streak section
                     HStack {
                         Image(systemName: "flame.fill")
                             .foregroundColor(.orange)
@@ -63,7 +63,7 @@ struct ProfileScreen: View {
                     }
                     .padding(.vertical, 5)
 
-                    // Training Preferences Section
+                    //training preferences section
                     if !trainingPreferences.isEmpty {
                         VStack(alignment: .leading) {
                             Text("Training Preferences")
@@ -89,7 +89,7 @@ struct ProfileScreen: View {
                         }
                     }
 
-                    // Follower and Following Section
+                    //follower/following
                     HStack {
                         NavigationLink(destination: FollowingScreen(currentUser: user, category: "followers")) {
                             StatView(statNumber: "\(followersCount)", statLabel: "followers")
@@ -102,7 +102,7 @@ struct ProfileScreen: View {
                     .padding(.horizontal, 40)
                     .padding(.top, 20)
 
-                    // Badges Section
+                    //badges section
                     if !badges.isEmpty {
                         VStack(alignment: .leading) {
                             Text("Achievements")
@@ -126,11 +126,11 @@ struct ProfileScreen: View {
                                                     )
                                                     .frame(width: 50, height: 50)
                                                 
-                                                Image(systemName: "medal.fill") // Medal symbol
+                                                Image(systemName: "medal.fill")
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 30, height: 30)
-                                                    .foregroundColor(.white) // Icon color
+                                                    .foregroundColor(.white)
                                             }
 
                                             Text(badge)
@@ -152,7 +152,7 @@ struct ProfileScreen: View {
                     }
 
 
-                    // Post History Section
+                    //post history section
                     VStack {
                         Text("Post History")
                             .font(.custom(Theme.bodyFont, size: 16))
@@ -165,7 +165,7 @@ struct ProfileScreen: View {
                                 .listRowBackground(Color.black)
                                 .disabled(true)
                         }
-                        .frame(height: 300) // Adjust height as needed
+                        .frame(height: 300)
                         .listStyle(.plain)
                     }
                 }
@@ -197,8 +197,7 @@ struct ProfileScreen: View {
     }
 
     
-
-    // Subview for Followers and Following stats
+    //follower/following stats
     struct StatView: View {
         let statNumber: String
         let statLabel: String
@@ -223,7 +222,7 @@ struct ProfileScreen: View {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(user.id)
 
-        // Fetch the main user document
+        //fetch main user document
         userRef.getDocument { document, error in
             if let document = document, document.exists {
                 self.userName = document.data()?["preferredName"] as? String ?? "Name"

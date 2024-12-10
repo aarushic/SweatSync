@@ -4,6 +4,7 @@
 //
 //  Created by Ashwin on 11/9/24.
 //
+
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
@@ -60,7 +61,7 @@ struct ExistingTemplate: View {
                 
                 Spacer()
                 
-                // Error message display
+                //error message
                 if let errorMessage = errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
@@ -70,7 +71,7 @@ struct ExistingTemplate: View {
                 Spacer()
                 
                 Button(action: {
-                    // Validate inputs
+                    //check if all inputs are there
                     if template.templateName.isEmpty {
                         errorMessage = "Please enter a post name."
                     } else if decodedImage == nil || (templateImageUrl?.isEmpty ?? true) {
@@ -143,24 +144,73 @@ struct ExistingTemplate: View {
                 .padding(.vertical, 5)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            if exercise.exerciseType == "Sprints" {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Sprint Details").font(.custom(Theme.bodyFont, size: 20))
-                    
-                    Text("Distance: \(exercise.distance) meters")
-                        .font(.custom(Theme.bodyFont, size: 16))
-                        .foregroundColor(Theme.secondaryColor)
-                
-                    Text("Time: \(exercise.time) seconds")
-                        .font(.custom(Theme.bodyFont, size: 16))
-                        .foregroundColor(Theme.secondaryColor)
-                }
-                .padding(.vertical, 5)
-            }
-            else {
-                setsView(title: "Warm-up Sets", sets: exercise.warmUpSets)
-                setsView(title: "Working Sets", sets: exercise.workingSets)
-            }
+            switch exercise.exerciseType {
+               case "Sprints":
+                   VStack(alignment: .leading, spacing: 5) {
+                       Text("Sprint Details")
+                           .font(.custom(Theme.bodyFont, size: 20))
+                       
+                       Text("Distance: \(exercise.distance ?? "N/A") meters")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Time: \(exercise.time ?? "N/A") seconds")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                   }
+                   .padding(.vertical, 5)
+
+               case "Swimming":
+                   VStack(alignment: .leading, spacing: 5) {
+                       Text("Swimming Details")
+                           .font(.custom(Theme.bodyFont, size: 20))
+                       
+                       Text("Stroke Type: \(exercise.strokeType)")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Laps: \(exercise.laps)")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Distance: \(exercise.swimDistance) meters")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Duration: \(exercise.swimDuration) minutes")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                   }
+                   .padding(.vertical, 5)
+
+               case "Biking":
+                   VStack(alignment: .leading, spacing: 5) {
+                       Text("Biking Details")
+                           .font(.custom(Theme.bodyFont, size: 20))
+                       
+                       Text("Distance: \(exercise.bikeDistance) km")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Duration: \(exercise.bikeDuration) minutes")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Average Speed: \(exercise.averageSpeed) km/h")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                       
+                       Text("Elevation Gain: \(exercise.elevationGain) meters")
+                           .font(.custom(Theme.bodyFont, size: 16))
+                           .foregroundColor(Theme.secondaryColor)
+                   }
+                   .padding(.vertical, 5)
+
+               default:
+                   //default strength training
+                   setsView(title: "Warm-up Sets", sets: exercise.warmUpSets)
+                   setsView(title: "Working Sets", sets: exercise.workingSets)
+               }
             
             notesView(for: exercise)
         }
@@ -206,7 +256,7 @@ struct ExistingTemplate: View {
         )
     }
 
-    //Helper Functions
+    //helper Functions
     private func showTemplateImagePicker() {
         selectedTemplatePhoto = nil
     }
@@ -243,7 +293,7 @@ struct ExistingTemplate: View {
                 isShowingHomeScreen = true
                 updateLastPostDate(user)
 
-                // Increment workout count and check achievements
+                //increase workout count and upate achievements
                 db.collection("users").document(userId).setData([
                     "workoutCount": FieldValue.increment(Int64(1))
                 ], merge: true) { error in
@@ -259,13 +309,35 @@ struct ExistingTemplate: View {
 
 
     private func createExerciseData(_ exercise: Exercise) -> [String: Any] {
-        return [
+        var data: [String: Any] = [
             "exerciseType": exercise.exerciseType,
             "exerciseName": exercise.exerciseName,
-            "warmUpSets": exercise.warmUpSets.map { ["weight": $0.0, "reps": $0.1] },
-            "workingSets": exercise.workingSets.map { ["weight": $0.0, "reps": $0.1] },
             "notes": exercise.notes,
-            "timestamp": Timestamp(date: Date()),
+            "timestamp": Timestamp(date: Date())
         ]
+        
+        switch exercise.exerciseType {
+            case "Sprints":
+                data["distance"] = exercise.distance
+                data["time"] = exercise.time
+                
+            case "Biking":
+                data["bikeDistance"] = exercise.bikeDistance
+                data["bikeDuration"] = exercise.bikeDuration
+                data["averageSpeed"] = exercise.averageSpeed
+                data["elevationGain"] = exercise.elevationGain
+                
+            case "Swimming":
+                data["strokeType"] = exercise.strokeType
+                data["laps"] = exercise.laps
+                data["swimDistance"] = exercise.swimDistance
+                data["swimDuration"] = exercise.swimDuration
+                
+            default:
+                data["warmUpSets"] = exercise.warmUpSets.map { ["weight": $0.0, "reps": $0.1] }
+                data["workingSets"] = exercise.workingSets.map { ["weight": $0.0, "reps": $0.1] }
+            }
+            
+        return data
     }
 }

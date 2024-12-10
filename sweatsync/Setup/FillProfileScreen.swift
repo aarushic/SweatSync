@@ -22,14 +22,14 @@ struct FillProfileScreen: View {
     var body: some View {
         NavigationStack {
                 VStack {
-                    //Header
+                    //header
                     Text("Fill Your Profile")
                         .font(.custom(Theme.bodyFont, size: 24))
                         .bold()
                         .foregroundColor(.white)
                         .padding(.top, 40)
                     
-                    //Profile Image Section
+                    //profile image section
                     VStack(spacing: 10) {
                         ZStack(alignment: .bottomTrailing) {
                             if let profileImage = profileImage {
@@ -63,7 +63,7 @@ struct FillProfileScreen: View {
                                     }
                             }
                             
-                            //Edit icon overlay
+                            //edit icon overlay
                             Circle()
                                 .fill(Theme.secondaryColorOp)
                                 .frame(width: 35, height: 35)
@@ -84,9 +84,9 @@ struct FillProfileScreen: View {
                     .background(Theme.primaryColor)
                     .padding()
                     
-                    // Input Fields for Preferred Name and Bio
+                    //input fields for preferred name and bio
                     VStack(spacing: 20) {
-                        // Preferred Name Field
+                        //preferred name field
                         VStack(alignment: .leading, spacing: 15) {
                             Text("Preferred Name")
                                 .font(.custom(Theme.bodyFont, size: 20))
@@ -110,7 +110,7 @@ struct FillProfileScreen: View {
                         }
                         .frame(width: 340)
                         
-                        //Bio Field
+                        //bio field
                         VStack(alignment: .leading, spacing: 15) {
                             Text("Bio")
                                 .font(.custom(Theme.bodyFont, size: 20))
@@ -137,7 +137,7 @@ struct FillProfileScreen: View {
                     }
                     .padding(.vertical, 40)
                     
-                    // Save Profile Button
+                    //save profile button
                     Button(action: {
                         saveProfile()
                     }) {
@@ -149,7 +149,7 @@ struct FillProfileScreen: View {
                             .cornerRadius(25)
                     }
                     
-                    // Display error message if exists
+                    //display error message if exists
                     if let errorMessage = errorMessage {
                         Text(errorMessage)
                             .font(.custom(Theme.bodyFont, size: 14))
@@ -185,7 +185,7 @@ struct FillProfileScreen: View {
             return
         }
 
-        // Check for required fields
+        //check for required fields
         guard !preferredName.isEmpty, !bio.isEmpty else {
             errorMessage = "Please fill in all fields."
             return

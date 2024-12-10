@@ -138,7 +138,7 @@ struct CompleteProfileScreen: View {
     }
     
     private func completeProfile() {
-        //Check if user is authenticated
+        //check if user is authenticated
         guard let user = Auth.auth().currentUser else {
             errorMessage = "Unable to retrieve user. Please log in again."
             return
@@ -173,7 +173,7 @@ struct CompleteProfileScreen: View {
             "trainingPreferences": trainingPreferences
         ]
 
-        //Update profile data in Firebase
+        //update profile data in Firebase
         db.collection("users").document(user.uid).updateData(additionalProfileData) { err in
             if let err = err {
                 errorMessage = "Error: \(err.localizedDescription)"

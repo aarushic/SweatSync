@@ -15,8 +15,8 @@ struct Dropdown: View {
         Menu {
             Button(action: { exerciseType = "Strength Training" }) { Text("Strength Training").font(.custom(Theme.bodyFont, size: 16)) }
             Button(action: { exerciseType = "Sprints" }) { Text("Sprints").font(.custom(Theme.bodyFont, size: 16)) }
-            Button(action: { exerciseType = "Distance Running" }) { Text("Distance Running").font(.custom(Theme.bodyFont, size: 16)) }
             Button(action: { exerciseType = "Biking" }) { Text("Biking").font(.custom(Theme.bodyFont, size: 16)) }
+            Button(action: { exerciseType = "Swimming" }) { Text("Swimming").font(.custom(Theme.bodyFont, size: 16)) }
         } label: {
             HStack {
                 Text(exerciseType.isEmpty ? "Select Exercise Type" : exerciseType)

@@ -73,7 +73,7 @@ struct TemplatesView: View {
         }
     }
 
-    // Fetch templates from Firebase
+    //fetch templates from firebase
     func fetchTemplates() {
         guard let user = Auth.auth().currentUser else {
             print("User is not logged in.")
@@ -104,7 +104,7 @@ struct TemplatesView: View {
                     if exercise.exerciseType == "Sprints" {
                         exercise.distance = exerciseData["distance"] as? String ?? ""
                         exercise.time = exerciseData["time"] as? String ?? ""
-                    } else {
+                    } else if exercise.exerciseType == "Strength Training" {
                         let warmUpSetsData = exerciseData["warmUpSets"] as? [[String: String]] ?? []
                         let workingSetsData = exerciseData["workingSets"] as? [[String: String]] ?? []
 
@@ -117,6 +117,16 @@ struct TemplatesView: View {
                         
                         exercise.warmUpSets = warmUpSets
                         exercise.workingSets = workingSets
+                    } else if exercise.exerciseType == "Swimming" {
+                        exercise.strokeType = exerciseData["strokeType"] as? String ?? ""
+                        exercise.laps = exerciseData["laps"] as? String ?? ""
+                        exercise.swimDistance = exerciseData["swimDistance"] as? String ?? ""
+                        exercise.swimDuration = exerciseData["swimDuration"] as? String ?? ""
+                    } else if exercise.exerciseType == "Biking" {
+                        exercise.bikeDistance = exerciseData["bikeDistance"] as? String ?? ""
+                        exercise.bikeDuration = exerciseData["bikeDuration"] as? String ?? ""
+                        exercise.averageSpeed = exerciseData["averageSpeed"] as? String ?? ""
+                        exercise.elevationGain = exerciseData["elevationGain"] as? String ?? ""
                     }
 
                     return exercise
@@ -140,7 +150,7 @@ class Template: ObservableObject, Identifiable {
     }
 }
 
-// Create a new template view (navigates here when the button is tapped)
+//create a new template view (navigates here when the button is tapped)
 struct CreateTemplateView: View {
     var body: some View {
         VStack {

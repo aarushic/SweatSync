@@ -13,13 +13,12 @@ func fetchNotificationsEnabled(userId: String) async -> Bool {
     do {
         let document = try await db.collection("users").document(userId).getDocument()
         if let data = document.data(), let notificationsEnabled = data["notificationsEnabled"] as? Bool {
-            print("Fetched notificationsEnabled: \(notificationsEnabled)")
             return notificationsEnabled
         }
     } catch {
         print("Error fetching notificationsEnabled: \(error)")
     }
-    return true // Default value
+    return true
 }
 
 func fetchCommentsDisabled(userId: String) async -> Bool {
@@ -27,11 +26,10 @@ func fetchCommentsDisabled(userId: String) async -> Bool {
     do {
         let document = try await db.collection("users").document(userId).getDocument()
         if let data = document.data(), let commentsDisabled = data["commentsDisabled"] as? Bool {
-            print("Fetched commentsDisabled: \(commentsDisabled)")
             return commentsDisabled
         }
     } catch {
         print("Error fetching commentsDisabled: \(error)")
     }
-    return false // Default value
+    return false 
 }

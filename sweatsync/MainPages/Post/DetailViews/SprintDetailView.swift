@@ -29,7 +29,7 @@ struct SprintDetailView: View {
             ExerciseInputField(label: "Sprint Name", text: $exercise.exerciseName)
                 .font(.custom(Theme.bodyFont, size: 16))
             
-            //Distance and Time inputs for sprint training
+            //distance and Time inputs for sprint training
             HStack {
                 VStack(alignment: .leading) {
                     Text("Distance (m)")

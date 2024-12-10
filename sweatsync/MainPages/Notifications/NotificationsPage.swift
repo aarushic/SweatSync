@@ -5,13 +5,6 @@
 //  Created by Ashwin on 11/29/24.
 //
 
-//
-//  Notifications.swift
-//  sweatsync
-//
-//  Created by Ashwin on 11/29/24.
-//
-
 import SwiftUI
 import Firebase
 
